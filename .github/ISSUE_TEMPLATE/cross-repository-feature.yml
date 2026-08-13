@@ -1,0 +1,34 @@
+name: Cross-repository feature
+description: Plan a feature that may affect backend, contract, migration, and frontend.
+title: "[Feature]: "
+labels: ["cross-repo"]
+body:
+  - type: input
+    id: primary
+    attributes:
+      label: Primary implementer
+    validations:
+      required: true
+  - type: input
+    id: reviewer
+    attributes:
+      label: Reviewer
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: Work areas
+      options:
+        - label: Backend/domain
+        - label: OpenAPI/generated client
+        - label: Database migration
+        - label: Learner frontend
+        - label: End-to-end acceptance
+

@@ -1,0 +1,27 @@
+export const permissionCatalog = [
+  "users.read",
+  "users.manage",
+  "roles.read",
+  "roles.manage",
+  "content.read",
+  "content.edit",
+  "content.publish",
+  "offerings.read",
+  "offerings.manage",
+  "payments.read",
+  "payments.manage",
+  "entitlements.manage",
+  "submissions.read",
+  "reviews.assign",
+  "reviews.perform",
+  "cohorts.read",
+  "cohorts.manage",
+  "attendance.manage",
+  "notifications.manage",
+  "certificates.read",
+  "certificates.approve",
+  "certificates.revoke",
+  "operations.read",
+] as const;
+
+export type PermissionKey = (typeof permissionCatalog)[number];
