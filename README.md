@@ -34,6 +34,7 @@ Authoritative cross-system documentation starts at [docs/README.md](docs/README.
 - [Data ownership](docs/data-ownership.md)
 - [Authentication and authorization](docs/security/authentication-authorization.md)
 - [Collaboration workflow](docs/collaboration.md)
+- [Phase 1 six-week delivery plan](docs/delivery/phase-1-six-week-plan.md)
 - [Release checklist](docs/release-checklist.md)
 
 Architecture changes require an ADR pull request.

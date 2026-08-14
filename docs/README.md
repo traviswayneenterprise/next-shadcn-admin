@@ -21,6 +21,6 @@ frontend and backend/admin repositories.
 - [Content block schema](content/block-schema.md)
 - [Events and webhooks](operations/events-webhooks.md)
 - [Collaboration workflow](collaboration.md)
+- [Phase 1 six-week delivery plan](delivery/phase-1-six-week-plan.md)
 - [Release checklist](release-checklist.md)
 - [OpenAPI v1](openapi/lms-v1.yaml)
-
