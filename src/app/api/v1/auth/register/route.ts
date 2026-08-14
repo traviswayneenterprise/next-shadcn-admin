@@ -50,11 +50,15 @@ export async function POST(request: Request) {
   verificationUrl.searchParams.set("token", verificationToken);
   verificationUrl.searchParams.set("email", parsed.data.email);
 
-  await sendTransactionalEmail({
-    to: parsed.data.email,
-    subject: "Verify your TWE Learning account",
-    html: `<p>Welcome to TWE Learning.</p><p><a href="${verificationUrl.toString()}">Verify your email address</a>. This link expires in 24 hours.</p>`,
-  });
+  try {
+    await sendTransactionalEmail({
+      to: parsed.data.email,
+      subject: "Verify your TWE Learning account",
+      html: `<p>Welcome to TWE Learning.</p><p><a href="${verificationUrl.toString()}">Verify your email address</a>. This link expires in 24 hours.</p>`,
+    });
+  } catch {
+    return apiError(503, "INTERNAL_ERROR", "Your account was created, but the verification email could not be delivered. Request a new verification email before signing in.");
+  }
 
   return apiSuccess({ requiresEmailVerification: true }, { status: 201 });
 }

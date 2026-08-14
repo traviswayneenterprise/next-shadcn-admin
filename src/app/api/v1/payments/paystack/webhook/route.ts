@@ -42,9 +42,9 @@ export async function POST(request: Request) {
         await grantPaymentEntitlement(transaction, payment.id);
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
       });
-    } else if (["refund.processed", "charge.dispute.create", "charge.dispute.remind"].includes(payload.event)) {
+    } else if (["refund.processed", "charge.dispute.resolve"].includes(payload.event)) {
       await prisma.$transaction(async (transaction) => {
-        await transaction.payment.update({ where: { id: payment.id }, data: { status: payload.event.startsWith("refund") ? "REFUNDED" : "DISPUTED" } });
+        await transaction.payment.update({ where: { id: payment.id }, data: { status: payload.event.startsWith("refund") ? "REFUNDED" : "CHARGEBACK" } });
         await revokePaymentEntitlements(transaction, payment.id, `Paystack event: ${payload.event}`);
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
       });
