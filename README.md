@@ -1,100 +1,152 @@
-# Next.js Shadcn Admin Dashboard
+# TWE Learning — Backend and Administration
 
-![Dashboard Preview](public/dashboard.png)
+The authoritative backend API and staff administration application for the TWE Learning LMS. It owns identity, authorization, persistence, commerce, content publication, learning progression, cohorts, notifications, certificates, and operational records.
 
-A modern admin dashboard UI built with Next.js and Shadcn UI. This project is a Next.js port of the [original Shadcn Admin Dashboard](https://github.com/satnaing/shadcn-admin) by [@satnaing](https://github.com/satnaing), adapted to leverage Next.js features while maintaining the original's elegant design and functionality. The project has been restructured to use the Next.js App Router, providing better performance and developer experience while keeping all the powerful features of the original dashboard.
+The learner application deploys independently and consumes this service through the versioned REST API under `/api/v1`.
 
-## Features
+## Architecture
 
-- 🌓 Light/Dark mode support
-- 📱 Fully responsive design
-- ♿️ Accessible components
-- 🧭 Built-in Sidebar component
-- 🔍 Global Search Command (⌘K)
-- 📄 10+ pre-built pages
-- 🧩 Extra custom components
-- 📊 Dashboard analytics
-- 📋 Data tables with advanced features
-- 👥 Team management
-- 🔐 Authentication layouts
+```text
+Learner browser
+    |
+    | credentialed HTTPS /api/v1
+    v
+Backend/admin application
+    |-- Auth.js and PostgreSQL sessions
+    |-- Prisma domain model and migrations
+    |-- RBAC and learner entitlements
+    |-- Paystack and provider webhooks
+    |-- Content, assessment, cohort, and certificate rules
+    `-- Staff administration UI
+           |
+           +-- Neon PostgreSQL
+           +-- Cloudflare R2
+           +-- Trigger.dev
+           +-- Resend
+           `-- Meta Cloud API
+```
 
-## Tech Stack
+Authoritative cross-system documentation starts at [docs/README.md](docs/README.md). Important references include:
 
-- **Framework**: [Next.js 15](https://nextjs.org/)
-- **UI Components**: [Shadcn UI](https://ui.shadcn.com/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Icons**: [Tabler Icons](https://tabler-icons.io/)
-- **Type Safety**: TypeScript
-- **Code Quality**: ESLint & Prettier
+- [Phase 1 architecture](docs/architecture/phase-1.md)
+- [Architecture decisions](docs/architecture/adr/README.md)
+- [OpenAPI v1](docs/openapi/lms-v1.yaml)
+- [Data ownership](docs/data-ownership.md)
+- [Authentication and authorization](docs/security/authentication-authorization.md)
+- [Collaboration workflow](docs/collaboration.md)
+- [Release checklist](docs/release-checklist.md)
 
-## Getting Started
+Architecture changes require an ADR pull request.
 
-1. Clone the repository:
+## Technology
+
+- Next.js 16 and React 19
+- TypeScript and Tailwind CSS 4
+- Auth.js v5 with shared-domain database sessions
+- Prisma 7 and PostgreSQL
+- Argon2id password hashing
+- OpenAPI 3.1 and generated TypeScript definitions
+- Paystack, Cloudflare R2, Trigger.dev, Resend, and Meta Cloud API adapters
+- pnpm and Node.js 20.9 or newer
+
+## Local development
+
+1. Install Node.js 20.9+ and enable Corepack.
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Copy `.env.example` to `.env.local` and configure at minimum:
+
+   ```dotenv
+   APP_ENV=development
+   AUTH_SECRET=replace-with-at-least-32-random-characters
+   AUTH_COOKIE_DOMAIN=
+   LEARNER_ORIGIN=http://localhost:3000
+   DATABASE_URL=postgresql://user:password@localhost:5432/twe_lms
+   DIRECT_URL=postgresql://user:password@localhost:5432/twe_lms
+   ```
+
+   Add provider credentials only for the integrations you are exercising. Never commit `.env.local`.
+
+4. Validate and generate the Prisma client:
+
+   ```bash
+   pnpm db:validate
+   pnpm db:generate
+   ```
+
+5. Apply development migrations and seed the fixed permission catalogue:
+
+   ```bash
+   pnpm db:migrate
+   pnpm exec tsx prisma/seed.ts
+   ```
+
+6. Start the application on port `3001`:
+
+   ```bash
+   pnpm dev --port 3001
+   ```
+
+7. Start the learner frontend separately on port `3000`.
+
+API health is available at `/api/v1/health`; the deployment health endpoint is `/health`.
+
+## Commands
+
 ```bash
-git clone https://github.com/reoring/next-shadcn-admin.git
+pnpm dev          # local application
+pnpm build        # production webpack build
+pnpm start        # production server
+pnpm typecheck    # TypeScript validation
+pnpm lint         # ESLint validation
+pnpm db:validate  # validate Prisma schema
+pnpm db:generate  # generate Prisma client
+pnpm db:migrate   # create/apply a development migration
+pnpm api:lint     # validate OpenAPI
+pnpm api:types    # regenerate API TypeScript definitions
+pnpm check        # combined quality checks
 ```
 
-2. Navigate to the project directory:
-```bash
-cd next-shadcn-admin
+## Source layout
+
+```text
+docs/                    authoritative architecture and API documentation
+prisma/                  schema, migrations, and seed data
+src/app/api/auth/        Auth.js protocol routes
+src/app/api/v1/          versioned learner and integration API
+src/domain/              business rules independent of transport
+src/generated/api/       generated OpenAPI TypeScript definitions
+src/generated/prisma/    generated Prisma client
+src/lib/auth/            session, password, permission, and adapter code
+src/lib/payments/        payment provider adapter
+src/lib/notifications/   notification provider adapters
 ```
 
-3. Install dependencies:
-```bash
-pnpm install
-```
+## Contract and security rules
 
-4. Start the development server:
-```bash
-pnpm dev
-```
+- Compatible changes extend `/api/v1`; breaking changes require `/api/v2`.
+- Keep success/error envelopes, correlation IDs, UTC timestamps, cursor pagination, and idempotency keys consistent with OpenAPI.
+- Browser writes require exact-origin validation and credentialed CORS is restricted to the learner origin.
+- Staff permissions are enforced here; learners use entitlements rather than staff roles.
+- Financial events, webhook deliveries, privilege changes, reviews, cohort overrides, and certificate lifecycle actions must remain auditable.
+- Published lesson versions and financial records are immutable business history.
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+## Collaboration workflow
 
-## Project Structure
+- Work from short-lived branches; do not push directly to `main`.
+- The current architecture branch is `phase1/foundation`.
+- Every feature has one primary implementer and one required cross-reviewer.
+- Backend domain and OpenAPI changes merge before client publication and frontend integration.
+- Architecture, schema, authentication, OpenAPI, payment, RBAC, and certificate changes require the product owner's approval.
 
-```
-src/
-├── app/                   # Next.js app router
-│   ├── (auth)/           # Authentication routes
-│   ├── (dashboard)/      # Dashboard routes
-│   └── (errors)/         # Error pages
-├── components/
-│   ├── dashboard/        # Dashboard-specific components
-│   ├── data-table/       # Advanced table components
-│   ├── layout/          # Layout components (sidebar, header)
-│   └── ui/              # Shadcn UI components
-├── context/              # React Context providers
-├── hooks/                # Custom React hooks
-└── lib/                  # Utility functions
-```
+## Current implementation status
 
-## Key Components
+The Phase 1 foundation includes the platform upgrade, architecture documentation, initial OpenAPI contract, Prisma domain schema, database-backed Auth.js and password flows, permission catalogue, catalogue endpoints, Paystack checkout/webhook foundations, content block validation, health checks, and production container support. Remaining LMS domains are delivered through reviewed cross-repository feature increments before beta.
 
-- **Dashboard Overview**: Analytics charts and recent sales data
-- **Data Tables**: Advanced tables with sorting, filtering, and pagination
-- **Team Switcher**: Easy organization switching
-- **Command Menu**: Quick navigation and actions (⌘K)
-- **Profile Dropdown**: User account management
-- **Theme Switch**: Light/dark mode toggle
-- **Responsive Sidebar**: Collapsible navigation menu
+## Template attribution
 
-## Customization
-
-The project uses Shadcn UI components which are fully customizable. You can modify the design system by editing:
-
-- `tailwind.config.ts` for theme customization
-- `components.json` for component configurations
-- Individual components in `src/components/ui`
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Credits
-
-This project is a Next.js adaptation of the [original Shadcn Admin Dashboard](https://github.com/satnaing/shadcn-admin) created by [@satnaing](https://github.com/satnaing).
-
-## License
-
-Licensed under the MIT License. See LICENSE for more information.
+The staff interface was refactored from [reoring/next-shadcn-admin](https://github.com/reoring/next-shadcn-admin), itself based on the original shadcn admin dashboard. The template author remains configured as the repository's `upstream` remote and the existing license is preserved.
