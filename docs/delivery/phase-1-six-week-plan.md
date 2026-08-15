@@ -9,6 +9,8 @@
 
 Deliver the complete Phase 1 LMS within six working weeks, with a seventh week reserved exclusively for contingency, remediation, and final beta approval.
 
+Daily named ownership is maintained in the [Travis and Mr. Miracle task-assignment matrix](task-assignments-travis-miracle.md).
+
 The learner frontend and backend/admin applications are developed in parallel by two collaborators. Every feature has one primary implementer and one required cross-reviewer. The product owner provides final approval for architecture, schema, authentication, OpenAPI, payments, RBAC, and certificate changes.
 
 ## Delivery principles

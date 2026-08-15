@@ -22,5 +22,6 @@ frontend and backend/admin repositories.
 - [Events and webhooks](operations/events-webhooks.md)
 - [Collaboration workflow](collaboration.md)
 - [Phase 1 delivery schedule and weekly focus guides](delivery/README.md)
+- [Travis and Mr. Miracle task assignments](delivery/task-assignments-travis-miracle.md)
 - [Release checklist](release-checklist.md)
 - [OpenAPI v1](openapi/lms-v1.yaml)

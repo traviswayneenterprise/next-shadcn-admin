@@ -35,6 +35,7 @@ Authoritative cross-system documentation starts at [docs/README.md](docs/README.
 - [Authentication and authorization](docs/security/authentication-authorization.md)
 - [Collaboration workflow](docs/collaboration.md)
 - [Phase 1 delivery schedule and weekly focus guides](docs/delivery/README.md)
+- [Travis and Mr. Miracle task assignments](docs/delivery/task-assignments-travis-miracle.md)
 - [Release checklist](docs/release-checklist.md)
 
 Architecture changes require an ADR pull request.
