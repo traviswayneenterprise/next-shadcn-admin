@@ -11,6 +11,28 @@ Deliver the first complete business vertical: published catalogue, self-paced an
 
 By Friday, a learner can discover an offering, pay in NGN, survive duplicate or out-of-order webhooks, receive exactly one entitlement, and see the access in the dashboard.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Catalogue, offering, price, checkout, payment, entitlement, reversal, and history API contracts.
+- Explicit payment state machine, immutable financial records, and database-backed idempotency constraints.
+- Paystack initialization, signed webhook persistence, direct verification, reconciliation, refund, and confirmed-chargeback handling.
+- Transactional payment-derived entitlements and independent audited manual grants.
+- Automated security, duplicate, out-of-order, capacity, amount, and currency tests.
+
+### Mr. Miracle — experience deliverables
+
+- Catalogue, offering comparison, and NGN pricing experiences.
+- Checkout start, redirect return, pending, success, failure, cancelled, delayed, and retry states.
+- Entitlement-driven dashboard, payment history, access-revoked, and manual-grant views.
+- Staff commerce and entitlement screens using permission-aware actions.
+- Browser and generated-client integration tests for the purchase journey.
+
+### Shared end-of-week deliverable
+
+A verified NGN purchase grants exactly one correct entitlement, reversals preserve history, and learner/staff interfaces reflect authoritative backend state.
+
 ## Procedures
 
 ### Monday — Contract and financial invariants

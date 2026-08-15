@@ -50,7 +50,7 @@ Detailed execution guides:
 
 **Dates:** August 17–23
 
-**Backend/API lead**
+**Travis — technical deliverables**
 
 - Create and validate the initial Neon migration.
 - Seed the fixed permission catalogue and protected Owner role.
@@ -59,7 +59,7 @@ Detailed execution guides:
 - Establish CI checks for TypeScript, Prisma, OpenAPI, tests, and production builds.
 - Smoke-test access to Neon, R2, Paystack, Resend, Meta, Trigger.dev, and Vercel.
 
-**Frontend lead**
+**Mr. Miracle — experience deliverables**
 
 - Replace temporary handwritten API types with the generated client package.
 - Verify shared-domain session behavior in server and client components.
@@ -79,7 +79,7 @@ Detailed execution guides:
 
 **Dates:** August 24–30
 
-**Backend/API lead**
+**Travis — technical deliverables**
 
 - Complete published track catalogue endpoints.
 - Implement self-paced and managed-cohort offerings.
@@ -88,7 +88,7 @@ Detailed execution guides:
 - Enforce idempotency, cohort capacity checks, and payment-derived entitlement rules.
 - Expose the learner dashboard entitlement data.
 
-**Frontend lead**
+**Mr. Miracle — experience deliverables**
 
 - Build the track catalogue and offering comparison views.
 - Replace starter pricing with NGN offering data.
@@ -107,7 +107,7 @@ Detailed execution guides:
 
 **Dates:** August 31–September 6
 
-**Backend/API lead**
+**Travis — technical deliverables**
 
 - Complete page-builder document validation and schema-version migration support.
 - Implement draft, preview, scheduled, published, and archived workflows.
@@ -116,7 +116,7 @@ Detailed execution guides:
 - Build the curriculum importer for all 48 source folders.
 - Implement sequential lesson availability and authoritative progress records.
 
-**Frontend lead**
+**Mr. Miracle — experience deliverables**
 
 - Build staff page-builder and publication screens.
 - Build the learner lesson renderer for all Phase 1 block types.
@@ -135,7 +135,7 @@ Detailed execution guides:
 
 **Dates:** September 7–13
 
-**Backend/API lead**
+**Travis — technical deliverables**
 
 - Implement versioned quizzes, questions, answer recording, randomization, scoring, and explanations.
 - Implement unlimited retakes with configurable failure thresholds and cooldowns.
@@ -143,7 +143,7 @@ Detailed execution guides:
 - Implement assignments, versioned rubrics, submission versions, assets, reviewer assignment, feedback, and status history.
 - Add the certificate-eligibility evaluation foundation.
 
-**Frontend lead**
+**Mr. Miracle — experience deliverables**
 
 - Build the quiz-taking and result experience.
 - Display cooldown, mastery, retry, and explanation states.
@@ -162,7 +162,7 @@ Detailed execution guides:
 
 **Dates:** September 14–20
 
-**Backend/API lead**
+**Travis — technical deliverables**
 
 - Implement cohorts, membership, capacity, dates, timezones, and lifecycle states.
 - Implement lesson releases, deadlines, pacing overrides, and extensions.
@@ -171,7 +171,7 @@ Detailed execution guides:
 - Implement in-app notifications and durable Trigger.dev jobs.
 - Integrate Resend email and consent-aware Meta WhatsApp templates.
 
-**Frontend lead**
+**Mr. Miracle — experience deliverables**
 
 - Build learner cohort overview, schedule, deadlines, announcements, and live-session views.
 - Build learner check-in and attendance-history experiences.
@@ -189,7 +189,7 @@ Detailed execution guides:
 
 **Dates:** September 21–27
 
-**Backend/API lead**
+**Travis — technical deliverables**
 
 - Complete data-driven certificate eligibility evaluation.
 - Implement approval, PDF and QR generation, R2 storage, public verification, revocation, and reissue.
@@ -197,7 +197,7 @@ Detailed execution guides:
 - Test webhook replay, job retry, secret rotation, database restore, R2 lifecycle, and Docker/VPS startup.
 - Complete security and authorization test coverage.
 
-**Frontend lead**
+**Mr. Miracle — experience deliverables**
 
 - Build pending, approved, revoked, and reissued certificate states.
 - Build certificate display, download, and public verification pages.

@@ -11,6 +11,28 @@ Finish the architectural foundation: green builds, CI, initial database migratio
 
 By Friday, both applications deploy independently, authenticate together, use one validated `/api/v1` contract, and pass repeatable quality checks from a clean checkout.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Reviewed initial Prisma migration and idempotent permission seed.
+- Hardened Auth.js/password session implementation with origin, expiry, revocation, and negative authorization tests.
+- Authoritative OpenAPI contract with examples, error codes, security schemes, and generated-client release.
+- API documentation generation pipeline and production exclusion controls.
+- Green backend CI, environment validation, Docker health check, and provider-readiness report.
+
+### Mr. Miracle — experience deliverables
+
+- Complete learner authentication and protected-route states using the generated client.
+- Non-production `/docs/api` renderer with responsive navigation and readable examples.
+- Frontend CI and removal of remaining handwritten contract duplication.
+- Component inventory and upgraded core learner/admin primitives.
+- Browser, responsive, keyboard, and API-consumer review evidence.
+
+### Shared end-of-week deliverable
+
+Two green preview deployments with secure shared authentication, a clean migration/seed, one pinned API client, non-production API docs, and a reviewed design-system baseline.
+
 ## Procedures
 
 ### Monday — Baseline and ownership

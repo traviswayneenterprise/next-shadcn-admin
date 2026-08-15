@@ -11,6 +11,28 @@ Deliver cohort membership, schedules, releases, deadlines, extensions, live sess
 
 By Friday, facilitators can manage a cohort and its attendance while learners receive the correct schedule and reminders without losing self-paced access when cohort membership changes.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Cohort, membership, capacity, release, deadline, override, extension, session, attendance, and announcement APIs.
+- UTC/IANA-timezone scheduling rules and scoped facilitator authorization.
+- Short-lived check-in tokens, attendance state machine, audited corrections, and transactional CSV processing.
+- Domain events, Trigger.dev jobs, in-app records, Resend delivery, and consented Meta template delivery.
+- Idempotency, retry policy, provider failure records, and operational APIs.
+
+### Mr. Miracle — experience deliverables
+
+- Learner cohort overview, schedule, releases, deadlines, announcements, and live-session views.
+- Staff cohort, membership, scheduling, pacing, deadline, and extension screens.
+- Learner check-in, attendance history, staff corrections, and CSV validation experiences.
+- Notification center, preferences, channel states, and staff failure/retry screens.
+- Manual review and correction records for lessons 25–36.
+
+### Shared end-of-week deliverable
+
+Managed cohorts, attendance, and all notification channels pass acceptance without coupling cohort membership to permanent ownership, and lessons 25–36 are reviewed.
+
 ## Procedures
 
 ### Monday — Cohort rules and provider readiness

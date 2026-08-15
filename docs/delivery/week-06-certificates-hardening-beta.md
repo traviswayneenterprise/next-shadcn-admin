@@ -11,6 +11,28 @@ Complete certificate eligibility, approval, generation, verification, revocation
 
 By Friday, an eligible learner can receive a verifiable certificate only after authorized approval, and every Phase 1 beta-acceptance requirement has documented passing evidence.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Versioned eligibility requirements, authoritative evaluation, pending approvals, and scoped approval APIs.
+- Cryptographically opaque tokens, PDF/QR generation, R2 storage, privacy-filtered verification, revocation, and reissue.
+- Webhook, job, delivery, audit, and security operational APIs and runbooks.
+- RBAC matrix, database restore, R2 lifecycle, secret rotation, Docker/VPS, replay, retry, and clean-deployment evidence.
+- Final API, domain, security, operational, and beta-release approval.
+
+### Mr. Miracle — experience deliverables
+
+- Learner pending, approved, download, revoked, and reissued certificate states.
+- Staff approval, lifecycle, operational failure, replay, and retry interfaces.
+- Public verification page exposing only approved and consented fields.
+- Complete responsive, keyboard, focus, reduced-motion, accessibility, and browser QA.
+- Manual review and correction records for lessons 37–48.
+
+### Shared end-of-week deliverable
+
+The certificate lifecycle and operational recovery pass, all 48 lessons are reviewed, every beta gate has evidence, and Travis records an explicit ship-or-delay decision.
+
 ## Procedures
 
 ### Monday — Eligibility and approval

@@ -11,6 +11,28 @@ Complete the versioned page-builder pipeline, R2 asset handling, curriculum impo
 
 By Friday, every source folder imports deterministically as a validated draft, staff can review and publish content, and learners can navigate one complete track without treating lab-local state as LMS progress.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Versioned block schemas, migration functions, publication state machine, and immutable published versions.
+- Reusable-block snapshots and authorized R2 asset services.
+- Deterministic, resumable importer with structured diagnostics for all 48 source folders.
+- Lesson, prerequisite, release, scheduled-publication, and authoritative progress APIs.
+- Sandboxed-lab origin rules, CSP, message validation, and security tests.
+
+### Mr. Miracle — experience deliverables
+
+- Staff page builder, validation feedback, preview, publishing, asset, and manual-review interfaces.
+- Learner renderers for every Phase 1 content block.
+- Module navigation, locked states, progress feedback, and browser-lab experience.
+- Responsive and accessible editor and lesson components.
+- Manual review and correction records for lessons 1–12.
+
+### Shared end-of-week deliverable
+
+All 48 folders exist as diagnosable drafts, lessons 1–12 are reviewed, one track is publishable and learnable sequentially, and published history remains immutable.
+
 ## Procedures
 
 ### Monday — Content contract

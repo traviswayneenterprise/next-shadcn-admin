@@ -11,6 +11,26 @@ Use the reserved contingency window to fix defects, complete failed recovery or 
 
 By the final review, every previously failed acceptance item is either fixed with passing evidence or explicitly blocks the beta release.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Frozen remediation scope covering only mandatory gate failures and verified high-severity defects.
+- Root-cause fixes for backend, security, payment, provider, data, deployment, and recovery blockers.
+- Regression coverage and repeated technical gate evidence.
+- Final residual-risk review and explicit release decision.
+
+### Mr. Miracle — experience deliverables
+
+- Reproduced frontend, integration, browser, responsive, and accessibility blockers.
+- Focused experience fixes with component, integration, or browser regression coverage.
+- Repeated learner and staff journey evidence across supported browsers.
+- Confirmation that no temporary bypasses, debug states, or incomplete interactions remain.
+
+### Shared end-of-week deliverable
+
+Every mandatory beta gate passes with reproducible evidence, or the release is formally delayed without bypassing requirements.
+
 ## Procedures
 
 ### Monday — Triage

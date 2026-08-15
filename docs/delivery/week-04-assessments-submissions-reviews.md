@@ -11,6 +11,28 @@ Deliver versioned quizzes, attempts, cooldowns, assignments, submission history,
 
 By Friday, learners can complete quizzes and projects while every attempt, submission version, reviewer assignment, rubric version, decision, and feedback event remains traceable.
 
+## Assigned weekly deliverables
+
+### Travis — technical deliverables
+
+- Versioned assessment, attempt, assignment, submission, rubric, review, and eligibility contracts.
+- Server-side quiz randomization, grading, explanations, attempt preservation, and cooldown enforcement.
+- Authorized submission assets, immutable submission versions, and validated external URLs.
+- Concurrency-safe reviewer assignments, scoped decisions, audit events, and notifications.
+- Certificate-requirement reevaluation and negative authorization tests.
+
+### Mr. Miracle — experience deliverables
+
+- Quiz-taking, results, explanations, retries, cooldown, and mastery states.
+- Submission, upload, resubmission, history, and feedback experiences.
+- Staff pending-review queue, reviewer assignment, versioned rubric, feedback, and decision screens.
+- Accessible status timelines, validation, empty, loading, and unauthorized states.
+- Manual review and correction records for lessons 13–24.
+
+### Shared end-of-week deliverable
+
+Assessment and human review work end to end, every version is preserved, eligibility inputs update authoritatively, and lessons 13–24 are reviewed.
+
 ## Procedures
 
 ### Monday — Assessment rules
