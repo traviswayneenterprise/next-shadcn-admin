@@ -1,207 +1,258 @@
-# Phase 1 Task Assignments: Travis and Mr. Miracle
+# Phase 1 Technical Task Assignments
 
-**Delivery period:** August 17–September 27, 2026  
-**Contingency:** September 28–October 4, 2026  
-**Timezone:** Africa/Lagos  
-**Product and technical lead:** Travis  
-**Engineering collaborator:** Mr. Miracle
+- **Delivery period:** August 17–September 27, 2026
+- **Contingency:** September 28–October 4, 2026
+- **Timezone:** Africa/Lagos
+- **Technical and product lead:** Travis
+- **Learner and administration experience lead:** Mr. Miracle
 
-## Purpose
+## Assignment strategy
 
-This document assigns primary responsibility, review responsibility, and expected evidence for each delivery day. It should be used with the [six-week delivery plan](phase-1-six-week-plan.md) and the [weekly focus guides](README.md).
+Travis owns the technically sensitive and authoritative parts of the LMS: architecture, API documentation, domain modeling, persistence, backend behavior, security, provider integrations, infrastructure, and release engineering.
 
-Assignments may be swapped during Monday planning when availability or expertise requires it. Any swap must be recorded in the related issue before implementation begins. Every feature still requires one primary implementer and the other person as reviewer.
+Mr. Miracle owns the learner and staff experiences built on top of those contracts: frontend integration, administration interfaces, component modernization, responsive behavior, accessibility, and consumer-side testing.
 
-## Standing responsibilities
+This allocation does not remove cross-review. Mr. Miracle reviews APIs for usability and contract completeness. Travis reviews frontend integrations for authorization, data ownership, privacy, and architectural correctness.
 
-### Travis — Lead
+Use this document with the [six-week plan](phase-1-six-week-plan.md) and [weekly focus guides](README.md).
 
-Travis is accountable for:
+## Travis — technical ownership
 
-- Product scope, architecture consistency, and final technical decisions.
-- Learner-frontend implementation and frontend component quality.
-- Cross-repository integration and acceptance-test coordination.
-- Final approval of architecture, schema, authentication, OpenAPI, payment, RBAC, and certificate changes.
-- Reviewing Mr. Miracle’s backend, data, provider, and operational changes.
-- Keeping delivery issues, weekly gates, and beta evidence complete.
-- Escalating scope, provider, security, or schedule risks early.
+### Architecture and contracts
 
-### Mr. Miracle — Backend and platform primary
+- Phase 1 architecture and ADRs.
+- Domain glossary and data-ownership boundaries.
+- OpenAPI source, endpoint design, schemas, examples, error codes, pagination, idempotency, and versioning.
+- API documentation content and generation pipeline.
+- Generated TypeScript client packaging, versioning, and release.
+- Approval of breaking and protected-domain changes.
 
-Mr. Miracle is accountable for:
+### Backend and data
 
-- Backend API, domain services, Prisma schema changes, and migrations.
-- Authentication, authorization, audit, and security enforcement.
-- Provider integrations, durable jobs, webhooks, and operational screens.
-- Backend/admin component implementation and staff workflows.
-- Reviewing Travis’s frontend, API-client integration, and learner experience changes.
-- Supplying backend test evidence and operational runbook updates.
-- Raising contract and data-model risks before frontend integration begins.
+- Prisma schema, indexes, constraints, migrations, and seed data.
+- Domain services, repositories, transactions, invariants, and state machines.
+- `/api/v1` routes, request validation, response envelopes, and correlation IDs.
+- Authentication, sessions, credentials, OAuth, CSRF/origin validation, rate limits, and revocation.
+- Staff RBAC, scoped permissions, learner entitlements, and audit events.
+- Content publication, progression, quizzes, submissions, reviews, cohorts, notifications, and certificates.
 
-### Shared responsibilities
+### Providers and operations
 
-- Attend Monday scope assignment, Thursday integration review, and Friday acceptance review.
-- Review each other’s pull requests; authors do not approve their own work.
-- Keep `main` protected and work through short-lived branches.
-- Update OpenAPI before dependent frontend implementation.
-- Record decisions and blockers in GitHub issues, not only in chat.
-- Stop and escalate when security, data integrity, payment correctness, or release gates are at risk.
+- Neon, Cloudflare R2, Paystack, Trigger.dev, Resend, and Meta Cloud API integrations.
+- Signed webhooks, replay handling, reconciliation, retries, and idempotency.
+- Environment validation, secrets, Docker, health checks, CI, deployment, and VPS portability.
+- Operational records, failure screens, runbooks, backup restoration, and secret rotation.
+- Backend unit, integration, contract, security, and recovery tests.
+
+### Leadership and approval
+
+- Weekly technical scope and dependency order.
+- Review of Mr. Miracle’s client integration and staff/learner UI PRs.
+- Final approval of architecture, schema, auth, OpenAPI, payments, RBAC, and certificates.
+- Cross-repository acceptance coordination and final beta decision.
+
+## Mr. Miracle — experience ownership
+
+### Learner frontend
+
+- Marketing-to-enrollment flow, catalogue, pricing, checkout states, and dashboard.
+- Authentication forms and shared-session presentation.
+- Lesson navigation, content rendering, labs, progression feedback, and locked states.
+- Quiz, assignment, submission, cohort, notification, and certificate experiences.
+- Loading, empty, validation, unauthorized, offline, delayed-provider, and failure states.
+
+### Staff administration
+
+- Content editor, preview, publishing, asset, and curriculum-review interfaces.
+- Payment, entitlement, review, cohort, attendance, notification, certificate, and operational administration screens.
+- Permission-aware navigation and action visibility without treating UI checks as authorization.
+- Tables, filtering, pagination, forms, bulk actions, and confirmation flows.
+
+### Components and frontend quality
+
+- Component audit and modernization in both applications.
+- Design-token implementation and consistent component variants.
+- Generated API-client consumption and query/form integration.
+- Responsive behavior, semantic HTML, keyboard navigation, focus management, reduced motion, and accessibility testing.
+- Frontend component, integration, and browser tests.
+- API review from the client-consumer perspective.
+
+## API documentation responsibility
+
+| Work | Owner | Reviewer |
+| --- | --- | --- |
+| OpenAPI paths, methods, parameters, schemas, responses, and security | Travis | Mr. Miracle |
+| Examples, error codes, idempotency behavior, and compatibility | Travis | Mr. Miracle |
+| Contract linting, generated types, client packaging, and version release | Travis | Mr. Miracle |
+| Frontend `/docs/api` route, renderer, navigation, and responsive presentation | Mr. Miracle | Travis |
+| Production exclusion and internal-docs feature flag | Travis | Mr. Miracle |
+| Verification that rendered docs match the current contract | Both | Both |
+
+The backend OpenAPI file remains authoritative. Mr. Miracle must not create a second handwritten API specification in the frontend.
+
+## Daily working protocol
+
+1. Travis publishes or approves the contract and fixtures before dependent UI work begins.
+2. Mr. Miracle integrates through the generated client, never direct database or provider access.
+3. Travis implements domain rules and negative authorization tests.
+4. Mr. Miracle implements every relevant UI state and consumer integration test.
+5. Mr. Miracle reviews API usability and reports missing data or ambiguous errors through the contract issue.
+6. Travis reviews privacy, authorization, state transitions, and data ownership in the completed flow.
+7. Both reproduce the end-to-end result in preview before merge.
 
 ## Daily definition of done
 
-A daily assignment is complete when:
+- The issue lists one implementer and one reviewer.
+- Code is committed and pushed to a short-lived branch.
+- Relevant automated tests pass.
+- OpenAPI and generated-client changes are current when the contract changed.
+- The PR contains reproduction steps and screenshots or API evidence.
+- Blockers name an owner and required action.
+- The end-of-day status report is posted.
 
-- The issue is updated with progress, decisions, blockers, and the next action.
-- Code is committed to a named branch and pushed for visibility.
-- Relevant tests pass locally.
-- A draft or ready-for-review pull request exists when code changed materially.
-- Documentation and OpenAPI changes are included with the implementation.
-- The reviewer has enough evidence to reproduce the result.
-
-## Week 1 assignments — Foundation, contract, and design system
+## Week 1 — Foundation, contract, and design system
 
 **Dates:** August 17–23
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Create the Week 1 board, confirm acceptance criteria, assign issues, audit frontend build and component state, and approve environment-variable boundaries. | Audit backend build, Prisma, OpenAPI, authentication, and provider configuration; prepare the migration and CI issue breakdown. | Prioritized board with owner/reviewer on every issue, baseline failure report, environment checklist, and agreed Week 1 gate. |
-| Tuesday | Implement and test frontend shared-session behavior, protected routes, login/logout states, and exact API-origin configuration. Review migration SQL and auth security design. | Create the initial Neon migration, verify clean application, make seed idempotent, and test registration, verification, login, logout, expiry, and revocation. | Reviewed migration PR, seed evidence, auth PR, and browser session test notes. |
-| Wednesday | Integrate the generated API client, remove remaining handwritten duplicates, and implement non-production `/docs/api`. | Finalize OpenAPI, run lint, generate and version the client package, and add compatibility checks. | Released or locally consumable exact client version, frontend integration PR, API docs preview, and production `404` test. |
-| Thursday | Define learner design tokens; update core frontend buttons, forms, navigation, tables, loading, empty, and error states. Add frontend CI. | Update equivalent admin primitives, complete backend CI, and smoke-test Neon, R2, Paystack, Resend, Meta, Trigger.dev, and Vercel access. | Green CI definitions, component audit, updated core primitives, and provider readiness matrix. |
-| Friday | Coordinate deployed end-to-end testing, review Mr. Miracle’s security-sensitive changes, resolve integration issues, and lead acceptance review. | Review Travis’s frontend/client changes, deploy backend preview, fix backend integration defects, and provide final test evidence. | Two green preview deployments, authentication evidence, clean-checkout build evidence, reviewed PRs, and Week 1 acceptance record. |
+| Monday | Audit architecture, backend build, Prisma, OpenAPI, auth, CI, and providers. Define issue dependencies and environment boundaries. | Audit both UIs, direct data/auth remnants, components, accessibility baseline, and frontend build. | Assigned board, dependency map, baseline report, component inventory, and agreed gate. |
+| Tuesday | Create/review initial migration SQL, apply it to a clean Neon branch, make seed idempotent, and harden auth/session/origin behavior. | Complete learner login, registration, verification, logout, session-loading, and protected-route presentation against approved fixtures. | Migration/auth draft PRs, clean-database evidence, and complete authentication UI states. |
+| Wednesday | Finalize and lint OpenAPI, generate and version the client, document auth/API routes, and define production docs exclusion. | Replace temporary API types with the generated client and implement the non-production `/docs/api` renderer. | Client release/integration PRs, rendered API reference, and production `404` evidence. |
+| Thursday | Implement CI, environment validation, Docker/health checks, and provider connectivity tests. Review frontend token architecture. | Establish design tokens and modernize core buttons, inputs, forms, dialogs, navigation, tables, loading, empty, and error components. | Green CI definitions, provider matrix, and reviewed core component baseline. |
+| Friday | Deploy backend preview, run security/contract checks, review UI integration, and lead cross-repository acceptance. | Deploy frontend preview, review API usability, test browser session behavior, and resolve experience defects. | Two green deployments, reviewed PRs, auth evidence, and signed Week 1 gate. |
 
-**End-of-week deliverable:** Both applications build and deploy independently, authentication works across origins, the migration and seed pass cleanly, the frontend pins the generated client, and `/docs/api` is unavailable publicly by default.
+**Weekly deliverable:** Clean builds and deployments, initial migration and seed, secure shared authentication, validated OpenAPI, pinned generated client, non-production API docs, and a stable component baseline.
 
-## Week 2 assignments — Catalogue, commerce, and learner access
+## Week 2 — Catalogue, commerce, and access
 
 **Dates:** August 24–30
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Approve the purchase journey, learner states, acceptance tests, and OpenAPI changes. Prepare catalogue and checkout UI tasks. | Define financial invariants, payment state transitions, idempotency, capacity reservation, and test fixtures. | Approved commerce contract, state-transition diagram, test references, and assigned issues. |
-| Tuesday | Build catalogue, offering comparison, NGN pricing, and checkout-start screens against the generated client. | Implement published catalogue queries, offerings, immutable prices, checkout validation, pending payment creation, and Paystack initialization. | Catalogue and checkout PRs with contract tests and loading/error states. |
-| Wednesday | Implement redirect return, pending reconciliation, success, failure, and cancellation experiences. Review webhook security and entitlement transaction logic. | Persist and verify Paystack webhooks, verify transactions directly, and grant entitlements transactionally and idempotently. | Working purchase flow in preview plus duplicate and out-of-order webhook automated tests. |
-| Thursday | Build entitlement dashboard, payment history, manual-grant display, and access-revoked states. | Implement refunds, confirmed chargebacks, independent manual grants, audit records, and reconciliation jobs. | Dashboard integration PR and reversal/manual-grant test evidence. |
-| Friday | Lead full purchase-to-access testing and UI review; approve protected payment changes. | Review frontend commerce behavior, execute webhook replay and provider failure tests, and resolve backend defects. | Passing NGN checkout, duplicate webhook, refund, chargeback, capacity, and manual-grant acceptance report. |
+| Monday | Define catalogue/commerce OpenAPI, financial invariants, payment states, idempotency, entitlement rules, and test references. | Convert the approved purchase journey into screens, states, component tasks, and consumer questions. | Approved contract, state model, fixtures, and UI flow map. |
+| Tuesday | Implement catalogue, offerings, immutable NGN prices, capacity validation, pending payments, and Paystack initialization. | Build catalogue, offering comparison, NGN pricing, and checkout-start interfaces. | Checkout initialization vertical slice in review. |
+| Wednesday | Implement signed webhook persistence, direct verification, transactional entitlement grants, replay protection, and reconciliation. | Build redirect return, pending, success, failure, cancelled, and delayed-verification states. | Preview purchase flow and automated duplicate/out-of-order webhook evidence. |
+| Thursday | Implement refund, confirmed chargeback, independent manual grant, payment history, audit, and admin APIs. | Build entitlement dashboard, payment history, access-revoked, manual-grant, and commerce admin views. | Reversal/access vertical slice with complete UI states. |
+| Friday | Run payment/security tests, review frontend handling, and approve commerce changes. | Review API usability and run learner/admin browser acceptance. | Passing NGN checkout, reversal, idempotency, capacity, and entitlement report. |
 
-**End-of-week deliverable:** Both offering types can be purchased safely in NGN, exactly one correct entitlement is granted, reversals behave correctly, and the dashboard reflects authoritative access.
+**Weekly deliverable:** An authoritative Paystack purchase-to-entitlement flow with complete learner and staff interfaces.
 
-## Week 3 assignments — Content, import, and lesson delivery
+## Week 3 — Content, import, and lessons
 
 **Dates:** August 31–September 6
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Approve block catalogue, editor experience, lesson navigation, lab behavior, and manual-review process. | Finalize block schemas, migration functions, publication rules, source mappings, and importer report structure. | Approved content contract, mapping table, import checklist, and assigned component work. |
-| Tuesday | Build staff editor, preview, validation feedback, asset UI, and initial learner block renderers. | Implement document validation, reusable-block snapshots, immutable publication, and authorized R2 asset flows. | Editor/rendering PR and backend content/asset tests. |
-| Wednesday | Complete remaining block renderers and create the manual content-review interface/checklist. | Implement deterministic, resumable import and run it against all 48 curriculum folders. | Import report for 48 folders, draft records, warnings, and review queue. |
-| Thursday | Build lesson/module navigation, locked states, progress feedback, and sandboxed lab experience. Review iframe/CSP behavior. | Implement prerequisites, cohort release enforcement, progress services, scheduled publication, and lab-origin security rules. | Complete lesson-delivery preview with progression and sandbox security tests. |
-| Friday | Coordinate manual review sampling, publish and learn through the track, and approve content/security changes. | Review frontend renderers, fix importer/publication defects, and prove published-version immutability. | All lessons imported as drafts, manual-review status recorded, full-track candidate published, and sequential-learning evidence. |
+| Monday | Finalize block schemas, schema migrations, publication rules, importer mappings, R2 rules, progression contract, and CSP model. | Finalize editor, lesson renderer, navigation, lab, and manual-review interaction designs. | Approved content contract, source mapping, and UI flow map. |
+| Tuesday | Implement validated documents, reusable snapshots, immutable publication, authorized assets, and R2 adapters. | Build page editor, validation feedback, preview, asset UI, and initial block renderers. | Content authoring vertical slice with validation/security tests. |
+| Wednesday | Implement deterministic importer, execute all 48 folders, and publish structured diagnostics. | Complete block renderers and build curriculum manual-review workflow. | Forty-eight draft imports, diagnostics, and lessons 1–12 reviewed. |
+| Thursday | Implement prerequisites, progress, cohort release enforcement, scheduled publication, iframe messaging validation, and sandbox controls. | Build lesson/module navigation, locked states, progress UI, and sandboxed lab experience. | Secure lesson-delivery vertical slice in preview. |
+| Friday | Prove publication immutability, review frontend security, and lead publish/learn acceptance. | Review API usability, fix renderer defects, and complete learner/staff browser tests. | Publishable full-track candidate, sequential progression evidence, and Week 3 gate. |
 
-**End-of-week deliverable:** All 48 folders import as reviewable drafts, supported blocks render safely, published versions are immutable, and one complete track is learnable sequentially.
+**Weekly deliverable:** All 48 lessons imported as drafts, lessons 1–12 manually reviewed, safe publication and rendering, and authoritative sequential progress.
 
-## Week 4 assignments — Assessments, submissions, and reviews
+## Week 4 — Assessments, submissions, and reviews
 
 **Dates:** September 7–13
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Approve learner quiz, submission, feedback, and staff review experiences. Define boundary acceptance examples. | Finalize quiz, attempt, cooldown, assignment, rubric, submission, review, and eligibility contracts and fixtures. | Approved assessment contract, scoring examples, review states, and assigned issues. |
-| Tuesday | Build quiz taking, results, explanations, retry, and cooldown screens. | Implement versioned quiz engine, randomized presentation, server grading, attempts, and cooldown enforcement. | Quiz vertical-slice PR with boundary-value tests. |
-| Wednesday | Build submission/resubmission forms, upload states, history, and feedback timeline. | Implement assignments, authorized R2 files, immutable submission versions, URL validation, and status history. | Submission vertical-slice PR and history/security test evidence. |
-| Thursday | Build staff pending-review queue, reviewer assignment, rubric scoring, feedback, and decisions. | Implement concurrency-safe assignments, versioned rubrics, review transitions, audit, notifications, and eligibility reevaluation. | Review-workflow PR with authorization and concurrency tests. |
-| Friday | Lead learner-to-reviewer acceptance testing and approve protected assessment changes. | Review frontend assessment UX, execute negative authorization tests, and fix domain defects. | Passing quiz, cooldown, resubmission, reviewer, rubric, and eligibility acceptance record. |
+| Monday | Finalize assessment/review OpenAPI, scoring, cooldown, versioning, reviewer scope, state transitions, and eligibility inputs. | Map quiz, submission, history, feedback, rubric, and reviewer states. | Approved assessment contract, fixtures, and UI map. |
+| Tuesday | Implement versioned quizzes/questions, randomized delivery, server grading, attempts, explanations, and cooldown enforcement. | Build quiz-taking, results, explanations, retry, cooldown, and accessibility states. | Quiz vertical slice with scoring boundary tests. |
+| Wednesday | Implement assignments, URL/file validation, authorized R2 uploads, immutable submission versions, and status history. | Build submission, upload, resubmission, history, and feedback interfaces. | Submission vertical slice with history/security tests. |
+| Thursday | Implement concurrency-safe reviewer assignments, rubric versions, decisions, audit, notifications, and eligibility reevaluation. | Build review queue, assignment, rubric scoring, feedback, decisions, and status timelines. | Review vertical slice with authorization/concurrency evidence. |
+| Friday | Run negative authorization and domain tests, review UI integration, and approve assessment changes. | Review API usability and run learner/reviewer browser acceptance. | Passing quiz, cooldown, submission, review, and eligibility report; lessons 13–24 reviewed. |
 
-**End-of-week deliverable:** Learners complete versioned mastery checks and project submissions; reviewers act through scoped, audited workflows; all attempts and versions remain preserved.
+**Weekly deliverable:** Versioned quizzes, preserved submission history, scoped human review, certificate inputs, and lessons 13–24 manually reviewed.
 
-## Week 5 assignments — Cohorts and notifications
+## Week 5 — Cohorts and notifications
 
 **Dates:** September 14–20
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Approve cohort learner/staff journeys, timezone display rules, consent UI, and notification preferences. | Finalize cohort, schedule, attendance, notification, job, and provider contracts; confirm WhatsApp templates. | Approved cohort contract, timezone fixtures, consent wording, and provider readiness status. |
-| Tuesday | Build learner cohort overview, schedule, releases, deadlines, announcements, and staff cohort forms. | Implement cohort lifecycle, capacity, memberships, releases, deadlines, overrides, extensions, and live sessions. | Cohort scheduling vertical slice with scoped authorization tests. |
-| Wednesday | Build learner check-in, attendance history, and staff attendance/correction/import/export UI. | Implement short-lived check-in tokens, attendance states, audited corrections, and transactional CSV processing. | Attendance PR with expiry, replay, correction, and CSV validation evidence. |
-| Thursday | Build notification center, channel preferences, failure states, and relevant admin views. | Implement in-app events, Trigger.dev jobs, Resend, consented Meta delivery, idempotency, retries, and delivery records. | Three-channel notification preview and duplicate-job test evidence. |
-| Friday | Lead full managed-cohort journey and accessibility review. Verify self-paced ownership independence. | Review frontend cohort UX, run provider/timezone/failure tests, and resolve integration defects. | Passing cohort, scheduling, attendance, notification, and ownership-independence acceptance report. |
+| Monday | Finalize cohort/notification OpenAPI, timezone rules, scopes, token model, consent, event catalogue, job semantics, and provider templates. | Map learner/staff cohort, attendance, scheduling, consent, notification, and failure experiences. | Approved contracts, timezone fixtures, provider readiness, and UI map. |
+| Tuesday | Implement cohort lifecycle, capacity, memberships, releases, deadlines, overrides, extensions, and live-session APIs. | Build cohort overview, schedule, releases, deadlines, announcements, and staff management interfaces. | Cohort scheduling vertical slice with scoped tests. |
+| Wednesday | Implement short-lived check-in tokens, attendance state machine, audited corrections, and transactional CSV import/export. | Build check-in, attendance history, correction, and CSV validation interfaces. | Attendance vertical slice with expiry/replay/CSV evidence. |
+| Thursday | Implement domain events, Trigger.dev jobs, in-app records, Resend, consented Meta delivery, idempotency, retries, and failure APIs. | Build notification center, preferences, delivery states, and admin failure/retry views. | Three-channel notification vertical slice with duplicate-job tests. |
+| Friday | Run timezone/provider/security tests, review UI integration, and approve cohort changes. | Review API usability and run cohort/attendance/notification browser acceptance. | Passing managed-cohort report, ownership-independence evidence, and lessons 25–36 reviewed. |
 
-**End-of-week deliverable:** Managed cohorts, scheduling, attendance, and all three notification channels work end to end without coupling cohort membership to permanent track ownership.
+**Weekly deliverable:** Secure managed cohorts, scheduling, attendance, durable three-channel notifications, and lessons 25–36 manually reviewed.
 
-## Week 6 assignments — Certificates, hardening, and beta
+## Week 6 — Certificates, hardening, and beta
 
 **Dates:** September 21–27
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Approve certificate requirements, learner pending/display states, public privacy fields, and approval workflow. | Implement eligibility evaluation, idempotent pending approvals, approval authorization, and audit records. | Eligibility/approval PR with requirement and authorization tests. |
-| Tuesday | Build certificate display, download, QR destination, public verification, revoked, and reissued states. | Implement secure token generation, PDF/QR creation, R2 storage, verification API, and privacy filtering. | Generated test certificate and passing public-verification privacy review. |
-| Wednesday | Build staff lifecycle and operational failure views; review certificate wording and accessibility. | Implement revocation/reissue history and complete webhook, job, delivery, audit, and security operations. | Full certificate lifecycle and operator-retry evidence. |
-| Thursday | Lead frontend accessibility, responsive, reduced-motion, and browser testing; coordinate complete authorization matrix. | Execute backend security matrix, database restore, R2 lifecycle, secret rotation, Docker/VPS, replay, and retry runbooks. | Accessibility report, security results, and executed recovery/portability records. |
-| Friday | Run the full beta checklist, verify 48-lesson manual review, lead final cross-repository review, and record the release decision. | Support full regression, resolve backend blockers, review frontend release changes, and assemble operational evidence. | Signed beta checklist, clean deployments, review approvals, and explicit beta sign-off or documented blockers. |
+| Monday | Implement versioned eligibility evaluation, idempotent approval records, scoped approval, audit, and certificate OpenAPI. | Build pending eligibility and staff approval queue interfaces. | Eligibility/approval vertical slice with authorization tests. |
+| Tuesday | Implement opaque tokens, PDF/QR generation, R2 storage, privacy-filtered verification, revocation, and reissue. | Build certificate display/download, public verification, revoked, reissued, and privacy states. | Complete certificate lifecycle in preview. |
+| Wednesday | Complete webhook/job/delivery/audit/security APIs and operational runbooks. Review certificate wording and privacy. | Complete operational failure, replay/retry, certificate administration, and learner lifecycle views. | Operator workflows and certificate privacy evidence. |
+| Thursday | Execute RBAC matrix, restore, R2 lifecycle, secret rotation, Docker/VPS, webhook replay, job retry, and clean deployment tests. | Execute accessibility, keyboard, reduced-motion, responsive, and browser tests across both apps. | Security/recovery evidence and accessibility report. |
+| Friday | Run full beta checklist, review frontend release, verify all 48 lessons, and make final ship/delay decision. | Review API behavior, run complete learner/staff browser regression, and resolve experience blockers. | Signed beta decision, clean deployments, and lessons 37–48 reviewed. |
 
-**End-of-week deliverable:** Certificate lifecycle works securely, recovery and security procedures pass, every beta requirement has evidence, and Travis records the final release decision.
+**Weekly deliverable:** Secure certificate lifecycle, executed operational recovery, complete accessibility/security evidence, all 48 lessons reviewed, and explicit beta approval or delay.
 
-## Week 7 assignments — Contingency only
+## Week 7 — Contingency only
 
 **Dates:** September 28–October 4
 
-| Day | Travis — Lead | Mr. Miracle | Expected end-of-day deliverable |
+| Day | Travis — technical deliverable | Mr. Miracle — experience deliverable | Expected end-of-day result |
 | --- | --- | --- | --- |
-| Monday | Triage remaining gate failures, reject new scope, set severity and priority, and assign remediation. | Reproduce backend/provider failures and prepare failing regression tests. | Frozen remediation list containing only release blockers and high-severity defects. |
-| Tuesday | Fix prioritized frontend/integration blockers and review backend security/payment fixes. | Fix prioritized backend, provider, data, and operational blockers. | Focused PRs with reproduction and regression tests. |
-| Wednesday | Continue only accepted remediation and verify learner journeys. | Continue only accepted remediation and verify data/provider behavior. | All accepted fixes in review with evidence; no unapproved scope. |
-| Thursday | Coordinate full regression, accessibility, clean deployment, and rollback verification. | Repeat recovery, security, payment, provider, job, and webhook tests. | Complete repeated test record and clean deployment/rollback evidence. |
-| Friday | Lead final checklist and make the explicit ship-or-delay decision. | Review residual risk and confirm operational readiness or remaining blockers. | Approved beta release or documented delay with unresolved mandatory gates. |
+| Monday | Freeze remediation scope and reproduce backend, security, provider, data, and deployment blockers. | Reproduce frontend, integration, browser, and accessibility blockers. | Prioritized release-blocker list with owners and failing evidence. |
+| Tuesday | Fix highest-risk technical blockers and add regression tests. | Fix highest-risk experience blockers and add integration/browser tests. | Focused reviewed remediation PRs. |
+| Wednesday | Continue approved fixes only and review all integration changes. | Continue approved fixes only and review API behavior from the client. | Accepted fixes ready with no new scope. |
+| Thursday | Repeat recovery, security, provider, payment, job, webhook, and deployment tests. | Repeat accessibility, browser, learner, and staff regression tests. | Complete repeated gate evidence and rollback proof. |
+| Friday | Lead final gate and record explicit ship-or-delay decision. | Confirm experience readiness and document any remaining blocker. | Approved beta or documented delay; no bypassed gate. |
 
-**End-of-week deliverable:** Every mandatory gate passes with evidence and Travis approves beta, or the release is delayed without bypassing requirements.
+**Weekly deliverable:** Mandatory gates pass with reproducible evidence or the release is delayed.
 
-## Pull-request assignment rules
+## Pull-request responsibility matrix
 
-| Change type | Primary implementer | Required reviewer | Final approval |
+| Change | Implementer | Reviewer | Approver |
 | --- | --- | --- | --- |
-| Learner UI and frontend integration | Travis | Mr. Miracle | Travis for protected domains |
-| Backend API and domain service | Mr. Miracle | Travis | Travis for protected domains |
-| Prisma schema and migration | Mr. Miracle | Travis | Travis |
-| OpenAPI and generated client release | Mr. Miracle | Travis | Travis |
-| Admin/staff UI | Mr. Miracle | Travis | Travis when authorization is affected |
-| Shared design tokens and learner components | Travis | Mr. Miracle | Travis |
-| Payments, RBAC, auth, certificates | Mr. Miracle | Travis | Travis |
-| End-to-end acceptance and release checklist | Travis | Mr. Miracle | Travis |
+| Architecture and ADR | Travis | Mr. Miracle | Travis |
+| OpenAPI, API docs content, and generated client | Travis | Mr. Miracle | Travis |
+| Prisma schema, migration, and seed | Travis | Mr. Miracle | Travis |
+| Backend domain/API/security/provider work | Travis | Mr. Miracle | Travis |
+| Learner frontend and client integration | Mr. Miracle | Travis | Travis when protected behavior is affected |
+| Staff administration UI | Mr. Miracle | Travis | Travis when permissions or operations are affected |
+| Design tokens and component modernization | Mr. Miracle | Travis | Travis |
+| Infrastructure, CI, Docker, deployment, and runbooks | Travis | Mr. Miracle | Travis |
+| End-to-end acceptance | Both | Both | Travis |
 
-## Status reporting format
+## End-of-day report
 
-At the end of each workday, both collaborators post:
+Each person posts:
 
 ```text
 Completed:
 - Issue/PR and verifiable result
 
+Tests:
+- Commands or preview scenario completed
+
 Reviewed:
-- PR or decision reviewed
+- Other person’s PR or decision reviewed
 
 Blocked:
-- Specific blocker, owner, and required next action
+- Blocker, owner, and required action
 
 Tomorrow:
-- First task and intended deliverable
+- First task and expected end-of-day result
 ```
 
-Friday’s report additionally records:
-
-- Weekly exit gate: pass or fail.
-- Acceptance evidence links.
-- Incomplete work and which following-week task it displaces.
-- New risks and their owners.
-- Product-owner decision where required.
+Friday additionally records the gate result, evidence links, displaced work, new risks, and Travis’s decision where required.
 
 ## Assignment don’ts
 
-- Don’t work on the same branch.
-- Don’t approve your own pull request.
-- Don’t begin frontend integration against an unapproved breaking contract.
-- Don’t let Travis’s lead role replace Mr. Miracle’s required review.
-- Don’t let review responsibility become passive observation; reproduce the result.
+- Don’t let frontend code access Prisma, provider secrets, or authoritative business state directly.
+- Don’t let UI permission checks replace backend authorization.
+- Don’t let Mr. Miracle handwrite types that duplicate or contradict OpenAPI.
+- Don’t let Travis merge technically correct APIs without consumer review.
+- Don’t begin dependent UI work without an approved contract or fixture.
+- Don’t work on the same branch or approve your own PR.
 - Don’t hide blockers until Friday.
-- Don’t carry work forward without changing the next week’s committed scope.
 - Don’t merge protected-domain changes without Travis’s explicit approval.
+- Don’t expand Week 7 into a feature sprint.
