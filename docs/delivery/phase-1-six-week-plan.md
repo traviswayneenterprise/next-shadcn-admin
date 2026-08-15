@@ -34,6 +34,16 @@ The existing learner-frontend documentation area may render the API reference fo
 
 ## Weekly delivery schedule
 
+Detailed execution guides:
+
+- [Week 1: Foundation, contract, and design system](week-01-foundation-contract-design-system.md)
+- [Week 2: Catalogue, commerce, and learner access](week-02-catalogue-commerce-access.md)
+- [Week 3: Content, curriculum import, and lessons](week-03-content-import-lessons.md)
+- [Week 4: Assessments, submissions, and reviews](week-04-assessments-submissions-reviews.md)
+- [Week 5: Cohorts and notifications](week-05-cohorts-notifications.md)
+- [Week 6: Certificates, hardening, and beta](week-06-certificates-hardening-beta.md)
+- [Week 7: Contingency and remediation](week-07-contingency.md)
+
 ### Week 1 — Foundation, contract, and design system
 
 **Dates:** August 17–23
