@@ -35,6 +35,8 @@ Two green preview deployments with secure shared authentication, a clean migrati
 
 ## Procedures
 
+The Monday audit evidence, assigned work, dependencies, component decisions, and acceptance criteria are recorded in the [Week 1 Day 1 technical baseline](week-01-day-01-technical-baseline.md).
+
 ### Monday — Baseline and ownership
 
 1. Pull `phase1/foundation` and confirm both worktrees are clean.

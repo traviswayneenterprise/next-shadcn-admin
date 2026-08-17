@@ -4,6 +4,8 @@ These guides turn the [six-week delivery plan](phase-1-six-week-plan.md) into we
 
 Named ownership and daily deliverables are defined in the [Travis and Mr. Miracle task-assignment matrix](task-assignments-travis-miracle.md).
 
+Execution evidence begins with the [Week 1 Day 1 technical baseline](week-01-day-01-technical-baseline.md).
+
 | Week | Focus | Dates |
 | --- | --- | --- |
 | [Week 1](week-01-foundation-contract-design-system.md) | Foundation, contract, and design system | Aug 17–23 |
