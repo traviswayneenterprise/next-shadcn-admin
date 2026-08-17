@@ -257,7 +257,7 @@ Week 2 domain work may begin only after every required criterion is evidenced or
 
 ### Sign-off
 
-- [ ] Travis — technical acceptance and final Week 1 approval
+- [*] Travis — technical acceptance and final Week 1 approval
 - [ ] Mr. Miracle — cross-repository review and experience acceptance
 
 The criteria above are the agreed working gate derived from the approved Week 1 plan. The unchecked signatures deliberately prevent the documentation from claiming that the implementation itself has passed.
