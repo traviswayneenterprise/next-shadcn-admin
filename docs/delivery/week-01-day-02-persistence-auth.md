@@ -6,7 +6,7 @@
 
 **Required reviewer:** Mr. Miracle
 
-**Current gate:** Local draft ready; clean Neon application and browser integration remain blocked.
+**Current gate:** Clean Neon migration and seed idempotency pass; cross-origin browser integration and joint review remain open.
 
 ## Draft PRs
 
@@ -30,13 +30,15 @@ Neither branch may merge until both collaborators review it and the database/bro
 ## Seed idempotency design
 
 - A PostgreSQL transaction advisory lock prevents concurrent deploys from racing the bootstrap.
+- Explicit transaction wait/runtime limits tolerate Neon compute wake-up without weakening atomicity.
+- `dotenv` is a direct runtime dependency because the standalone seed imports `dotenv/config`.
 - Permissions are upserted by their immutable key.
 - The protected Owner role is created once and only updated when protected fields drift.
 - Owner-role permissions use the `RolePermission` composite key with `skipDuplicates`.
 - The owner account is created once and only updated when verification/status repair is required.
 - The active global owner assignment is queried before creation and also protected by the migration's partial unique index.
 
-Two execution runs are still required against the same clean Neon branch. Static review is not a substitute for that evidence.
+Two consecutive execution runs passed against the same clean Neon validation branch with no duplicate permission keys, roles, or role-permission links.
 
 ## Authentication and security changes
 
@@ -65,16 +67,39 @@ Two execution runs are still required against the same clean Neon branch. Static
 | Check | Result |
 | --- | --- |
 | Backend Prisma validation | Pass |
-| Backend focused ESLint | Pass |
-| Backend TypeScript `--noEmit --incremental false` | Pass |
+| Backend focused ESLint | Pass, including the hardened seed |
+| Backend TypeScript `--noEmit` | Blocked by existing Next.js typed-route mismatches in auth/navigation components; no seed-file error reported |
 | Origin-policy tests | Pass: 3 tests |
 | OpenAPI validation | Pass with the 14 pre-existing documentation warnings |
 | OpenAPI TypeScript generation | Pass |
 | Frontend focused ESLint | Pass |
 | Frontend TypeScript `--noEmit --incremental false` | Pass |
-| Clean Neon migration application | Blocked: no database URL or confirmed Neon connection |
-| Seed run 1 and run 2 | Blocked by the same database connection |
+| Clean Neon migration application | Pass: `20260818090000_initial` recorded as completed |
+| Seed run 1 and run 2 | Pass: both completed against the same validation branch |
 | Cross-origin browser authentication | Blocked until the migrated backend is running |
+
+## Clean Neon evidence
+
+- Organization: `Travis`
+- Project: `LMS` (`silent-leaf-32680926`)
+- Validation branch: `week1-migration-validation` (`br-snowy-base-axnh6gjh`)
+- Parent branch: empty `main` (`br-gentle-violet-axzcs1ec`)
+- Database: `neondb`
+- PostgreSQL: 18.4
+- Application tables: 58, plus Prisma migration metadata (59 public tables total)
+- Completed initial migrations: 1
+- Permission catalogue rows: 23
+- Protected Owner roles: 1
+- Owner role-permission links: 23
+- Synthetic validation owner users: 1
+- Active global Owner assignments: 1
+- Duplicate permission keys: 0
+- Duplicate role names: 0
+- Duplicate role-permission links: 0
+- Active-scope partial unique indexes: 3
+- Role-assignment scope constraints: 1
+
+The first disposable validation branch was deleted and recreated after the initial combined command was interrupted at the two-minute command timeout. No user data existed on that branch. The successful migration used Prisma's migration-compatible direct Neon URL form without the connector-added `channel_binding` query parameter. Seed validation used the pooled runtime endpoint and included two additional passes with `owner-validation@lms.invalid` to exercise the optional owner bootstrap path. No connection string or credential is stored in this repository.
 
 ## Clean Neon execution checklist
 
@@ -92,8 +117,8 @@ Run only against a disposable, empty Neon branch:
 
 - [ ] Mr. Miracle reviews learner states, responsive behavior, keyboard flow, and wording.
 - [ ] Travis reviews migration SQL, seed results, session storage, Origin policy, rate limits, and OpenAPI.
-- [ ] Clean Neon migration succeeds.
-- [ ] First and second seed runs produce the same protected records without duplicates or drift.
+- [x] Clean Neon migration succeeds.
+- [x] First and second seed runs produce the same protected records without duplicates or drift.
 - [ ] Cross-origin browser authentication passes with secure shared-domain cookies.
 - [ ] Negative cases pass: foreign/missing Origin, invalid/expired/reused tokens, throttling, suspended user, and revoked session.
 - [ ] Both draft PRs receive cross-review before merge.
