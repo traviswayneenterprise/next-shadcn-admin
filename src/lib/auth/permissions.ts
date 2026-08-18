@@ -25,3 +25,25 @@ export const permissionCatalog = [
 ] as const;
 
 export type PermissionKey = (typeof permissionCatalog)[number];
+
+export async function getGlobalPermissions(userId: string) {
+  const { prisma } = await import("@/lib/db");
+  const assignments = await prisma.roleAssignment.findMany({
+    where: { userId, scopeType: "GLOBAL", revokedAt: null },
+    select: {
+      role: {
+        select: {
+          permissions: { select: { permission: { select: { key: true } } } },
+        },
+      },
+    },
+  });
+
+  return [
+    ...new Set(
+      assignments.flatMap(({ role }) =>
+        role.permissions.map(({ permission }) => permission.key),
+      ),
+    ),
+  ].sort();
+}

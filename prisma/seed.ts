@@ -11,53 +11,82 @@ if (!connectionString) throw new Error("DIRECT_URL or DATABASE_URL is required t
 const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
 
 async function main() {
-  for (const key of permissionCatalog) {
-    await prisma.permission.upsert({
-      where: { key },
-      update: {},
-      create: { key, description: key.replaceAll(".", " ") },
+  await prisma.$transaction(async (transaction) => {
+    // Prevent two deploys from racing the otherwise-idempotent bootstrap.
+    await transaction.$executeRaw`SELECT pg_advisory_xact_lock(${2026081801})`;
+
+    for (const key of permissionCatalog) {
+      const description = key.replaceAll(".", " ");
+      await transaction.permission.upsert({
+        where: { key },
+        update: { description },
+        create: { key, description },
+      });
+    }
+
+    const ownerRoleDescription = "Protected product-owner role with every permission.";
+    const existingOwnerRole = await transaction.role.findUnique({ where: { name: "Owner" } });
+    const ownerRole = !existingOwnerRole
+      ? await transaction.role.create({
+          data: {
+            name: "Owner",
+            description: ownerRoleDescription,
+            isOwner: true,
+            isSystem: true,
+          },
+        })
+      : existingOwnerRole.description !== ownerRoleDescription ||
+          !existingOwnerRole.isOwner ||
+          !existingOwnerRole.isSystem
+        ? await transaction.role.update({
+            where: { id: existingOwnerRole.id },
+            data: {
+              description: ownerRoleDescription,
+              isOwner: true,
+              isSystem: true,
+            },
+          })
+        : existingOwnerRole;
+
+    const permissions = await transaction.permission.findMany({ select: { id: true } });
+    await transaction.rolePermission.createMany({
+      data: permissions.map(({ id }) => ({ roleId: ownerRole.id, permissionId: id })),
+      skipDuplicates: true,
     });
-  }
 
-  const ownerRole = await prisma.role.upsert({
-    where: { name: "Owner" },
-    update: { isOwner: true, isSystem: true },
-    create: {
-      name: "Owner",
-      description: "Protected product-owner role with every permission.",
-      isOwner: true,
-      isSystem: true,
-    },
-  });
+    const ownerEmail = process.env.OWNER_EMAIL?.trim().toLowerCase();
+    if (!ownerEmail) return;
 
-  const permissions = await prisma.permission.findMany({ select: { id: true } });
-  await prisma.rolePermission.createMany({
-    data: permissions.map(({ id }) => ({ roleId: ownerRole.id, permissionId: id })),
-    skipDuplicates: true,
-  });
+    const existingOwner = await transaction.user.findUnique({ where: { email: ownerEmail } });
+    const owner = !existingOwner
+      ? await transaction.user.create({
+          data: { email: ownerEmail, emailVerified: new Date(), name: "Product Owner" },
+        })
+      : !existingOwner.emailVerified || existingOwner.status !== "ACTIVE"
+        ? await transaction.user.update({
+            where: { id: existingOwner.id },
+            data: {
+              ...(!existingOwner.emailVerified ? { emailVerified: new Date() } : {}),
+              ...(existingOwner.status !== "ACTIVE" ? { status: "ACTIVE" as const } : {}),
+            },
+          })
+        : existingOwner;
 
-  const ownerEmail = process.env.OWNER_EMAIL?.trim().toLowerCase();
-  if (!ownerEmail) return;
-
-  const owner = await prisma.user.upsert({
-    where: { email: ownerEmail },
-    update: {},
-    create: { email: ownerEmail, emailVerified: new Date(), name: "Product Owner" },
-  });
-
-  const existing = await prisma.roleAssignment.findFirst({
-    where: { userId: owner.id, roleId: ownerRole.id, scopeType: "GLOBAL", revokedAt: null },
-  });
-  if (!existing) {
-    await prisma.roleAssignment.create({
-      data: {
-        userId: owner.id,
-        roleId: ownerRole.id,
-        scopeType: "GLOBAL",
-        assignedById: owner.id,
-      },
+    const existing = await transaction.roleAssignment.findFirst({
+      where: { userId: owner.id, roleId: ownerRole.id, scopeType: "GLOBAL", revokedAt: null },
+      select: { id: true },
     });
-  }
+    if (!existing) {
+      await transaction.roleAssignment.create({
+        data: {
+          userId: owner.id,
+          roleId: ownerRole.id,
+          scopeType: "GLOBAL",
+          assignedById: owner.id,
+        },
+      });
+    }
+  });
 }
 
 main()

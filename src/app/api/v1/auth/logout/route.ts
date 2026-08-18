@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 import { apiSuccess } from "@/lib/api/response";
 import { sessionCookieName, sessionCookieOptions } from "@/lib/auth/cookie";
+import { hashToken } from "@/lib/auth/password-session";
 import { prisma } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -11,7 +12,7 @@ export async function POST() {
   const token = cookieStore.get(sessionCookieName)?.value;
   if (token) {
     await prisma.session.updateMany({
-      where: { sessionToken: token, revokedAt: null },
+      where: { sessionToken: { in: [hashToken(token), token] }, revokedAt: null },
       data: { revokedAt: new Date() },
     });
   }

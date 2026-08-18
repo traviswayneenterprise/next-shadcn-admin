@@ -5,6 +5,7 @@ These guides turn the [six-week delivery plan](phase-1-six-week-plan.md) into we
 Named ownership and daily deliverables are defined in the [Travis and Mr. Miracle task-assignment matrix](task-assignments-travis-miracle.md).
 
 Execution evidence begins with the [Week 1 Day 1 technical baseline](week-01-day-01-technical-baseline.md).
+The persistence and authentication implementation is tracked in the [Week 1 Day 2 draft PR evidence](week-01-day-02-persistence-auth.md).
 
 | Week | Focus | Dates |
 | --- | --- | --- |

@@ -30,13 +30,17 @@ export function apiError(
   status: number,
   code: ApiErrorCode,
   message: string,
-  options?: { correlationId?: string; details?: Record<string, unknown> },
+  options?: {
+    correlationId?: string;
+    details?: Record<string, unknown>;
+    headers?: HeadersInit;
+  },
 ) {
   return NextResponse.json(
     {
       error: { code, message, details: options?.details },
       meta: metadata(options?.correlationId),
     },
-    { status },
+    { status, headers: options?.headers },
   );
 }

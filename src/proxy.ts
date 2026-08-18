@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { env } from "@/lib/env";
+import { isOriginProtectedPath, isSafeMethod, isTrustedOrigin } from "@/lib/auth/origin";
 
-const safeMethods = new Set(["GET", "HEAD", "OPTIONS"]);
-
-function corsHeaders(response: NextResponse) {
-  response.headers.set("Access-Control-Allow-Origin", env.LEARNER_ORIGIN);
+function corsHeaders(response: NextResponse, origin: string | null) {
+  if (origin === env.LEARNER_ORIGIN) {
+    response.headers.set("Access-Control-Allow-Origin", env.LEARNER_ORIGIN);
+  }
   response.headers.set("Access-Control-Allow-Credentials", "true");
-  response.headers.set("Access-Control-Allow-Headers", "Content-Type, Idempotency-Key, X-CSRF-Token");
+  response.headers.set("Access-Control-Allow-Headers", "Content-Type, Idempotency-Key, X-Correlation-Id");
   response.headers.set("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
   response.headers.set("Vary", "Origin");
   return response;
@@ -15,13 +16,19 @@ function corsHeaders(response: NextResponse) {
 
 export function proxy(request: NextRequest) {
   const origin = request.headers.get("origin");
+  const requestOrigin = request.nextUrl.origin;
+  const trustedOrigin = isTrustedOrigin(origin, requestOrigin, env.LEARNER_ORIGIN);
 
   if (request.method === "OPTIONS") {
-    if (origin !== env.LEARNER_ORIGIN) return new NextResponse(null, { status: 403 });
-    return corsHeaders(new NextResponse(null, { status: 204 }));
+    if (!trustedOrigin) return new NextResponse(null, { status: 403 });
+    return corsHeaders(new NextResponse(null, { status: 204 }), origin);
   }
 
-  if (!safeMethods.has(request.method) && origin && origin !== env.LEARNER_ORIGIN) {
+  if (
+    !isSafeMethod(request.method) &&
+    isOriginProtectedPath(request.nextUrl.pathname) &&
+    !trustedOrigin
+  ) {
     return NextResponse.json(
       {
         error: { code: "FORBIDDEN", message: "Origin is not allowed." },
@@ -31,7 +38,7 @@ export function proxy(request: NextRequest) {
     );
   }
 
-  return corsHeaders(NextResponse.next());
+  return corsHeaders(NextResponse.next(), origin);
 }
 
 export const config = {

@@ -17,7 +17,7 @@ export async function createDatabaseSession(userId: string) {
   const expires = new Date(Date.now() + PASSWORD_SESSION_TTL_SECONDS * 1000);
 
   await prisma.session.create({
-    data: { userId, sessionToken, expires },
+    data: { userId, sessionToken: hashToken(sessionToken), expires },
   });
 
   return { sessionToken, expires };
