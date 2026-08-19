@@ -6,6 +6,7 @@ Named ownership and daily deliverables are defined in the [Travis and Mr. Miracl
 
 Execution evidence begins with the [Week 1 Day 1 technical baseline](week-01-day-01-technical-baseline.md).
 The persistence and authentication implementation is tracked in the [Week 1 Day 2 draft PR evidence](week-01-day-02-persistence-auth.md).
+The API contract, versioned client, and internal reference are tracked in the [Week 1 Day 3 delivery record](week-01-day-03-api-contract-client.md).
 
 | Week | Focus | Dates |
 | --- | --- | --- |
