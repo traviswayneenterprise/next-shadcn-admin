@@ -45,7 +45,16 @@ paths:
                 email: { type: string, format: email }
                 password: { type: string, minLength: 12, maxLength: 128 }
       responses:
-        "201": { description: Account created; email verification is required. }
+        "201":
+          description: Account created; email verification is required.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/RegistrationResult" }
         "400": { $ref: "#/components/responses/BadRequest" }
         "409": { $ref: "#/components/responses/Conflict" }
         "429": { $ref: "#/components/responses/RateLimited" }
@@ -66,7 +75,16 @@ paths:
                 email: { type: string, format: email }
                 token: { type: string, minLength: 20 }
       responses:
-        "200": { description: Email verified. }
+        "200":
+          description: Email verified.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/EmailVerificationResult" }
         "400": { $ref: "#/components/responses/BadRequest" }
         "429": { $ref: "#/components/responses/RateLimited" }
   /auth/password-login:
@@ -86,7 +104,16 @@ paths:
                 email: { type: string, format: email }
                 password: { type: string, minLength: 1, maxLength: 128 }
       responses:
-        "200": { description: Authenticated session and secure cookie. }
+        "200":
+          description: Authenticated session and secure cookie.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/Session" }
         "400": { $ref: "#/components/responses/BadRequest" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "429": { $ref: "#/components/responses/RateLimited" }
@@ -106,7 +133,16 @@ paths:
               properties:
                 email: { type: string, format: email }
       responses:
-        "200": { description: Request accepted regardless of account existence. }
+        "200":
+          description: Request accepted regardless of account existence.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/PasswordResetRequestResult" }
         "429": { $ref: "#/components/responses/RateLimited" }
   /auth/reset-password:
     post:
@@ -126,7 +162,16 @@ paths:
                 token: { type: string, minLength: 20 }
                 password: { type: string, minLength: 12, maxLength: 128 }
       responses:
-        "200": { description: Password updated and existing sessions revoked. }
+        "200":
+          description: Password updated and existing sessions revoked.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/PasswordResetResult" }
         "400": { $ref: "#/components/responses/BadRequest" }
         "429": { $ref: "#/components/responses/RateLimited" }
   /auth/logout:
@@ -135,7 +180,16 @@ paths:
       tags: [Authentication]
       operationId: logout
       responses:
-        "200": { description: Session revoked or already absent. }
+        "200":
+          description: Session revoked or already absent.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/LogoutResult" }
         "403": { $ref: "#/components/responses/Forbidden" }
   /health:
     get:
@@ -358,7 +412,16 @@ paths:
       security: []
       operationId: receivePaystackWebhook
       responses:
-        "200": { description: Event persisted or already received. }
+        "200":
+          description: Event persisted or already received.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/WebhookReceipt" }
         "401": { $ref: "#/components/responses/Unauthorized" }
   /cohorts/{cohortId}/check-ins:
     post:
@@ -503,8 +566,8 @@ components:
       type: object
       required: [correlationId, timestamp]
       properties:
-        correlationId: { type: string }
-        timestamp: { type: string, format: date-time }
+        correlationId: { type: string, examples: ["7d628735-8a1e-4f20-8e57-f6f708df42db"] }
+        timestamp: { type: string, format: date-time, examples: ["2026-08-19T12:00:00.000Z"] }
     CursorPage:
       type: object
       required: [hasMore]
@@ -537,6 +600,37 @@ components:
             image: { type: [string, "null"], format: uri }
             permissions: { type: array, items: { type: string } }
         expiresAt: { type: string, format: date-time }
+    RegistrationResult:
+      type: object
+      required: [requiresEmailVerification]
+      properties:
+        requiresEmailVerification: { type: boolean, examples: [true] }
+    EmailVerificationResult:
+      type: object
+      required: [verified]
+      properties:
+        verified: { type: boolean, examples: [true] }
+    PasswordResetRequestResult:
+      type: object
+      required: [accepted]
+      properties:
+        accepted: { type: boolean, examples: [true] }
+    PasswordResetResult:
+      type: object
+      required: [reset]
+      properties:
+        reset: { type: boolean, examples: [true] }
+    LogoutResult:
+      type: object
+      required: [loggedOut]
+      properties:
+        loggedOut: { type: boolean, examples: [true] }
+    WebhookReceipt:
+      type: object
+      required: [received]
+      properties:
+        received: { type: boolean, examples: [true] }
+        duplicate: { type: boolean, examples: [false] }
     TrackSummary:
       type: object
       required: [id, slug, title, description]
