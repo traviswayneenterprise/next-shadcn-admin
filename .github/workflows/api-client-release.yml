@@ -20,7 +20,7 @@ jobs:
           version: 11.21.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.9.0
+          node-version: 22.13.0
           cache: pnpm
           registry-url: https://npm.pkg.github.com
           scope: "@traviswayneenterprise"
@@ -33,4 +33,3 @@ jobs:
       - run: pnpm --dir packages/api-client publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
