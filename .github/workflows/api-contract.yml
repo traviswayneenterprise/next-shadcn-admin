@@ -1,0 +1,29 @@
+name: API contract
+
+on:
+  pull_request:
+    paths:
+      - "docs/openapi/**"
+      - "packages/api-client/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.21.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm api:check
+

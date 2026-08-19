@@ -5,21 +5,27 @@ info:
   description: Authoritative contract for the learner frontend and backend/admin.
   license:
     name: Proprietary
+    identifier: LicenseRef-Proprietary
 servers:
-  - url: https://admin.example.com/api/v1
-    description: Production placeholder; replace during deployment configuration.
-  - url: http://localhost:3001/api/v1
-    description: Local backend
+  - url: /api/v1
+    description: Relative API base; clients supply the backend/admin origin per environment.
 security:
   - sessionCookie: []
 tags:
   - name: System
+    description: Service health and operational readiness.
   - name: Authentication
+    description: Learner identity, verification, password sessions, and recovery.
   - name: Catalogue
+    description: Public tracks, courses, and available offerings.
   - name: Learning
+    description: Authenticated progression, lessons, quizzes, and submissions.
   - name: Commerce
+    description: Checkout and payment-provider integration.
   - name: Cohorts
+    description: Managed-cohort schedules, attendance, and participation.
   - name: Certificates
+    description: Public certificate verification and lifecycle information.
 paths:
   /auth/register:
     post:
@@ -144,6 +150,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthResponse"
+        "429": { $ref: "#/components/responses/RateLimited" }
   /auth/session:
     get:
       summary: Get the current learner session
@@ -164,6 +171,7 @@ paths:
                         anyOf:
                           - $ref: "#/components/schemas/Session"
                           - type: "null"
+        "429": { $ref: "#/components/responses/RateLimited" }
   /catalog/tracks:
     get:
       summary: List published learning tracks
@@ -187,6 +195,7 @@ paths:
                         type: array
                         items: { $ref: "#/components/schemas/TrackSummary" }
                       page: { $ref: "#/components/schemas/CursorPage" }
+        "429": { $ref: "#/components/responses/RateLimited" }
   /catalog/tracks/{trackSlug}:
     get:
       summary: Get a published learning track
@@ -315,6 +324,9 @@ paths:
                   - type: object
                     properties:
                       data: { $ref: "#/components/schemas/Submission" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
   /checkout-sessions:
     post:
       summary: Create a Paystack checkout session

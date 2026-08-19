@@ -25,4 +25,5 @@ frontend and backend/admin repositories.
 - [Travis and Mr. Miracle task assignments](delivery/task-assignments-travis-miracle.md)
 - [Release checklist](release-checklist.md)
 - [Monday audit report](Monday-audit-report.md)
-- [OpenAPI v1](openapi/lms-v1.yaml)
+- [OpenAPI v1 routes and client workflow](openapi/README.md)
+- [OpenAPI v1 source](openapi/lms-v1.yaml)
