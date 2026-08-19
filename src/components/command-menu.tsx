@@ -50,7 +50,7 @@ export function CommandMenu() {
                       key={`${navItem.url}-${i}`}
                       value={navItem.title}
                       onSelect={() => {
-                        runCommand(() => router.push(navItem.url))
+                        runCommand(() => router.push(navItem.url as '/'))
                       }}
                     >
                       <div className='mr-2 flex h-4 w-4 items-center justify-center'>
@@ -60,12 +60,12 @@ export function CommandMenu() {
                     </CommandItem>
                   )
 
-                return navItem.items?.map((subItem, i) => (
+                return navItem.items?.map((subItem, j) => (
                   <CommandItem
-                    key={`${subItem.url}-${i}`}
+                    key={`${subItem.url}-${j}`}
                     value={subItem.title}
                     onSelect={() => {
-                      runCommand(() => router.push(subItem.url))
+                      runCommand(() => router.push(subItem.url as '/'))
                     }}
                   >
                     <div className='mr-2 flex h-4 w-4 items-center justify-center'>

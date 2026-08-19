@@ -2,34 +2,29 @@
 
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
-import AuthLayout from '@/components/auth-layout'
 import { OtpForm } from './components/otp-form'
 
 export default function Otp() {
   return (
-    <AuthLayout>
-      <Card className='p-6'>
-        <div className='mb-2 flex flex-col space-y-2 text-left'>
-          <h1 className='text-md font-semibold tracking-tight'>
-            Two-factor Authentication
-          </h1>
-          <p className='text-sm text-muted-foreground'>
-            Please enter the authentication code. <br /> We have sent the
-            authentication code to your email.
-          </p>
-        </div>
-        <OtpForm />
-        <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
-          Haven't received it?{' '}
-          <Link
-            href='/sign-in'
-            className='underline underline-offset-4 hover:text-primary'
-          >
-            Resend a new code.
-          </Link>
-          .
+    <Card className='p-6'>
+      <div className='mb-2 flex flex-col space-y-2 text-left'>
+        <h1 className='text-xl font-semibold tracking-tight'>
+          Verify your email
+        </h1>
+        <p className='text-sm text-muted-foreground'>
+          Please enter your email and verification code below to activate your account.
         </p>
-      </Card>
-    </AuthLayout>
+      </div>
+      <OtpForm />
+      <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
+        Already verified?{' '}
+        <Link
+          href='/auth/sign-in'
+          className='underline underline-offset-4 hover:text-primary font-medium text-foreground'
+        >
+          Sign in to your account
+        </Link>
+      </p>
+    </Card>
   )
 }
