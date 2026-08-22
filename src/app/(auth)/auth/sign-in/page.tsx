@@ -16,7 +16,7 @@ export default function SignIn() {
       </div>
       <UserAuthForm />
       <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <Link
           href='/auth/sign-up'
           className='underline underline-offset-4 hover:text-primary font-medium text-foreground'

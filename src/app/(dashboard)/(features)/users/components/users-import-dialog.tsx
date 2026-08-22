@@ -1,9 +1,8 @@
 'use client'
 
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from '@/hooks/use-toast'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -23,32 +22,29 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useEffect, useState } from 'react'
+import { toast } from '@/hooks/use-toast'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export function UsersImportDialog({ open, onOpenChange }: Props) {
-  const [formSchema, setFormSchema] = useState<z.ZodType<any>>(z.any())
-
-  useEffect(() => {
-    setFormSchema(
-      z.object({
-        file: z
-          .instanceof(FileList)
-          .refine((files) => files.length > 0, {
-            message: 'Please upload a file',
-          })
-          .refine(
-            (files) => ['text/csv'].includes(files?.[0]?.type),
-            'Please upload csv format.'
-          ),
-      })
+const formSchema = z.object({
+  file: z
+    .custom<FileList>(
+      (value) => value instanceof FileList,
+      'Please upload a file'
     )
-  }, [])
+    .refine((files) => files.length > 0, {
+      message: 'Please upload a file',
+    })
+    .refine(
+      (files) => ['text/csv'].includes(files?.[0]?.type),
+      'Please upload csv format.'
+    ),
+})
 
+export function UsersImportDialog({ open, onOpenChange }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { file: undefined },
@@ -65,6 +61,7 @@ export function UsersImportDialog({ open, onOpenChange }: Props) {
         size: file[0].size,
         type: file[0].type,
       }
+
       toast({
         title: 'You have imported the following file:',
         description: (
@@ -76,6 +73,7 @@ export function UsersImportDialog({ open, onOpenChange }: Props) {
         ),
       })
     }
+
     onOpenChange(false)
   }
 
