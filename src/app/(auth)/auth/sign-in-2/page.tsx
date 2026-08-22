@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { UserAuthForm } from '../components/user-auth-form'
 
 export default function SignIn2() {
@@ -23,32 +24,30 @@ export default function SignIn2() {
               >
                 <path d='M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3' />
               </svg>
-              Next Shadcn Admin
+              TWE LMS
             </div>
           </header>
 
           <div className='relative z-20 flex flex-1 items-center justify-center p-10'>
             <Image
               src='/next.svg'
-              className='h-auto w-[400px]'
+              className='h-auto w-[400px] invert'
               width={400}
               height={400}
-              alt='Next.js'
+              alt='TWE LMS'
               priority
             />
           </div>
 
           <div className='relative z-20 p-10'>
             <blockquote className='space-y-2 text-white'>
-            <p className='text-lg'>
-              &ldquo;This template has saved me countless hours of work and
-              helped me deliver stunning designs to my clients faster than ever
-              before.&rdquo;
-            </p>
-            <footer className='text-sm'>John Doe</footer>
-          </blockquote>
+              <p className='text-lg'>
+                &ldquo;TWE Learning provides a unified experience for comprehensive coursework, practical assessments, and verified certifications.&rdquo;
+              </p>
+              <footer className='text-sm text-zinc-400'>TWE Learning Platform</footer>
+            </blockquote>
+          </div>
         </div>
-      </div>
       </div>
       <div className='relative flex items-center justify-center p-8'>
         <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
@@ -61,20 +60,23 @@ export default function SignIn2() {
           </div>
           <UserAuthForm />
           <p className='px-8 text-center text-sm text-muted-foreground'>
+            Don&apos;t have an account?{' '}
+            <Link
+              href='/auth/sign-up'
+              className='underline underline-offset-4 hover:text-primary font-medium text-foreground'
+            >
+              Sign up
+            </Link>
+          </p>
+          <p className='px-8 text-center text-xs text-muted-foreground'>
             By clicking login, you agree to our{' '}
-            <a
-              href='/terms'
-              className='underline underline-offset-4 hover:text-primary'
-            >
+            <span className='underline underline-offset-4 hover:text-primary cursor-pointer'>
               Terms of Service
-            </a>{' '}
+            </span>{' '}
             and{' '}
-            <a
-              href='/privacy'
-              className='underline underline-offset-4 hover:text-primary'
-            >
+            <span className='underline underline-offset-4 hover:text-primary cursor-pointer'>
               Privacy Policy
-            </a>
+            </span>
             .
           </p>
         </div>

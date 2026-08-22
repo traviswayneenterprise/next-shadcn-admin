@@ -69,7 +69,7 @@ const SidebarMenuLink = ({ item, pathname }: { item: NavLink; pathname: string }
         isActive={checkIsActive(pathname, item)}
         tooltip={item.title}
       >
-        <Link href={item.url} onClick={() => setOpenMobile(false)} className="flex items-center gap-3">
+        <Link href={item.url as '/'} onClick={() => setOpenMobile(false)} className="flex items-center gap-3">
           {item.icon && <item.icon className="h-4 w-4" />}
           <span>{item.title}</span>
           {item.badge && <NavBadge>{item.badge}</NavBadge>}
@@ -110,7 +110,7 @@ const SidebarMenuCollapsible = ({
                   asChild
                   isActive={checkIsActive(pathname, subItem)}
                 >
-                  <Link href={subItem.url} onClick={() => setOpenMobile(false)} className="flex items-center gap-3">
+                  <Link href={subItem.url as '/'} onClick={() => setOpenMobile(false)} className="flex items-center gap-3">
                     {subItem.icon && <subItem.icon className="h-4 w-4" />}
                     <span>{subItem.title}</span>
                     {subItem.badge && <NavBadge>{subItem.badge}</NavBadge>}
@@ -155,7 +155,7 @@ const SidebarMenuCollapsedDropdown = ({
           {item.items.map((sub) => (
             <DropdownMenuItem key={`${sub.title}-${sub.url}`} asChild>
               <Link
-                href={sub.url}
+                href={sub.url as '/'}
                 className={`flex items-center gap-3 ${checkIsActive(pathname, sub) ? 'bg-secondary' : ''}`}
               >
                 {sub.icon && <sub.icon className="h-4 w-4" />}

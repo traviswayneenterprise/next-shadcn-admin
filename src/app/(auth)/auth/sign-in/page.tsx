@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { UserAuthForm } from '../components/user-auth-form'
 
@@ -15,20 +16,23 @@ export default function SignIn() {
       </div>
       <UserAuthForm />
       <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
+        Don&apos;t have an account?{' '}
+        <Link
+          href='/auth/sign-up'
+          className='underline underline-offset-4 hover:text-primary font-medium text-foreground'
+        >
+          Sign up
+        </Link>
+      </p>
+      <p className='mt-2 px-8 text-center text-xs text-muted-foreground'>
         By clicking login, you agree to our{' '}
-        <a
-          href='/terms'
-          className='underline underline-offset-4 hover:text-primary'
-        >
+        <span className='underline underline-offset-4 hover:text-primary cursor-pointer'>
           Terms of Service
-        </a>{' '}
+        </span>{' '}
         and{' '}
-        <a
-          href='/privacy'
-          className='underline underline-offset-4 hover:text-primary'
-        >
+        <span className='underline underline-offset-4 hover:text-primary cursor-pointer'>
           Privacy Policy
-        </a>
+        </span>
         .
       </p>
     </Card>

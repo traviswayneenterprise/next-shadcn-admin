@@ -1,11 +1,11 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { Message, Conversation, conversationSchema, messageSchema } from './data/schema'
+import { messageSchema } from './data/schema'
 import { conversations } from './data/convo.json'
 
 // メモリ内データストア
-let conversationsData = conversations
+const conversationsData = conversations
 
 export async function getConversations() {
   return conversationsData

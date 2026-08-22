@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { apps as initialApps } from './data/apps'
-import { App, appSchema } from './data/schema'
+import { App } from './data/schema'
 
 // メモリ内でのデータ管理（実際のアプリケーションではデータベースを使用する）
-let apps = initialApps.map((app, index) => ({
+const apps = initialApps.map((app, index) => ({
   ...app,
   id: `APP-${index + 1}`,
 }))

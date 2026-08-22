@@ -34,7 +34,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
             {links.map(({ title, href, isActive, disabled }) => (
               <DropdownMenuItem key={`${title}-${href}`} asChild>
                 <Link
-                  href={href}
+                  href={href as '/'}
                   className={cn(
                     'w-full',
                     isActive ? 'text-foreground' : 'text-muted-foreground'
@@ -59,7 +59,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
         {links.map(({ title, href, isActive, disabled }) => (
           <Link
             key={`${title}-${href}`}
-            href={href}
+            href={href as '/'}
             aria-disabled={disabled}
             className={cn(
               'text-sm font-medium transition-colors',
