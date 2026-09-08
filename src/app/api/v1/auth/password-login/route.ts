@@ -2,7 +2,8 @@ import { verify } from "argon2";
 import { z } from "zod";
 
 import { apiError, apiSuccess } from "@/lib/api/response";
-import { sessionCookieName, sessionCookieOptions } from "@/lib/auth/cookie";
+import { csrfCookieName, csrfCookieOptions, sessionCookieName, sessionCookieOptions } from "@/lib/auth/cookie";
+import { generateCsrfToken } from "@/lib/auth/csrf";
 import { createDatabaseSession, PASSWORD_SESSION_TTL_SECONDS } from "@/lib/auth/password-session";
 import { prisma } from "@/lib/db";
 import { enforceAuthRateLimit, recordAuthEvent } from "@/lib/auth/request-security";
@@ -68,6 +69,11 @@ export async function POST(request: Request) {
   }, { correlationId: rateLimit.context.correlationId });
   response.cookies.set(sessionCookieName, session.sessionToken, {
     ...sessionCookieOptions,
+    maxAge: PASSWORD_SESSION_TTL_SECONDS,
+    expires: session.expires,
+  });
+  response.cookies.set(csrfCookieName, generateCsrfToken(), {
+    ...csrfCookieOptions,
     maxAge: PASSWORD_SESSION_TTL_SECONDS,
     expires: session.expires,
   });

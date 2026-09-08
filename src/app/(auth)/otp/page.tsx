@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { OtpForm } from './components/otp-form'
@@ -15,7 +16,9 @@ export default function Otp() {
           Please enter your email and verification code below to activate your account.
         </p>
       </div>
-      <OtpForm />
+      <Suspense fallback={null}>
+        <OtpForm />
+      </Suspense>
       <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
         Already verified?{' '}
         <Link

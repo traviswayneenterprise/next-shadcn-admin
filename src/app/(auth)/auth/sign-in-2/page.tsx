@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { UserAuthForm } from '../components/user-auth-form'
@@ -58,7 +59,9 @@ export default function SignIn2() {
               to log into your account
             </p>
           </div>
-          <UserAuthForm />
+          <Suspense fallback={null}>
+            <UserAuthForm />
+          </Suspense>
           <p className='px-8 text-center text-sm text-muted-foreground'>
             Don&apos;t have an account?{' '}
             <Link

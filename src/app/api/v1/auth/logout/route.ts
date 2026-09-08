@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { apiSuccess } from "@/lib/api/response";
-import { sessionCookieName, sessionCookieOptions } from "@/lib/auth/cookie";
+import { csrfCookieName, csrfCookieOptions, sessionCookieName, sessionCookieOptions } from "@/lib/auth/cookie";
 import { hashToken } from "@/lib/auth/password-session";
 import { prisma } from "@/lib/db";
 
@@ -20,6 +20,11 @@ export async function POST() {
   const response = apiSuccess({ loggedOut: true });
   response.cookies.set(sessionCookieName, "", {
     ...sessionCookieOptions,
+    maxAge: 0,
+    expires: new Date(0),
+  });
+  response.cookies.set(csrfCookieName, "", {
+    ...csrfCookieOptions,
     maxAge: 0,
     expires: new Date(0),
   });

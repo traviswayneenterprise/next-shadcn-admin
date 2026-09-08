@@ -1,92 +1,39 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
-import { User, userSchema } from './data/schema'
+import { User } from './data/schema'
 import { users } from './data/users'
 
-// Get all users
-export async function getUsers() {
+// This is starter-kit demo scaffolding: `users` here is a static in-memory
+// array, not the authoritative Prisma User model, and there is no
+// /api/v1 staff-user-administration endpoint yet (staff RBAC is planned but
+// unimplemented). Per the Week 1 baseline audit's own component decision
+// ("false affordances are unsafe in an authoritative staff application"),
+// the read below still shows placeholder rows for layout/testing, but writes
+// fail honestly instead of mutating an array that will not persist across
+// requests or deployments. Wire these to real backend endpoints when staff
+// user administration is implemented.
+
+export async function getUsers(): Promise<User[]> {
   return users
 }
 
-// Create new user
-export async function createUser(formData: FormData) {
-  const rawData = {
-    id: `USER-${Math.floor(Math.random() * 10000)}`,
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-    username: formData.get('username'),
-    email: formData.get('email'),
-    phoneNumber: formData.get('phoneNumber'),
-    role: formData.get('role'),
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  }
-
-  const validatedData = userSchema.parse(rawData)
-  users.push(validatedData)
-  
-  revalidatePath('/users')
-  return { message: 'User created successfully' }
+export async function createUser(formData: FormData): Promise<never> {
+  void formData
+  throw new Error('User administration is not implemented yet.')
 }
 
-// Update user
-export async function updateUser(id: string, formData: FormData) {
-  const index = users.findIndex(user => user.id === id)
-  if (index === -1) {
-    throw new Error('User not found')
-  }
-
-  const rawData = {
-    ...users[index],
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-    username: formData.get('username'),
-    email: formData.get('email'),
-    phoneNumber: formData.get('phoneNumber'),
-    role: formData.get('role'),
-    updatedAt: new Date().toISOString(),
-  }
-
-  const validatedData = userSchema.parse(rawData)
-  users[index] = validatedData
-  
-  revalidatePath('/users')
-  return { message: 'User updated successfully' }
+export async function updateUser(id: string, formData: FormData): Promise<never> {
+  void id
+  void formData
+  throw new Error('User administration is not implemented yet.')
 }
 
-// Delete user
-export async function deleteUser(id: string) {
-  const index = users.findIndex(user => user.id === id)
-  if (index === -1) {
-    throw new Error('User not found')
-  }
-
-  users.splice(index, 1)
-  
-  revalidatePath('/users')
-  return { message: 'User deleted successfully' }
+export async function deleteUser(id: string): Promise<never> {
+  void id
+  throw new Error('User administration is not implemented yet.')
 }
 
-// Invite user
-export async function inviteUser(formData: FormData) {
-  const rawData = {
-    id: `USER-${Math.floor(Math.random() * 10000)}`,
-    firstName: '',
-    lastName: '',
-    username: formData.get('email')?.toString().split('@')[0] || '',
-    email: formData.get('email'),
-    phoneNumber: '',
-    role: formData.get('role'),
-    status: 'invited',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  }
-
-  const validatedData = userSchema.parse(rawData)
-  users.push(validatedData)
-  
-  revalidatePath('/users')
-  return { message: 'User invited successfully' }
+export async function inviteUser(formData: FormData): Promise<never> {
+  void formData
+  throw new Error('User administration is not implemented yet.')
 }

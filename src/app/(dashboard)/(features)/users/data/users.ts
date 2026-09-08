@@ -1,4 +1,6 @@
-export const users = [
+import { User } from './schema'
+
+export const users: User[] = [
   {
     id: "1",
     firstName: "John",

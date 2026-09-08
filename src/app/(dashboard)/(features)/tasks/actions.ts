@@ -1,75 +1,34 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
-import { Task, taskSchema } from './data/schema'
+import { Task } from './data/schema'
 
-// メモリ内データストア（実際のアプリケーションではデータベースを使用）
-let tasks: Task[] = []
+// This starter-kit demo feature has no LMS domain equivalent (no Task model
+// in prisma/schema.prisma, no /api/v1 route) and previously seeded 100
+// faker-generated rows into a module-level array on every server start,
+// which also does not persist correctly across serverless invocations. Per
+// the Week 1 baseline audit's own component decision ("Remove or isolate:
+// demo chats/tasks, fake mutations ... false affordances are unsafe in an
+// authoritative staff application"), reads now return no rows and writes
+// fail honestly instead of pretending to succeed against fake in-memory
+// state. Replace this whole feature with real Track/Course/curriculum
+// management, or remove the /tasks route entirely, when that domain lands.
 
-export async function getTasks() {
-  return tasks
+export async function getTasks(): Promise<Task[]> {
+  return []
 }
 
-export async function createTask(formData: FormData) {
-  const rawData = {
-    id: `TASK-${Math.floor(Math.random() * 10000)}`,
-    title: formData.get('title'),
-    status: formData.get('status'),
-    label: formData.get('label'),
-    priority: formData.get('priority'),
-  }
-
-  const validatedData = taskSchema.parse(rawData)
-  tasks.push(validatedData)
-  
-  revalidatePath('/tasks')
-  return { message: 'Task created successfully' }
+export async function createTask(formData: FormData): Promise<never> {
+  void formData
+  throw new Error('Task management is not implemented yet.')
 }
 
-export async function updateTask(taskId: string, formData: FormData) {
-  const rawData = {
-    id: taskId,
-    title: formData.get('title'),
-    status: formData.get('status'),
-    label: formData.get('label'),
-    priority: formData.get('priority'),
-  }
-
-  const validatedData = taskSchema.parse(rawData)
-  const index = tasks.findIndex(task => task.id === taskId)
-  
-  if (index === -1) {
-    throw new Error('Task not found')
-  }
-
-  tasks[index] = validatedData
-  revalidatePath('/tasks')
-  return { message: 'Task updated successfully' }
+export async function updateTask(taskId: string, formData: FormData): Promise<never> {
+  void taskId
+  void formData
+  throw new Error('Task management is not implemented yet.')
 }
 
-export async function deleteTask(taskId: string) {
-  const index = tasks.findIndex(task => task.id === taskId)
-  
-  if (index === -1) {
-    throw new Error('Task not found')
-  }
-
-  tasks.splice(index, 1)
-  revalidatePath('/tasks')
-  return { message: 'Task deleted successfully' }
+export async function deleteTask(taskId: string): Promise<never> {
+  void taskId
+  throw new Error('Task management is not implemented yet.')
 }
-
-// 初期データのロード
-import { faker } from '@faker-js/faker'
-
-const statuses = ['in progress', 'backlog', 'todo', 'canceled', 'done'] as const
-const labels = ['documentation', 'feature', 'bug'] as const
-const priorities = ['high', 'medium', 'low'] as const
-
-tasks = Array.from({ length: 100 }, () => ({
-  id: `TASK-${faker.number.int({ min: 1000, max: 9999 })}`,
-  title: faker.hacker.phrase(),
-  status: faker.helpers.arrayElement(statuses),
-  label: faker.helpers.arrayElement(labels),
-  priority: faker.helpers.arrayElement(priorities),
-}))

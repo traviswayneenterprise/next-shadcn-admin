@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  # Client generation, schema validation, build, and the unit tests below are
+  # all pure/offline; none of them need a reachable database or provider
+  # secrets. prisma.config.ts already falls back to a placeholder URL, but
+  # src/lib/db.ts constructs a real Prisma adapter at module load (imported
+  # by every route during Next's page-data-collection build step), so
+  # DATABASE_URL must at least be present and syntactically valid here too.
+  NODE_ENV: test
+  LEARNER_ORIGIN: http://localhost:3000
+  DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/twe_lms
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.21.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm db:validate
+      - run: pnpm test
+      - run: pnpm build

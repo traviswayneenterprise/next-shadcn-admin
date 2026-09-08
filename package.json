@@ -25,8 +25,8 @@
     "api:client": "pnpm api:types && pnpm api:bundle && pnpm --dir packages/api-client build",
     "api:pack": "pnpm api:client && pnpm --dir packages/api-client pack",
     "api:check": "pnpm api:lint && pnpm api:client && git diff --exit-code -- src/generated/api/schema.d.ts packages/api-client/src/schema.ts packages/api-client/openapi.json",
-    "test:auth": "node --experimental-strip-types --test tests/auth-origin.test.ts",
-    "check": "pnpm lint && pnpm typecheck && pnpm db:validate && pnpm api:check"
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "check": "pnpm lint && pnpm typecheck && pnpm db:validate && pnpm api:check && pnpm test"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.883.0",
