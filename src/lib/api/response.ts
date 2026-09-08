@@ -26,6 +26,18 @@ export function apiSuccess<T>(data: T, init?: ResponseInit & { correlationId?: s
   );
 }
 
+export function apiSuccessPage<T>(
+  data: T,
+  page: { nextCursor: string | null; hasMore: boolean },
+  init?: ResponseInit & { correlationId?: string },
+) {
+  const { correlationId, ...responseInit } = init ?? {};
+  return NextResponse.json(
+    { data, page, meta: metadata(correlationId) },
+    responseInit,
+  );
+}
+
 export function apiError(
   status: number,
   code: ApiErrorCode,
