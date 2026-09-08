@@ -1,6 +1,6 @@
 {
   "name": "@traviswayneenterprise/lms-api-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Versioned TypeScript client and OpenAPI types for the TWE Learning API v1.",
   "license": "UNLICENSED",
   "type": "module",
