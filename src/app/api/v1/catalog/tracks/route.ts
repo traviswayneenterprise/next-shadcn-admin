@@ -1,4 +1,4 @@
-import { apiSuccess } from "@/lib/api/response";
+import { apiSuccessPage } from "@/lib/api/response";
 import { prisma } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -19,10 +19,8 @@ export async function GET(request: Request) {
     ...track,
     imageUrl: imageAsset?.key ?? null,
   }));
-  return apiSuccess(data, {
-    headers: {
-      "X-Next-Cursor": hasMore ? data.at(-1)?.id ?? "" : "",
-      "X-Has-More": String(hasMore),
-    },
+  return apiSuccessPage(data, {
+    nextCursor: hasMore ? (data.at(-1)?.id ?? null) : null,
+    hasMore,
   });
 }

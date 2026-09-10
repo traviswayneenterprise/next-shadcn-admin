@@ -288,6 +288,26 @@ paths:
                     properties:
                       data: { $ref: "#/components/schemas/CheckoutSession" }
         "409": { $ref: "#/components/responses/Conflict" }
+  /checkout-sessions/{paymentId}:
+    get:
+      summary: Get checkout/payment status, reconciling with Paystack if still pending
+      tags: [Commerce]
+      operationId: getCheckoutSession
+      parameters:
+        - $ref: "#/components/parameters/PaymentId"
+      responses:
+        "200":
+          description: Current payment status.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/PaymentStatusDetail" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
   /payments/paystack/webhook:
     post:
       summary: Receive a Paystack payment event
@@ -328,6 +348,11 @@ components:
       schema: { type: string, minLength: 16, maxLength: 200 }
     TrackSlug:
       name: trackSlug
+      in: path
+      required: true
+      schema: { type: string }
+    PaymentId:
+      name: paymentId
       in: path
       required: true
       schema: { type: string }
@@ -481,8 +506,9 @@ components:
           type: array
           items:
             type: object
-            required: [currency, amount]
+            required: [id, currency, amount]
             properties:
+              id: { type: string }
               currency: { type: string, enum: [NGN, USD] }
               amount: { type: integer, minimum: 0, description: Integer currency subunits. }
               enabled: { type: boolean }
@@ -500,3 +526,13 @@ components:
         paymentId: { type: string }
         authorizationUrl: { type: string, format: uri }
         expiresAt: { type: string, format: date-time }
+    PaymentStatusDetail:
+      type: object
+      required: [paymentId, status, amount, currency]
+      properties:
+        paymentId: { type: string }
+        status: { type: string, enum: [PENDING, SUCCEEDED, FAILED, CANCELLED, REFUNDED, DISPUTED, CHARGEBACK] }
+        amount: { type: integer, minimum: 0, description: Integer currency subunits. }
+        currency: { type: string, enum: [NGN, USD] }
+        expiresAt: { type: [string, "null"], format: date-time }
+        paidAt: { type: [string, "null"], format: date-time }
