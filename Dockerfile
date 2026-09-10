@@ -5,7 +5,9 @@ RUN corepack enable
 
 FROM base AS dependencies
 WORKDIR /app
-COPY package.json pnpm-lock.yaml .npmrc ./
+# postinstall runs `prisma generate`, which needs the schema present.
+COPY package.json pnpm-lock.yaml .npmrc prisma.config.ts ./
+COPY prisma ./prisma
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
@@ -13,6 +15,12 @@ WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# Build-time only: the Prisma client is constructed eagerly at module load,
+# so `next build` needs a syntactically valid DATABASE_URL even though no
+# query runs during the build. The real value is supplied at container
+# runtime, not baked into the image.
+ARG DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/twe_lms
+ENV DATABASE_URL=$DATABASE_URL
 RUN pnpm build
 
 FROM node:22-alpine AS runner
