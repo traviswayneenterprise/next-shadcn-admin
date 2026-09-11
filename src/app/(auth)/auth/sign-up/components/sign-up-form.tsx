@@ -94,7 +94,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         description: 'Please check your email or enter your verification code.',
       })
 
-      router.push(`/otp?email=${encodeURIComponent(data.email)}` as '/otp')
+      router.push(`/auth/otp?email=${encodeURIComponent(data.email)}` as '/auth/otp')
     } catch {
       setErrorMessage('An unexpected network error occurred.')
       toast({

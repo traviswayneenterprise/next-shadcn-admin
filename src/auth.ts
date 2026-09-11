@@ -20,8 +20,8 @@ export const { handlers, auth } = NextAuth({
     },
   },
   pages: {
-    signIn: `${env.LEARNER_ORIGIN}/login`,
-    error: `${env.LEARNER_ORIGIN}/login`,
+    signIn: `${env.LEARNER_ORIGIN}/auth/login`,
+    error: `${env.LEARNER_ORIGIN}/auth/login`,
   },
   callbacks: {
     session({ session, user }) {

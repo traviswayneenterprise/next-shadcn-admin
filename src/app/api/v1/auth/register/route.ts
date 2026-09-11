@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     });
   });
 
-  const verificationUrl = new URL("/verify-email", env.LEARNER_ORIGIN);
+  const verificationUrl = new URL("/auth/verify-email", env.LEARNER_ORIGIN);
   verificationUrl.searchParams.set("token", verificationToken);
   verificationUrl.searchParams.set("email", parsed.data.email);
 
