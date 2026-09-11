@@ -89,14 +89,6 @@ export const sidebarData: SidebarData = {
               url: '/auth/sign-in',
             },
             {
-              title: 'Sign In (2 Col)',
-              url: '/auth/sign-in-2',
-            },
-            {
-              title: 'Sign Up',
-              url: '/auth/sign-up',
-            },
-            {
               title: 'Forgot Password',
               url: '/auth/forgot-password',
             },
