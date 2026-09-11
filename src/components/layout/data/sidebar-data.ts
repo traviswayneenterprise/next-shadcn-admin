@@ -94,15 +94,15 @@ export const sidebarData: SidebarData = {
             },
             {
               title: 'Sign Up',
-              url: '/sign-up',
+              url: '/auth/sign-up',
             },
             {
               title: 'Forgot Password',
-              url: '/forgot-password',
+              url: '/auth/forgot-password',
             },
             {
               title: 'OTP',
-              url: '/otp',
+              url: '/auth/otp',
             },
           ],
         },

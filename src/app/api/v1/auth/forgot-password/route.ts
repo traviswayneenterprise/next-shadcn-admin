@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       }),
     ]);
 
-    const resetUrl = new URL("/reset-password", env.LEARNER_ORIGIN);
+    const resetUrl = new URL("/auth/reset-password", env.LEARNER_ORIGIN);
     resetUrl.searchParams.set("token", token);
     resetUrl.searchParams.set("email", user.email);
     await sendTransactionalEmail({
