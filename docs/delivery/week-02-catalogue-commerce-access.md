@@ -11,6 +11,34 @@ Deliver the first complete business vertical: published catalogue, self-paced an
 
 By Friday, a learner can discover an offering, pay in NGN, survive duplicate or out-of-order webhooks, receive exactly one entitlement, and see the access in the dashboard.
 
+## Actual delivery status (solo, recorded 2026-09-12)
+
+The two-person day-by-day split below no longer applies; work proceeded
+solo. Monday through Wednesday's scope is complete and verified against a
+real Neon database and a real Paystack test key, not just built:
+
+- **Monday (contract):** `docs/openapi/lms-v1.yaml` defines `CheckoutInput`,
+  `CheckoutSession`, and `PaymentStatusDetail`; `PaymentStatus` covers
+  PENDING/SUCCEEDED/FAILED/CANCELLED/REFUNDED/DISPUTED/CHARGEBACK; idempotency
+  is a database constraint (`Payment.idempotencyKey`, `providerReference`
+  both unique), not just a convention.
+- **Tuesday (catalogue/checkout):** published-track/offering endpoints,
+  immutable NGN prices, cohort capacity checks, pending-payment persistence,
+  and Paystack transaction initialization are implemented and covered by the
+  learner-frontend pricing/checkout UI.
+- **Wednesday (webhook/entitlement):** signed webhook persistence, direct
+  Paystack re-verification (never trusting the webhook payload alone),
+  transactional entitlement grants, and replay protection (dedup by
+  `PaymentEvent.providerEventId`) are implemented; `GET
+  /checkout-sessions/{paymentId}` additionally reconciles directly with
+  Paystack when a payment is still PENDING, covering delayed/lost webhooks.
+  The learner-frontend redirect-return page polls this endpoint through
+  pending/success/failed/cancelled/reversed states.
+
+Thursday and Friday's scope (refunds, confirmed chargebacks, manual grants,
+payment history/audit, commerce admin views, and the final acceptance pass)
+had not started as of this recording.
+
 ## Assigned weekly deliverables
 
 ### Travis — technical deliverables
