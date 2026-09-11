@@ -48,7 +48,12 @@ export async function POST(request: Request) {
       to: user.email,
       subject: "Reset your TWE Learning password",
       html: `<p><a href="${resetUrl.toString()}">Reset your password</a>. This link expires in one hour.</p>`,
-    }).catch(() => undefined);
+    }).catch((error) => {
+      // Intentionally still respond as accepted either way - this endpoint
+      // must not reveal delivery outcomes to the caller - but a delivery
+      // failure should not disappear from the server logs entirely.
+      console.error(`[${rateLimit.context.correlationId}] AUTH_PASSWORD_RESET email failed:`, error);
+    });
   }
 
   await recordAuthEvent({
