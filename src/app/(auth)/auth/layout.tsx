@@ -1,19 +1,8 @@
-'use client'
-
-import { usePathname } from 'next/navigation'
-
 interface Props {
   children: React.ReactNode
 }
 
 export default function AuthLayout({ children }: Props) {
-  const pathname = usePathname()
-  const isSignIn2 = pathname === '/auth/sign-in-2'
-
-  if (isSignIn2) {
-    return <div className="relative min-h-screen overflow-hidden">{children}</div>
-  }
-
   return (
     <div className='container grid h-svh flex-col items-center justify-center bg-primary-foreground lg:max-w-none lg:px-0'>
       <div className='mx-auto flex w-full flex-col justify-center space-y-2 sm:w-[480px] lg:p-8'>
