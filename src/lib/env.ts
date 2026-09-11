@@ -26,6 +26,7 @@ const schema = z.object({
   META_WHATSAPP_PHONE_NUMBER_ID: z.string().optional(),
   EMAIL_FROM: z.string().default("TWE Learning <learning@example.com>"),
   TRIGGER_SECRET_KEY: z.string().optional(),
+  INTERNAL_DOCS_TOKEN: z.string().optional(),
 });
 
 export const env = schema.parse(process.env);
