@@ -61,9 +61,13 @@ export async function POST(request: Request) {
       data: { usedAt: new Date() },
     });
     if (consumed.count !== 1) return false;
-    await transaction.credential.update({
+    // upsert, not update: accounts created without a password yet (Google
+    // OAuth sign-ups, or seeded accounts like the bootstrap Owner) have no
+    // Credential row - "reset" is also how they set a password the first time.
+    await transaction.credential.upsert({
       where: { userId: resetToken.userId },
-      data: { passwordHash },
+      create: { userId: resetToken.userId, passwordHash },
+      update: { passwordHash },
     });
     await transaction.session.updateMany({
       where: { userId: resetToken.userId, revokedAt: null },
