@@ -76,7 +76,11 @@ export async function POST(request: Request) {
       subject: "Verify your TWE Learning account",
       html: `<p>Welcome to TWE Learning.</p><p><a href="${verificationUrl.toString()}">Verify your email address</a>. This link expires in 24 hours.</p>`,
     });
-  } catch {
+  } catch (error) {
+    console.error(
+      `[${rateLimit.context.correlationId}] AUTH_REGISTER verification email failed:`,
+      error,
+    );
     await recordAuthEvent({
       context: rateLimit.context,
       type: "AUTH_REGISTER",
