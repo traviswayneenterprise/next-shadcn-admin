@@ -11,6 +11,132 @@ Complete the versioned page-builder pipeline, R2 asset handling, curriculum impo
 
 By Friday, every source folder imports deterministically as a validated draft, staff can review and publish content, and learners can navigate one complete track without treating lab-local state as LMS progress.
 
+## Monday: content contract — decisions recorded 2026-09-12
+
+Solo work; both deliverable columns below are one person's decisions. Block
+schema and publication rules are covered in `docs/content/block-schema.md`
+and ADR 0002; this section covers the rest of Monday's procedure, grounded
+against the real `Software-Dev-2026` source (48 `Lesson N/` folders, each
+with `notes/`, `exercises/`, optionally `assignments/` and `examples/`).
+
+### Source-to-block mapping
+
+| Source pattern | Maps to |
+| --- | --- |
+| Markdown heading (`##`/`###`) | `heading` (level 2/3; the lesson's own title is never re-declared as an in-body `h1`) |
+| Prose paragraph, bold/italic/inline-code/links | `paragraph` (rich text spans) |
+| Bulleted/numbered list, one level of sub-bullets | `list` |
+| Markdown table | `table` |
+| Fenced code block (` ```html `, ` ```javascript `, ...) | `code`, `data.language` from the fence tag |
+| `**Goal:**` / `*Tip:*` / `**Challenge:**` / warning-style callouts | `callout`, tone `info` (goal/tip) or `warning` |
+| `examples/*.html` standalone interactive pages (e.g. `html-simulator-lab/index.html`) | uploaded to R2 as an `Asset`, referenced by a `lab` block |
+| `assignments/assignment_brief.md` | becomes an `Assignment.instructions` document (same block schema, not inline lesson blocks) - the lesson body gets a `submissionPrompt` or `assignment` block pointing at it |
+| `exercises/*.md` | lesson-body content (paragraph/list/callout/code blocks), not a separate `Assignment` record - exercises are practice, not graded submissions |
+| `notes/tutor_notes.md` | staff-only reference, not imported into the learner-facing document at all |
+
+### Import report format
+
+One JSON report per import run, one entry per source folder:
+
+```ts
+type ImportReport = {
+  runId: string;
+  startedAt: string;
+  folders: Array<{
+    sourcePath: string;        // e.g. "Lesson 10/"
+    lessonSlug: string;
+    outcome: "imported" | "unchanged" | "failed";
+    warnings: Array<{ code: string; message: string; sourceFile?: string }>;
+    unsupported: Array<{ sourceFile: string; reason: string }>; // content dropped is always named here, never silently discarded
+    assets: Array<{ sourceFile: string; assetId?: string; status: "uploaded" | "failed"; error?: string }>;
+  }>;
+};
+```
+
+Reruns are idempotent and resumable: each folder's identity is its source
+path (stored on the `Lesson`/`LessonVersion` via import metadata), so a
+rerun updates the same draft lesson rather than creating a duplicate.
+
+### R2 asset rules
+
+- Bucket/key shape: `lessons/{lessonId}/{assetId}.{ext}` for imported lesson
+  assets; `labs/{assetId}/` (a small static bundle, not a single file) for
+  interactive lab pages.
+- Allowed content types: `image/{png,jpeg,webp,gif,svg+xml}`, `text/html`
+  (labs only, served with a restrictive CSP - see below), `application/javascript`
+  and `text/css` (lab bundle siblings only, never referenced standalone).
+- Size limits: 10 MB per image, 25 MB per lab bundle.
+- Ownership: every `Asset.uploadedById` is the importer's system actor or
+  the staff member who uploaded it; only that actor or `content.publish`
+  staff can replace/archive it.
+- Access: lesson images are public-read (served from `R2_PUBLIC_ASSET_ORIGIN`);
+  lab bundles are public-read but served from a separate subdomain/origin so
+  they never share an origin with the LMS app (see CSP model).
+- Uploads never overwrite an existing key; a re-import that changes an
+  asset's bytes gets a new `assetId` and the old one is archived, not deleted
+  (published lesson versions may still reference it).
+
+### Progression contract
+
+- `LessonProgress.status` (`LOCKED`/`AVAILABLE`/`IN_PROGRESS`/`COMPLETED`) is
+  the single source of truth; there is no separate prerequisite graph.
+  Unlock rule: lesson N+1 (by `order`, within a module, then across modules
+  in course order) becomes `AVAILABLE` when lesson N reaches `COMPLETED`.
+  The first lesson of a track is `AVAILABLE` on enrollment.
+- `CohortRelease` additionally gates a lesson behind a `releaseAt` date for
+  managed-cohort offerings: a lesson otherwise `AVAILABLE` by sequence still
+  reads as `LOCKED` to the learner until `releaseAt` passes. Self-paced
+  offerings have no `CohortRelease` rows and are gated by sequence alone.
+- Enforced authoritatively server-side (progress-mutation endpoints check
+  both rules before accepting a "start"/"complete" action); the frontend
+  reflects state, it does not decide it - direct URL access to a `LOCKED`
+  lesson's route must still be rejected server-side.
+
+### CSP and lab-sandbox model
+
+- Labs render in an `<iframe>` pointed at a dedicated lab origin (a
+  subdomain distinct from both the admin and learner app origins), never
+  same-origin, so a compromised/malicious lab page cannot read/write LMS
+  cookies or the parent DOM.
+- Iframe attributes: `sandbox="allow-scripts allow-forms"` only - no
+  `allow-same-origin` (keeps the lab's own storage/cookies isolated from
+  everything else) and no `allow-top-navigation`/`allow-popups`.
+- The lab origin's own response CSP: `default-src 'self'; script-src 'self'
+  'unsafe-inline'; style-src 'self' 'unsafe-inline'; frame-ancestors
+  <learner-app-origin>` (labs are static single-purpose pages; the source
+  material's inline `<script>` tags are the reason `unsafe-inline` is scoped
+  to that isolated origin only, never to the LMS app's own CSP).
+- The LMS app's own CSP forbids `unsafe-inline` and only allows framing the
+  dedicated lab origin (`frame-src <lab-origin>`).
+- If a lab needs to report state back (e.g. "exercise complete"), it does so
+  via `postMessage`, and the parent validates both the exact origin and a
+  registered message schema before trusting it - never a bare
+  `event.data` read.
+
+### UI flow map
+
+- **Editor:** select lesson -> load latest `LessonVersion` (draft or a new
+  draft forked from the current published one) -> block list with
+  add/reorder/edit-in-place per block type -> inline Zod validation errors
+  surface per block, not just on save -> preview pane renders the same
+  block renderers learners see -> publish action only enabled when
+  validation passes.
+- **Lesson renderer (learner):** resolve current published `LessonVersion`
+  -> render blocks in order via a per-type renderer registry -> unknown
+  block type/version renders a safe "content unavailable" placeholder, never
+  a crash or raw JSON.
+- **Navigation:** module/lesson tree with lock icons from
+  `LessonProgress.status`; clicking a `LOCKED` lesson explains why (sequence
+  or release date) rather than 404ing silently.
+- **Lab:** lesson renderer's `lab` block mounts the sandboxed iframe lazily
+  (on scroll-into-view) pointed at the lab origin; a loading and a
+  failed-to-load state are both explicit.
+- **Manual review (staff):** a queue of `LessonVersion`s filtered by
+  `reviewStatus = PENDING`, one lesson at a time, with the same preview
+  renderer as the editor plus an approve / needs-correction action that
+  writes `reviewStatus` and an audit event - review is separate from
+  publish, so an `APPROVED` lesson still requires an explicit publish action.
+
 ## Assigned weekly deliverables
 
 ### Travis — technical deliverables
