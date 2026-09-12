@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 import { verifyPaystackTransaction } from "@/lib/payments/paystack";
 import { grantPaymentEntitlement } from "@/domain/commerce/entitlements";
 
@@ -26,7 +26,7 @@ export async function reconcilePayment(paymentId: string) {
       });
       await grantPaymentEntitlement(transaction, payment.id);
       return updated;
-    });
+    }, TRANSACTION_OPTIONS);
   }
 
   if (verified.status === "failed" || verified.status === "abandoned") {

@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { grantPaymentEntitlement, revokePaymentEntitlements } from "@/domain/commerce/entitlements";
 import { apiError, apiSuccess } from "@/lib/api/response";
 import { recordAuditEvent } from "@/lib/audit";
-import { prisma } from "@/lib/db";
+import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 import { verifyPaystackSignature, verifyPaystackTransaction } from "@/lib/payments/paystack";
 
 export const runtime = "nodejs";
@@ -31,6 +31,16 @@ export async function POST(request: Request) {
 
   try {
     if (payload.event === "charge.success") {
+      // A duplicate delivery of an already-processed event is caught above by
+      // providerEventId dedup. This guards a different case: Paystack retrying
+      // an *undelivered* charge.success (e.g. after our server errored) once the
+      // payment has already moved on - most dangerously, after a chargeback. A
+      // stale success replay must never re-grant access once a payment is no
+      // longer PENDING.
+      if (payment.status !== "PENDING") {
+        await prisma.paymentEvent.update({ where: { id: event.id }, data: { status: "IGNORED", processedAt: new Date() } });
+        return apiSuccess({ received: true, ignored: "payment is no longer pending" });
+      }
       const verified = await verifyPaystackTransaction(payment.providerReference);
       if (verified.status !== "success" || verified.amount !== payment.amount || verified.currency !== payment.currency) {
         throw new Error("Verified Paystack transaction does not match the payment quote.");
@@ -42,8 +52,15 @@ export async function POST(request: Request) {
         });
         await grantPaymentEntitlement(transaction, payment.id);
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
-      });
+      }, TRANSACTION_OPTIONS);
     } else if (payload.event === "charge.dispute.create") {
+      // A dispute can only exist on an already-successful charge. If ours
+      // isn't SUCCEEDED yet, the events arrived out of order; drop this one
+      // rather than corrupt a PENDING/FAILED payment's state.
+      if (payment.status !== "SUCCEEDED") {
+        await prisma.paymentEvent.update({ where: { id: event.id }, data: { status: "IGNORED", processedAt: new Date() } });
+        return apiSuccess({ received: true, ignored: "payment is not in a disputable state" });
+      }
       await prisma.$transaction(async (transaction) => {
         await transaction.payment.update({ where: { id: payment.id }, data: { status: "DISPUTED" } });
         await recordAuditEvent(
@@ -57,9 +74,13 @@ export async function POST(request: Request) {
           transaction,
         );
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
-      });
+      }, TRANSACTION_OPTIONS);
     } else if (["refund.processed", "charge.dispute.resolve"].includes(payload.event)) {
       const isChargeback = payload.event === "charge.dispute.resolve";
+      if (payment.status !== "SUCCEEDED" && payment.status !== "DISPUTED") {
+        await prisma.paymentEvent.update({ where: { id: event.id }, data: { status: "IGNORED", processedAt: new Date() } });
+        return apiSuccess({ received: true, ignored: "payment is not in a reversible state" });
+      }
       await prisma.$transaction(async (transaction) => {
         await transaction.payment.update({ where: { id: payment.id }, data: { status: isChargeback ? "CHARGEBACK" : "REFUNDED" } });
         await revokePaymentEntitlements(transaction, payment.id, `Paystack event: ${payload.event}`);
@@ -74,7 +95,7 @@ export async function POST(request: Request) {
           transaction,
         );
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
-      });
+      }, TRANSACTION_OPTIONS);
     } else {
       await prisma.paymentEvent.update({ where: { id: event.id }, data: { status: "IGNORED", processedAt: new Date() } });
     }
