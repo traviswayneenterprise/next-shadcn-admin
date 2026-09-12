@@ -2,10 +2,8 @@ import { z } from "zod";
 
 import { apiError, apiSuccess } from "@/lib/api/response";
 import { authorizationErrorResponse, requirePermission } from "@/lib/auth/authorize";
-import { recordAuditEvent } from "@/lib/audit";
-import { prisma } from "@/lib/db";
 import { getRequestSecurityContext } from "@/lib/auth/request-security";
-import { refundPaystackTransaction } from "@/lib/payments/paystack";
+import { initiateRefund, RefundError } from "@/domain/commerce/refunds";
 
 export const runtime = "nodejs";
 
@@ -26,47 +24,18 @@ export async function POST(
   if (!parsed.success) return apiError(400, "BAD_REQUEST", "A refund reason is required.");
 
   const { paymentId } = await context.params;
-  const payment = await prisma.payment.findUnique({ where: { id: paymentId } });
-  if (!payment) return apiError(404, "NOT_FOUND", "Payment not found.");
-  if (payment.status !== "SUCCEEDED") {
-    return apiError(409, "CONFLICT", "Only successful payments can be refunded.");
-  }
-
-  const existing = await prisma.refund.findFirst({ where: { paymentId: payment.id } });
-  if (existing) return apiError(409, "CONFLICT", "This payment already has a refund on record.");
-
-  const refunded = await refundPaystackTransaction({
-    reference: payment.providerReference,
-    amount: payment.amount,
-    merchantNote: parsed.data.reason,
-  });
-
-  const security = getRequestSecurityContext(request);
-  const refund = await prisma.$transaction(async (transaction) => {
-    const record = await transaction.refund.create({
-      data: {
-        paymentId: payment.id,
-        providerRefundId: String(refunded.id),
-        amount: payment.amount,
-        reason: parsed.data.reason,
-        status: refunded.status,
-      },
+  try {
+    const refund = await initiateRefund({
+      actorId: actor.id,
+      paymentId,
+      reason: parsed.data.reason,
+      security: getRequestSecurityContext(request),
     });
-    await recordAuditEvent(
-      {
-        actorId: actor.id,
-        action: "payment.refund.initiated",
-        resourceType: "Payment",
-        resourceId: payment.id,
-        correlationId: security.correlationId,
-        ipAddress: security.ipAddress,
-        userAgent: security.userAgent,
-        metadata: { refundId: record.id, reason: parsed.data.reason },
-      },
-      transaction,
-    );
-    return record;
-  });
-
-  return apiSuccess({ refundId: refund.id, status: refund.status }, { status: 202 });
+    return apiSuccess({ refundId: refund.id, status: refund.status }, { status: 202 });
+  } catch (error) {
+    if (error instanceof RefundError) {
+      return apiError(error.message === "Payment not found." ? 404 : 409, error.message === "Payment not found." ? "NOT_FOUND" : "CONFLICT", error.message);
+    }
+    throw error;
+  }
 }
