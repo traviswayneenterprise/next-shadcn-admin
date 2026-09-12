@@ -1,4 +1,7 @@
 import type { Prisma } from "@/generated/prisma/client";
+import { prisma } from "@/lib/db";
+import { recordAuditEvent } from "@/lib/audit";
+import type { RequestSecurityContext } from "@/lib/auth/request-security";
 
 export async function grantPaymentEntitlement(transaction: Prisma.TransactionClient, paymentId: string) {
   const payment = await transaction.payment.findUnique({
@@ -58,6 +61,47 @@ export async function grantManualEntitlement(
       source: "MANUAL_GRANT",
       grantId: grant.id,
     },
+  });
+}
+
+export class ManualGrantError extends Error {}
+
+export async function createManualGrant(input: {
+  actorId: string;
+  recipientEmail: string;
+  reason: string;
+  trackId?: string | null;
+  courseId?: string | null;
+  security: RequestSecurityContext;
+}) {
+  const recipient = await prisma.user.findUnique({
+    where: { email: input.recipientEmail.trim().toLowerCase() },
+    select: { id: true },
+  });
+  if (!recipient) throw new ManualGrantError("No user found with that email.");
+
+  return prisma.$transaction(async (transaction) => {
+    const created = await grantManualEntitlement(transaction, {
+      userId: recipient.id,
+      grantedById: input.actorId,
+      reason: input.reason,
+      trackId: input.trackId,
+      courseId: input.courseId,
+    });
+    await recordAuditEvent(
+      {
+        actorId: input.actorId,
+        action: "entitlement.manual_grant.created",
+        resourceType: "Entitlement",
+        resourceId: created.id,
+        correlationId: input.security.correlationId,
+        ipAddress: input.security.ipAddress,
+        userAgent: input.security.userAgent,
+        metadata: { userId: recipient.id, reason: input.reason },
+      },
+      transaction,
+    );
+    return created;
   });
 }
 
