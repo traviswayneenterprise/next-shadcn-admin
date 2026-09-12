@@ -208,6 +208,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List the caller's own payment history */
+        get: operations["listPayments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/payments/paystack/webhook": {
         parameters: {
             query?: never;
@@ -347,6 +364,25 @@ export interface components {
             authorizationUrl: string;
             /** Format: date-time */
             expiresAt: string;
+        };
+        PaymentHistoryItem: {
+            id: string;
+            offeringTitle: string;
+            /** @enum {string} */
+            status: "PENDING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "REFUNDED" | "DISPUTED" | "CHARGEBACK";
+            /** @description Integer currency subunits. */
+            amount: number;
+            /** @enum {string} */
+            currency: "NGN" | "USD";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            paidAt?: string | null;
+            refund?: {
+                status?: string;
+                /** Format: date-time */
+                createdAt?: string;
+            } | null;
         };
         PaymentStatusDetail: {
             paymentId: string;
@@ -766,6 +802,32 @@ export interface operations {
             };
             401: components["responses"]["Unauthorized"];
             404: components["responses"]["NotFound"];
+        };
+    };
+    listPayments: {
+        parameters: {
+            query?: {
+                cursor?: components["parameters"]["Cursor"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Payment history, most recent first. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessEnvelope"] & {
+                        data?: components["schemas"]["PaymentHistoryItem"][];
+                        page?: components["schemas"]["CursorPage"];
+                    };
+                };
+            };
+            401: components["responses"]["Unauthorized"];
         };
     };
     receivePaystackWebhook: {
