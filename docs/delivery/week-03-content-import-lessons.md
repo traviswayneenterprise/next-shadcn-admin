@@ -137,6 +137,62 @@ rerun updates the same draft lesson rather than creating a duplicate.
   writes `reviewStatus` and an audit event - review is separate from
   publish, so an `APPROVED` lesson still requires an explicit publish action.
 
+## Tuesday: content authoring vertical slice — recorded 2026-09-12
+
+Implemented and verified live against the real dev database (a
+`pnpm exec node --experimental-strip-types scripts/tuesday-content-authoring-acceptance.mjs`
+run, 14/14 checks passed, cleaned up after itself):
+
+- `POST /api/v1/content/lessons/{lessonId}/versions` - create a draft
+  version, optionally forking blocks from an existing version.
+- `PATCH /api/v1/content/lesson-versions/{id}` - update a draft's blocks;
+  validated against the frozen schema on every write, rejected once the
+  version is no longer `DRAFT`.
+- `POST /api/v1/content/lesson-versions/{id}/publish` - immutable
+  publication (`publishLessonVersion`, already scaffolded).
+- `POST /api/v1/content/lesson-versions/{id}/review` - the `reviewStatus`
+  field designed Monday, now implemented via a small migration
+  (`20260912120000_content_review_and_reusable_block_version`, applied with
+  `prisma migrate deploy` - `prisma migrate dev` hung indefinitely on this
+  Neon project's shadow-database step even though the database itself was
+  reachable in under 3 seconds by a raw client; `migrate deploy` needs no
+  shadow database and applied cleanly. Same workaround if this recurs).
+- Reusable blocks: create, edit (bumps `ReusableBlock.version`), and resolve
+  to an insertable, fully-frozen `reusableSnapshot` block for the editor to
+  drop into a draft - verified that editing a reusable block after a
+  snapshot was taken does not retroactively change the already-embedded
+  copy.
+- R2 asset uploads (`src/lib/storage/r2.ts`, `src/domain/content/assets.ts`):
+  type/size allowlist enforced before any storage call, key structure
+  `assets/{assetId}/{filename}` (images) and `labs/{assetId}/{filename}`
+  (lab bundles) - refined from Monday's `lessons/{lessonId}/...` sketch once
+  it was clear `Asset` has no `lessonId` column (it's a standalone,
+  reusable-across-contexts entity in the schema, not lesson-owned). Not yet
+  verified against a real upload: **no Cloudflare R2 credentials exist in
+  this environment yet** (checked `.env` and Vercel project env vars - both
+  empty). The endpoint's own validation (content-type allowlist, size
+  limits) runs and was tested before any R2 call is made.
+
+**A real bug found and fixed**: `publishLessonVersion` (from the original
+foundational scaffolding) called `validateContentDocument(version.document.blocks)`
+- passing just the blocks array where the schema expects `{ schemaVersion,
+blocks }`. Every publish attempt failed validation regardless of content;
+nothing could ever be published. Caught by the live acceptance run, not by
+review. Fixed to pass the full document shape.
+
+**Staff editor UI** (`/content`, `/content/lesson-versions/[id]`):
+add/reorder/remove blocks, live client-side validation per block (reusing
+the same Zod schema as the API, not a duplicate), a preview tab using the
+same block renderers, an asset picker with inline upload, and a raw-JSON
+fallback editor for block types without a dedicated form yet (table, video,
+file, embed, lab, quiz, assignment, projectBrief, submissionPrompt,
+reusableSnapshot, columns, tabs, accordion - heading/paragraph/list/code/
+callout/image/divider have real forms). Verified live: seeded a real
+lesson+draft version, fetched both pages over HTTP with a real staff
+session cookie, confirmed the expected content rendered server-side, then
+cleaned up. Browser-level visual/interaction QA (does it *look* right, do
+the buttons feel right) still needs a human - I can't drive a browser.
+
 ## Assigned weekly deliverables
 
 ### Travis — technical deliverables
