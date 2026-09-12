@@ -46,3 +46,15 @@ export function authorizationErrorResponse(error: unknown) {
   }
   return null;
 }
+
+/** Route-handler boilerplate: `const auth = await authorize(...); if (auth.response) return auth.response;` */
+export async function authorize(permission: PermissionKey, scope: PermissionScope = {}) {
+  try {
+    return { actor: await requirePermission(permission, scope), response: null };
+  } catch (error) {
+    return {
+      actor: null,
+      response: authorizationErrorResponse(error) ?? apiError(500, "INTERNAL_ERROR", "Authorization check failed."),
+    };
+  }
+}

@@ -20,6 +20,12 @@ enum PublishStatus {
   ARCHIVED
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  NEEDS_CORRECTION
+}
+
 enum ScopeType {
   GLOBAL
   TRACK
@@ -442,6 +448,7 @@ model LessonVersion {
   lessonId      String
   version       Int
   status        PublishStatus @default(DRAFT)
+  reviewStatus  ReviewStatus  @default(PENDING)
   objectives    Json?
   documentId    String        @unique
   scheduledFor  DateTime?
@@ -472,6 +479,7 @@ model ContentDocument {
 model ReusableBlock {
   id          String          @id @default(cuid())
   name        String
+  version     Int             @default(1)
   documentId  String          @unique
   status      PublishStatus   @default(DRAFT)
   createdById String

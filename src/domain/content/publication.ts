@@ -1,5 +1,5 @@
 import { validateContentDocument } from "@/domain/content/blocks";
-import { prisma } from "@/lib/db";
+import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 
 export async function publishLessonVersion(lessonVersionId: string, actorId: string) {
   return prisma.$transaction(async (transaction) => {
@@ -10,7 +10,11 @@ export async function publishLessonVersion(lessonVersionId: string, actorId: str
     if (!version) throw new Error("Lesson version not found.");
     if (version.status === "PUBLISHED") throw new Error("Published lesson versions are immutable.");
 
-    validateContentDocument(version.document.blocks);
+    // Bug: this previously validated version.document.blocks (just the
+    // array) against contentDocumentSchema, which expects the full
+    // { schemaVersion, blocks } shape - every publish attempt failed
+    // validation regardless of content. Caught by a live acceptance run.
+    validateContentDocument({ schemaVersion: version.document.schemaVersion, blocks: version.document.blocks });
     const publishedAt = new Date();
     await transaction.lessonVersion.update({
       where: { id: version.id },
@@ -31,5 +35,5 @@ export async function publishLessonVersion(lessonVersionId: string, actorId: str
       },
     });
     return { ...version, status: "PUBLISHED" as const, publishedAt };
-  });
+  }, TRANSACTION_OPTIONS);
 }
