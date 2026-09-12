@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 import { recordAuditEvent } from "@/lib/audit";
 import { refundPaystackTransaction } from "@/lib/payments/paystack";
 import type { RequestSecurityContext } from "@/lib/auth/request-security";
@@ -48,5 +48,5 @@ export async function initiateRefund(input: {
       transaction,
     );
     return record;
-  });
+  }, TRANSACTION_OPTIONS);
 }

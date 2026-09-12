@@ -35,9 +35,58 @@ real Neon database and a real Paystack test key, not just built:
   The learner-frontend redirect-return page polls this endpoint through
   pending/success/failed/cancelled/reversed states.
 
-Thursday and Friday's scope (refunds, confirmed chargebacks, manual grants,
-payment history/audit, commerce admin views, and the final acceptance pass)
-had not started as of this recording.
+- **Thursday (reversal/dashboard):** `POST /payments/{paymentId}/refund`
+  (calls Paystack's real refund API), webhook handling for
+  `charge.dispute.create` (-> DISPUTED) distinct from a confirmed chargeback
+  (`charge.dispute.resolve` -> CHARGEBACK, entitlement revoked), an
+  independent manual-grant endpoint (`POST /entitlements/manual-grant`,
+  staff-only, requires a reason, resolves the recipient by email), a payment
+  history endpoint (`GET /payments`, own history or any user's with
+  `payments.read`), an audit-event endpoint, and a staff `/commerce`
+  dashboard page (payment table with inline refund, manual-grant form, audit
+  log) in the admin app. The learner-frontend billing page now shows real
+  payment history and an access-active/access-revoked banner.
+- **Friday (financial acceptance):** verified with
+  `pnpm test:financial-acceptance`
+  (`scripts/friday-financial-acceptance.mjs`) against the real dev database
+  and a real Paystack test-mode checkout-session initialization:
+  - Capacity failure: checkout against an already-full cohort is rejected
+    (409).
+  - Duplicate webhook delivery (same Paystack event id) is deduped at the
+    `PaymentEvent` layer; the second delivery is a no-op.
+  - Out-of-order delivery, both directions:
+    - A chargeback event arriving before a payment has ever reached
+      SUCCEEDED is dropped rather than corrupting state (payment stays
+      PENDING).
+    - A stale/replayed `charge.success` arriving **after** a confirmed
+      chargeback does not re-grant access. This was a real bug caught by
+      this exact check and fixed the same day: the webhook handler now only
+      acts on `charge.success` while the payment is still PENDING, and only
+      acts on dispute/refund events while the payment is SUCCEEDED (or
+      already DISPUTED, for the resolve step) - see
+      `src/app/api/v1/payments/paystack/webhook/route.ts`.
+  - Refund and manual-grant permission/state guards: forbidden without the
+    right permission, rejected for a payment that isn't SUCCEEDED.
+  - Manual grants are independent of payments: revoking a payment-derived
+    entitlement via chargeback never touches a manual grant for the same
+    user/track.
+  - Every dispute, chargeback, and manual-grant action produced a matching
+    `AuditEvent` with a correlation id.
+  - A second real bug found and fixed the same day: the interactive
+    transaction timeout (Prisma's 5s default) was too tight against Neon's
+    real round-trip latency in this environment and intermittently failed
+    real requests (`P2028`); all commerce `$transaction` calls now share a
+    15s/20s `TRANSACTION_OPTIONS` (`src/lib/db.ts`), matching the fix
+    already applied to `prisma/seed.ts`.
+  - Not automated - requires a human in a browser: a full
+    `charge.success` completed against Paystack's hosted checkout with a
+    test card, and a refund issued against that real transaction. The
+    script's header documents this limitation and how to extend the run to
+    a real payment via `FRIDAY_REAL_PAYMENT_ID` once one exists.
+
+Week 2's backend and admin-UI scope (Monday through Friday) is complete and
+verified against real infrastructure with the one noted exception (full
+browser-driven Paystack checkout), which needs a human, not an agent.
 
 ## Assigned weekly deliverables
 

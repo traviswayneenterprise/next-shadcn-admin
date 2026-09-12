@@ -26,6 +26,7 @@
     "api:pack": "pnpm api:client && pnpm --dir packages/api-client pack",
     "api:check": "pnpm api:lint && pnpm api:client && git diff --exit-code -- src/generated/api/schema.d.ts packages/api-client/src/schema.ts packages/api-client/openapi.json",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:financial-acceptance": "node --experimental-strip-types scripts/friday-financial-acceptance.mjs",
     "check": "pnpm lint && pnpm typecheck && pnpm db:validate && pnpm api:check && pnpm test"
   },
   "dependencies": {

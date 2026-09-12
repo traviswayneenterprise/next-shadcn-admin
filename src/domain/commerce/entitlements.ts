@@ -1,5 +1,5 @@
 import type { Prisma } from "@/generated/prisma/client";
-import { prisma } from "@/lib/db";
+import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 import { recordAuditEvent } from "@/lib/audit";
 import type { RequestSecurityContext } from "@/lib/auth/request-security";
 
@@ -102,7 +102,7 @@ export async function createManualGrant(input: {
       transaction,
     );
     return created;
-  });
+  }, TRANSACTION_OPTIONS);
 }
 
 export async function revokePaymentEntitlements(
