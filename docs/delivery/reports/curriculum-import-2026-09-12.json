@@ -1,0 +1,1012 @@
+{
+  "runId": "f4b17d61-af4b-44c3-acfb-9f4613c94a17",
+  "startedAt": "2026-09-12T14:05:58.716Z",
+  "total": 48,
+  "imported": 48,
+  "failed": 0,
+  "folders": [
+    {
+      "sourcePath": "Lesson 1/",
+      "lessonSlug": "lesson-1",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 2/",
+      "lessonSlug": "lesson-2",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "form_examples.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        },
+        {
+          "sourceFile": "semantic_page.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "form_examples.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        },
+        {
+          "sourceFile": "semantic_page.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 3/",
+      "lessonSlug": "lesson-3",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 4/",
+      "lessonSlug": "lesson-4",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "box_model_demo.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "box_model_demo.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 5/",
+      "lessonSlug": "lesson-5",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "flexbox_grid_demo.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "flexbox_grid_demo.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 6/",
+      "lessonSlug": "lesson-6",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "tailwind_demo.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "tailwind_demo.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 7/",
+      "lessonSlug": "lesson-7",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "git_visual_reference.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "git_visual_reference.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 8/",
+      "lessonSlug": "lesson-8",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "branching_visual_reference.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "branching_visual_reference.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 9/",
+      "lessonSlug": "lesson-9",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "team_workflow_reference.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "team_workflow_reference.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 10/",
+      "lessonSlug": "lesson-10",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "js-basics.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        },
+        {
+          "sourceFile": "js_interactive_reference.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "js-basics.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        },
+        {
+          "sourceFile": "js_interactive_reference.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 11/",
+      "lessonSlug": "lesson-11",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "control-flow.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "control-flow.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 12/",
+      "lessonSlug": "lesson-12",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[dom_manipulation_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[dom_manipulation_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[dom_manipulation_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[dom_manipulation_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[dom_manipulation_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[dom_manipulation_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [
+        {
+          "sourceFile": "dom-events.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "dom-events.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 13/",
+      "lessonSlug": "lesson-13",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "arrays-objects.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "arrays-objects.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 14/",
+      "lessonSlug": "lesson-14",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "asynchronous-js.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "asynchronous-js.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 15/",
+      "lessonSlug": "lesson-15",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [
+        {
+          "sourceFile": "todo-app.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        },
+        {
+          "sourceFile": "weather-app.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "todo-app.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        },
+        {
+          "sourceFile": "weather-app.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 16/",
+      "lessonSlug": "lesson-16",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[complexity_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [
+        {
+          "sourceFile": "big-o-visualizer.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "big-o-visualizer.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 17/",
+      "lessonSlug": "lesson-17",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[data_structures_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [
+        {
+          "sourceFile": "data-structures.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "data-structures.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 18/",
+      "lessonSlug": "lesson-18",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[algorithms_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [
+        {
+          "sourceFile": "algorithms-visualizer.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "algorithms-visualizer.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 19/",
+      "lessonSlug": "lesson-19",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[react_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [
+        {
+          "sourceFile": "react-playground.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "react-playground.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 20/",
+      "lessonSlug": "lesson-20",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[state_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [
+        {
+          "sourceFile": "state-visualizer.html",
+          "reason": "Missing required environment variable: R2_BUCKET"
+        }
+      ],
+      "assets": [
+        {
+          "sourceFile": "state-visualizer.html",
+          "status": "failed",
+          "error": "Missing required environment variable: R2_BUCKET"
+        }
+      ]
+    },
+    {
+      "sourcePath": "Lesson 21/",
+      "lessonSlug": "lesson-21",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 22/",
+      "lessonSlug": "lesson-22",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 23/",
+      "lessonSlug": "lesson-23",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 24/",
+      "lessonSlug": "lesson-24",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 25/",
+      "lessonSlug": "lesson-25",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../examples/node-basics/src/commonjs-math.cjs\" was kept as plain text (not a resolvable URL)."
+        },
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../examples/node-basics/src/esm-math.js\" was kept as plain text (not a resolvable URL)."
+        },
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../examples/node-basics/src/index.js\" was kept as plain text (not a resolvable URL)."
+        },
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/nodejs_practice.md\" was kept as plain text (not a resolvable URL)."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 26/",
+      "lessonSlug": "lesson-26",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../examples/express-api/server.js\" was kept as plain text (not a resolvable URL)."
+        },
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/express_practice.md\" was kept as plain text (not a resolvable URL)."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 27/",
+      "lessonSlug": "lesson-27",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/middleware_practice.md\" was kept as plain text (not a resolvable URL)."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 28/",
+      "lessonSlug": "lesson-28",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/sql_practice.md\" was kept as plain text (not a resolvable URL)."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 29/",
+      "lessonSlug": "lesson-29",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/mongoose_practice.md\" was kept as plain text (not a resolvable URL)."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 30/",
+      "lessonSlug": "lesson-30",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/design_practice.md\" was kept as plain text (not a resolvable URL)."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[design_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 31/",
+      "lessonSlug": "lesson-31",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "link.relative",
+          "message": "Relative link target \"../exercises/auth_practice.md\" was kept as plain text (not a resolvable URL)."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[auth_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[auth_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 32/",
+      "lessonSlug": "lesson-32",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 33/",
+      "lessonSlug": "lesson-33",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 34/",
+      "lessonSlug": "lesson-34",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 35/",
+      "lessonSlug": "lesson-35",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 36/",
+      "lessonSlug": "lesson-36",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 37/",
+      "lessonSlug": "lesson-37",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 38/",
+      "lessonSlug": "lesson-38",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 39/",
+      "lessonSlug": "lesson-39",
+      "outcome": "imported",
+      "warnings": [
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        },
+        {
+          "code": "html.unsupported",
+          "message": "[nextjs_api_practice.md] Raw HTML in source markdown is never imported as trusted content."
+        }
+      ],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 40/",
+      "lessonSlug": "lesson-40",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 41/",
+      "lessonSlug": "lesson-41",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 42/",
+      "lessonSlug": "lesson-42",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 43/",
+      "lessonSlug": "lesson-43",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 44/",
+      "lessonSlug": "lesson-44",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 45/",
+      "lessonSlug": "lesson-45",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 46/",
+      "lessonSlug": "lesson-46",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 47/",
+      "lessonSlug": "lesson-47",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    },
+    {
+      "sourcePath": "Lesson 48/",
+      "lessonSlug": "lesson-48",
+      "outcome": "imported",
+      "warnings": [],
+      "unsupported": [],
+      "assets": []
+    }
+  ]
+}

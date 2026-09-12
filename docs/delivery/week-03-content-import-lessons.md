@@ -193,6 +193,81 @@ session cookie, confirmed the expected content rendered server-side, then
 cleaned up. Browser-level visual/interaction QA (does it *look* right, do
 the buttons feel right) still needs a human - I can't drive a browser.
 
+## Wednesday: curriculum importer, all 48 folders, review workflow — recorded 2026-09-12
+
+Real run against the real `Software-Dev-2026` source repo and the real dev
+database - `npx tsx scripts/import-curriculum.mjs`:
+
+- **48/48 lesson folders imported as drafts.** One Track ("Software
+  Development 2026") / Course ("Core Curriculum") / Module ("Foundations")
+  with 48 ordered Lessons. Idempotent and resumable, verified by running the
+  full import twice: the second run left every lesson at version 1 (updated
+  the existing draft in place rather than creating duplicates), keyed by a
+  deterministic `lesson-{N}` slug (there's no dedicated source-path column;
+  the slug already encodes it exactly, so this needed no schema change).
+- **Markdown → blocks** (`src/domain/content/markdown.ts`, via `remark` +
+  `remark-gfm`): headings, paragraphs, lists (one level of nesting), code
+  fences, tables, thematic breaks, and blockquotes (→ `callout`) all map
+  correctly; raw inline/block HTML in the source is never imported as
+  trusted content (dropped with an `html.unsupported` warning, per ADR
+  0002) - this is a real, useful diagnostic: it caught two spots in Lesson
+  12 where a source file has an HTML example written without a fenced code
+  block. Each `README.md`'s "Learning Objectives" list is captured into
+  `LessonVersion.objectives` structurally rather than imported as a body
+  list.
+- **Composition per lesson**: `notes/student_notes.md` is the lesson body;
+  `exercises/*.md` and `assignments/*.md` are appended under synthetic
+  headings (assignments are body content for now, not true `Assignment`
+  records - those need a `Rubric`, which is Week 4 scope and doesn't exist
+  yet); `examples/*.html` files are uploaded to R2 and referenced as `lab`
+  blocks; `notes/tutor_notes.md` is intentionally never imported (staff-only
+  per Monday's mapping).
+- **R2 still isn't configured** in this environment, so every lab-file
+  upload attempt fails with `Missing required environment variable:
+  R2_BUCKET` - handled exactly as designed: recorded as a per-file
+  `unsupported`/`assets` diagnostic entry, the lesson still imports
+  successfully without that one block. Once real R2 credentials exist, a
+  rerun will pick these up (each failed upload is retried fresh on rerun;
+  already-succeeded ones aren't currently deduped, but that's moot until
+  the first real upload succeeds at all).
+- **A real bug found while doing this**: some source links are relative
+  file paths (e.g. `../examples/foo.js`), which `z.string().url()`
+  correctly rejects - but the original link-handling code let that
+  `ZodError` blow up the entire lesson's import. 7 lessons (25-31) failed
+  outright on the first full run for exactly this reason. Fixed by
+  detecting non-absolute-URL link targets at parse time and demoting them
+  to plain text (with an `link.relative` warning) instead of failing
+  validation - the link's visible text is preserved, it just isn't
+  clickable. Second full run: 48/48 imported, 0 failed.
+- A second, now-familiar bug from the same class as Friday's and Tuesday's:
+  `POST /lesson-versions/{id}/review` was missing `TRANSACTION_OPTIONS`,
+  and hit the same Neon-latency `P2028` timeout under real sequential load
+  (reviewing 12 lessons back to back). Fixed the same way.
+
+**Block renderers completed** (`src/components/content/block-renderers.tsx`):
+every one of the 19 Phase 1 block types now has a preview renderer (video,
+file, embed, lab, quiz, assignment, submissionPrompt, projectBrief,
+columns, tabs, and accordion were added today; the other 8 already existed
+from Tuesday).
+
+**Manual-review workflow built**: a review queue (`/content/review`, staff
+with `content.publish`, lists every `LessonVersion` with `reviewStatus =
+PENDING`) and approve/needs-correction controls with an optional note
+directly in the lesson editor, both backed by Tuesday's review endpoint.
+The Content index page shows a live pending-review count.
+
+**Lessons 1-12 reviewed**, for real, via the real API
+(`scripts/review-lessons-1-12.mjs`): 11 approved (their only diagnostic is
+a lab upload pending R2 credentials - the imported content itself is
+complete and correct), 1 (`lesson-12`) marked `NEEDS_CORRECTION` with a
+specific, actionable note describing exactly which source file and which
+example needs a code fence before it can be re-imported with that content
+intact. Verified: `reviewStatus` in the database matches the 11/1 split,
+21 matching `AuditEvent` rows exist (9 from an interrupted first run before
+the `TRANSACTION_OPTIONS` fix, 12 from the successful full rerun), and a
+live HTTP render of `/content/review` and `/content` both reflect the
+correct counts and badges.
+
 ## Assigned weekly deliverables
 
 ### Travis — technical deliverables

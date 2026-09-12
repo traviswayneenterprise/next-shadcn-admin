@@ -4,7 +4,7 @@ import { apiError, apiSuccess } from "@/lib/api/response";
 import { authorize } from "@/lib/auth/authorize";
 import { recordAuditEvent } from "@/lib/audit";
 import { getRequestSecurityContext } from "@/lib/auth/request-security";
-import { prisma } from "@/lib/db";
+import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -38,6 +38,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       transaction,
     );
     return updated;
-  });
+  }, TRANSACTION_OPTIONS);
   return apiSuccess(version);
 }

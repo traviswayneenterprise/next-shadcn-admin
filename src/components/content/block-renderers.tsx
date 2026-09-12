@@ -137,6 +137,98 @@ export function BlockRenderer({ block }: { block: Block }) {
         </div>
       )
     }
+    case "video":
+      return (
+        <a href={String(data.url ?? "")} target="_blank" rel="noreferrer" className="text-sm text-primary underline underline-offset-2">
+          {String(data.title ?? "Watch video")}
+        </a>
+      )
+    case "file":
+      return (
+        <div className="flex items-center gap-2 rounded-md border p-2 text-sm">
+          <Badge variant="outline">file</Badge>
+          <span>{String(data.label ?? "Download")}</span>
+        </div>
+      )
+    case "embed":
+      return (
+        <div className="overflow-hidden rounded-md border">
+          <iframe src={String(data.url ?? "")} title={String(data.title ?? "Embedded content")} className="h-64 w-full" sandbox="allow-scripts" />
+        </div>
+      )
+    case "lab":
+      return (
+        <div className="rounded-md border p-3 text-sm">
+          <Badge variant="secondary">interactive lab</Badge>
+          <p className="mt-1">{String(data.title ?? "Lab")}</p>
+          <p className="text-xs text-muted-foreground">Renders in a sandboxed iframe on a dedicated lab origin (Thursday).</p>
+        </div>
+      )
+    case "quiz":
+      return <Badge variant="outline">Quiz reference: {String(data.quizId ?? "")}</Badge>
+    case "assignment":
+      return <Badge variant="outline">Assignment reference: {String(data.assignmentId ?? "")}</Badge>
+    case "submissionPrompt":
+      return (
+        <div className="rounded-md border border-dashed p-3 text-sm">
+          <Badge variant="outline">submission prompt</Badge>
+          <p className="mt-1">{String(data.prompt ?? "")}</p>
+        </div>
+      )
+    case "projectBrief": {
+      const links = (data.links as { label: string; href: string }[]) ?? []
+      return (
+        <div className="space-y-2 rounded-md border p-3">
+          <p className="font-medium">{String(data.title ?? "")}</p>
+          <p className="text-sm">{String(data.body ?? "")}</p>
+          {links.length > 0 && (
+            <ul className="list-disc pl-5 text-sm">
+              {links.map((link, index) => (
+                <li key={index}><a href={link.href} className="text-primary underline underline-offset-2">{link.label}</a></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )
+    }
+    case "columns": {
+      const columns = (data.columns as Block[][]) ?? []
+      return (
+        <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(${columns.length || 1}, minmax(0, 1fr))` }}>
+          {columns.map((column, index) => (
+            <div key={index} className="space-y-2">
+              {column.map((block) => <BlockRenderer key={block.id} block={block} />)}
+            </div>
+          ))}
+        </div>
+      )
+    }
+    case "tabs": {
+      const tabItems = (data.tabs as { id: string; label: string; blocks: Block[] }[]) ?? []
+      return (
+        <div className="space-y-2 rounded-md border p-3">
+          {tabItems.map((tab) => (
+            <div key={tab.id}>
+              <p className="text-sm font-medium">{tab.label}</p>
+              <div className="space-y-2 pl-2">{tab.blocks.map((block) => <BlockRenderer key={block.id} block={block} />)}</div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+    case "accordion": {
+      const items = (data.items as { id: string; title: string; blocks: Block[] }[]) ?? []
+      return (
+        <div className="space-y-2">
+          {items.map((item) => (
+            <div key={item.id} className="rounded-md border p-3">
+              <p className="text-sm font-medium">{item.title}</p>
+              <div className="space-y-2 pl-2">{item.blocks.map((block) => <BlockRenderer key={block.id} block={block} />)}</div>
+            </div>
+          ))}
+        </div>
+      )
+    }
     default:
       return (
         <div className="rounded-md border border-dashed p-3 text-xs text-muted-foreground">

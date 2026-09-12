@@ -25,11 +25,19 @@ export default async function ContentPage() {
     },
     take: 200,
   })
+  const pendingReviewCount = permissions.includes("content.publish")
+    ? await prisma.lessonVersion.count({ where: { reviewStatus: "PENDING" } })
+    : 0
 
   return (
     <div className="space-y-6">
       <HeaderContainer>
         <h1 className="text-2xl font-bold tracking-tight">Content</h1>
+        {permissions.includes("content.publish") && (
+          <Link href="/content/review">
+            <Button variant="outline">Review queue ({pendingReviewCount})</Button>
+          </Link>
+        )}
       </HeaderContainer>
       <Card>
         <CardHeader>
