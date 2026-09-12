@@ -39,6 +39,7 @@ export function LessonEditor({
   const [blocks, setBlocks] = useState<Block[]>(Array.isArray(initialBlocks) ? (initialBlocks as Block[]) : [])
   const [addType, setAddType] = useState<BlockType>("paragraph")
   const [reviewNote, setReviewNote] = useState("")
+  const [scheduledFor, setScheduledFor] = useState("")
   const [currentReviewStatus, setCurrentReviewStatus] = useState(reviewStatus)
   const [isPending, startTransition] = useTransition()
   const isDraft = status === "DRAFT"
@@ -94,6 +95,23 @@ export function LessonEditor({
         toast({ title: "Published" })
       } else {
         toast({ title: "Publish failed", description: body.error?.message, variant: "destructive" })
+      }
+    })
+  }
+
+  function schedule() {
+    if (!scheduledFor) return
+    startTransition(async () => {
+      const response = await fetch(`/api/v1/content/lesson-versions/${versionId}/schedule`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scheduledFor: new Date(scheduledFor).toISOString() }),
+      })
+      const body = await response.json()
+      if (response.ok) {
+        toast({ title: "Scheduled" })
+      } else {
+        toast({ title: "Schedule failed", description: body.error?.message, variant: "destructive" })
       }
     })
   }
@@ -187,6 +205,19 @@ export function LessonEditor({
                 <Button variant="secondary" onClick={publish} disabled={isPending || hasErrors || blocks.length === 0}>
                   Publish
                 </Button>
+              )}
+              {canPublish && (
+                <>
+                  <input
+                    type="datetime-local"
+                    value={scheduledFor}
+                    onChange={(event) => setScheduledFor(event.target.value)}
+                    className="h-9 rounded-md border px-2 text-sm"
+                  />
+                  <Button variant="outline" onClick={schedule} disabled={isPending || hasErrors || !scheduledFor}>
+                    Schedule
+                  </Button>
+                </>
               )}
               {hasErrors && <p className="text-xs text-destructive">Fix validation errors before saving.</p>}
             </div>

@@ -174,6 +174,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/learn/tracks/{trackSlug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the learner's navigable curriculum tree for an entitled track */
+        get: operations["getLearnTrack"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/learn/lessons/{lessonId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a lesson's published content, or why it's locked */
+        get: operations["getLearnLesson"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/learn/lessons/{lessonId}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start or complete a lesson */
+        post: operations["updateLearnLessonProgress"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/checkout-sessions": {
         parameters: {
             query?: never;
@@ -365,6 +416,59 @@ export interface components {
             /** Format: date-time */
             expiresAt: string;
         };
+        LearnTrack: {
+            id: string;
+            slug: string;
+            title: string;
+            courses: {
+                id: string;
+                title: string;
+                modules: {
+                    id: string;
+                    title: string;
+                    lessons: {
+                        id: string;
+                        slug: string;
+                        title: string;
+                        /** @enum {string} */
+                        status: "LOCKED" | "AVAILABLE" | "IN_PROGRESS" | "COMPLETED";
+                    }[];
+                }[];
+            }[];
+        };
+        LearnLesson: {
+            locked: boolean;
+            /** @description Present only when locked. */
+            reason?: string;
+            /** @description Present only when locked. */
+            message?: string;
+            lesson?: {
+                id?: string;
+                title?: string;
+                slug?: string;
+            };
+            /** @enum {string} */
+            progressStatus?: "AVAILABLE" | "IN_PROGRESS" | "COMPLETED";
+            version?: number;
+            objectives?: unknown;
+            blocks?: components["schemas"]["ContentBlock"][];
+        };
+        /** @description One rendered lesson block. See src/domain/content/blocks.ts (backend/admin) for the authoritative discriminated-union schema; kept intentionally loose here since the frontend renders by `type` by pattern-matching, not by re-validating the full contract. */
+        ContentBlock: {
+            id: string;
+            version: number;
+            type: string;
+            data: unknown;
+        };
+        LessonProgress: {
+            id: string;
+            /** @enum {string} */
+            status: "LOCKED" | "AVAILABLE" | "IN_PROGRESS" | "COMPLETED";
+            /** Format: date-time */
+            startedAt?: string | null;
+            /** Format: date-time */
+            completedAt?: string | null;
+        };
         PaymentHistoryItem: {
             id: string;
             offeringTitle: string;
@@ -458,6 +562,7 @@ export interface components {
     parameters: {
         Cursor: string;
         Limit: number;
+        LessonId: string;
         IdempotencyKey: string;
         TrackSlug: string;
         PaymentId: string;
@@ -747,6 +852,102 @@ export interface operations {
                 };
             };
             404: components["responses"]["NotFound"];
+        };
+    };
+    getLearnTrack: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                trackSlug: components["parameters"]["TrackSlug"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Course/module/lesson tree with per-lesson lock status. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessEnvelope"] & {
+                        data?: components["schemas"]["LearnTrack"];
+                    };
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getLearnLesson: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonId: components["parameters"]["LessonId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lesson content and the caller's progress status. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessEnvelope"] & {
+                        data?: components["schemas"]["LearnLesson"];
+                    };
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Locked (prerequisite not yet completed, or before the cohort release date). */
+            423: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    updateLearnLessonProgress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonId: components["parameters"]["LessonId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @enum {string} */
+                    action: "start" | "complete";
+                };
+            };
+        };
+        responses: {
+            /** @description Updated progress record. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessEnvelope"] & {
+                        data?: components["schemas"]["LessonProgress"];
+                    };
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            403: components["responses"]["Forbidden"];
         };
     };
     createCheckoutSession: {

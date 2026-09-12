@@ -36,6 +36,10 @@
     {
       "name": "Commerce",
       "description": "Checkout and payment-provider integration."
+    },
+    {
+      "name": "Learning",
+      "description": "Entitled-track navigation, lesson content, and progress."
     }
   ],
   "paths": {
@@ -569,6 +573,176 @@
         }
       }
     },
+    "/learn/tracks/{trackSlug}": {
+      "get": {
+        "summary": "Get the learner's navigable curriculum tree for an entitled track",
+        "tags": [
+          "Learning"
+        ],
+        "operationId": "getLearnTrack",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TrackSlug"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course/module/lesson tree with per-lesson lock status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessEnvelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/LearnTrack"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/learn/lessons/{lessonId}": {
+      "get": {
+        "summary": "Get a lesson's published content, or why it's locked",
+        "tags": [
+          "Learning"
+        ],
+        "operationId": "getLearnLesson",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/LessonId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lesson content and the caller's progress status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessEnvelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/LearnLesson"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "423": {
+            "description": "Locked (prerequisite not yet completed, or before the cohort release date).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/learn/lessons/{lessonId}/progress": {
+      "post": {
+        "summary": "Start or complete a lesson",
+        "tags": [
+          "Learning"
+        ],
+        "operationId": "updateLearnLessonProgress",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/LessonId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "action"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "start",
+                      "complete"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated progress record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessEnvelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/LessonProgress"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
     "/checkout-sessions": {
       "post": {
         "summary": "Create a Paystack checkout session",
@@ -773,6 +947,14 @@
           "minimum": 1,
           "maximum": 100,
           "default": 20
+        }
+      },
+      "LessonId": {
+        "name": "lessonId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
         }
       },
       "IdempotencyKey": {
@@ -1301,6 +1483,204 @@
           },
           "expiresAt": {
             "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "LearnTrack": {
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "courses"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "courses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "modules"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "modules": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "title",
+                      "lessons"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "lessons": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "slug",
+                            "title",
+                            "status"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "LOCKED",
+                                "AVAILABLE",
+                                "IN_PROGRESS",
+                                "COMPLETED"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "LearnLesson": {
+        "type": "object",
+        "required": [
+          "locked"
+        ],
+        "properties": {
+          "locked": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Present only when locked."
+          },
+          "message": {
+            "type": "string",
+            "description": "Present only when locked."
+          },
+          "lesson": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              }
+            }
+          },
+          "progressStatus": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "version": {
+            "type": "integer"
+          },
+          "objectives": {},
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            }
+          }
+        }
+      },
+      "ContentBlock": {
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "type",
+          "data"
+        ],
+        "description": "One rendered lesson block. See src/domain/content/blocks.ts (backend/admin) for the authoritative discriminated-union schema; kept intentionally loose here since the frontend renders by `type` by pattern-matching, not by re-validating the full contract.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "string"
+          },
+          "data": {}
+        }
+      },
+      "LessonProgress": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "LOCKED",
+              "AVAILABLE",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "startedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "completedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           }
         }
