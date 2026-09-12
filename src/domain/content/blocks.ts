@@ -2,7 +2,24 @@ import { z } from "zod";
 
 const id = z.string().min(1).max(100);
 const assetReference = z.object({ assetId: id, alt: z.string().max(500).optional() });
-const link = z.object({ label: z.string().min(1), href: z.string().url() });
+
+// z.string().url() alone accepts javascript:, data:, and vbscript: URIs -
+// all valid WHATWG URLs, all trivial stored-XSS if ever rendered into an
+// href. Every URL a renderer turns into a real href/src goes through one of
+// these two scheme allowlists instead of the bare .url() check.
+function schemeAllowedUrl(schemes: readonly string[]) {
+  return z.string().url().refine((value) => {
+    try {
+      return schemes.includes(new URL(value).protocol);
+    } catch {
+      return false;
+    }
+  }, "URL scheme is not allowed.");
+}
+const linkHref = schemeAllowedUrl(["http:", "https:", "mailto:"]);
+const httpUrl = schemeAllowedUrl(["http:", "https:"]);
+
+const link = z.object({ label: z.string().min(1), href: linkHref });
 
 // ADR 0002 forbids admin-provided arbitrary HTML: rich text is a bounded,
 // validated span tree, never a stored/trusted HTML string. Renderers turn
@@ -10,7 +27,7 @@ const link = z.object({ label: z.string().min(1), href: z.string().url() });
 // in the lesson-rendering path.
 const textMark = z.enum(["bold", "italic", "code"]);
 const textSpan = z.object({ text: z.string().max(2000), marks: z.array(textMark).max(3).optional() });
-const linkSpan = z.object({ type: z.literal("link"), href: z.string().url(), children: z.array(textSpan).min(1).max(50) });
+const linkSpan = z.object({ type: z.literal("link"), href: linkHref, children: z.array(textSpan).min(1).max(50) });
 const richText = z.array(z.union([textSpan, linkSpan])).max(200);
 
 const base = z.object({ id, version: z.literal(1) });
@@ -46,10 +63,10 @@ const leafBlocks = [
     data: z.object({ language: z.string().max(50), code: z.string().max(100_000), filename: z.string().max(255).optional() }),
   }),
   base.extend({ type: z.literal("image"), data: assetReference }),
-  base.extend({ type: z.literal("video"), data: z.object({ url: z.string().url(), title: z.string().optional() }) }),
+  base.extend({ type: z.literal("video"), data: z.object({ url: httpUrl, title: z.string().optional() }) }),
   base.extend({ type: z.literal("file"), data: assetReference.extend({ label: z.string().min(1) }) }),
   base.extend({ type: z.literal("divider"), data: z.object({}) }),
-  base.extend({ type: z.literal("embed"), data: z.object({ url: z.string().url(), title: z.string().min(1) }) }),
+  base.extend({ type: z.literal("embed"), data: z.object({ url: httpUrl, title: z.string().min(1) }) }),
   base.extend({ type: z.literal("lab"), data: z.object({ assetId: id, title: z.string().min(1), height: z.number().int().min(300).max(1200).default(640) }) }),
   base.extend({ type: z.literal("quiz"), data: z.object({ quizId: id }) }),
   base.extend({ type: z.literal("assignment"), data: z.object({ assignmentId: id }) }),

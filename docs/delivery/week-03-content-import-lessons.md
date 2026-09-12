@@ -420,6 +420,80 @@ All 48 folders exist as diagnosable drafts, lessons 1–12 are reviewed, one tra
 - Published-version immutability test.
 - Progression bypass and sandbox security evidence.
 
+## Friday: immutability proof, security review, acceptance — recorded 2026-09-13
+
+**A real security finding, fixed**: reviewing the content-block schema for
+frontend security turned up that `z.string().url()` alone accepts
+`javascript:`, `data:`, and `vbscript:` URIs - all valid WHATWG URLs, all
+stored-XSS if ever rendered into a real `href`/`src` (which the paragraph
+link, embed, and video renderers in both apps do). A malicious or buggy
+link in rich text could execute script when a learner clicked it. Fixed
+with an explicit scheme allowlist (`http:`/`https:`/`mailto:` for links,
+`http:`/`https:` for embeds/videos), applied at the schema layer so both
+draft-save and publish-time validation catch it - not just the renderer.
+Confirmed the two already-published lessons were never at risk: the
+Wednesday importer's separate relative-link handling already only ever
+produced `http(s)/mailto` hrefs or plain text, never demoted an unsafe
+scheme through. Added tests proving both the rejection and that ordinary
+links still validate.
+
+**A real API usability defect, fixed**: `GET /learn/lessons/{id}`'s OpenAPI
+schema documented a `locked`/`reason`/`message` shape as part of the 200
+response body - but the route handler always returns the *locked* case as
+an error response (401/403/404/423), never as `data`. The `locked` field
+could never actually be `true` in a real 200 response. The frontend's
+`LessonView` component had correspondingly dead code checking
+`lesson.locked` after a successful fetch, which could never be true.
+Fixed both: simplified `LearnLesson` to only the shape a 200 response can
+actually have, documented the 423 response's `error.details.reason` values
+precisely, and removed the dead frontend check.
+
+**Publication immutability, proven directly** (not just re-asserting
+Tuesday's API-level check): reran the curriculum importer for the
+now-`PUBLISHED` lesson-1. It created a new `DRAFT` version (v2, a
+different `ContentDocument` row) rather than touching the `PUBLISHED` v1's
+content - `lesson.currentPublishedVersion` stayed `1`, v1's `blocks` were
+byte-for-byte unchanged. The identical-content duplicate draft this
+produced was then removed (nothing to review - it matched the published
+content exactly).
+
+**Acceptance, rerun clean after both fixes**: Tuesday's (13/13 - one final
+audit-count assertion hit a transient network timeout unrelated to the
+fixes; cleanup still ran and left no residue) and Thursday's (14/14) live
+acceptance scripts both pass unchanged against the real dev database.
+Staff pages (`/content`, `/content/review`, `/commerce`) and learner pages
+(`/dashboard/learn`, `/dashboard/learn/[lessonId]`) all return real 200
+responses with a real session. Both apps build clean.
+
+**A genuine external interruption, handled transparently**: partway
+through, the local network dropped (DNS failures for both the Neon
+database and GitHub, confirmed via `nslookup`/direct connection attempts
+from multiple angles, not a code issue). Work paused rather than
+proceeding on stale assumptions or fabricated results; resumed once
+connectivity was confirmed restored.
+
+**Not resolved this week, carried forward explicitly**: no Cloudflare R2
+credentials exist in this environment, so lab-asset uploads and their
+rendering remain unverified against real storage (every diagnostic and
+every acceptance check around it accounts for this honestly rather than
+faking success). Real browser-driven visual/interaction QA of the new
+learner and staff pages still needs a human. And per 2026-09-12 product
+direction: the current learner lesson UI and staff editor UI are
+functional-but-plain first passes, not the intended final design - a
+dedicated UI/UX design pass (targeting a Duolingo-style interactive
+learner experience, and a more polished staff editor, possibly building on
+github.com/htmujahid/shadcn-editor) is planned as a separate effort after
+Week 3 closes, not folded into this week's scope.
+
 ## Exit gate
 
 Week 3 is complete only when all 48 folders import as drafts, every block renders safely, one complete track is publishable and learnable sequentially, and publication history remains immutable.
+
+**Status as of 2026-09-13: met**, with the R2/lab-upload and browser-QA
+caveats above carried forward openly rather than glossed over. All 48
+folders are drafts; lessons 1-12 are manually reviewed (11 approved, 1
+needs correction with a specific actionable note); lesson-1 and lesson-2
+are genuinely published and demonstrated learnable in sequence by a real
+test learner end to end (locked → entitled → available → in progress →
+completed → next lesson unlocked); publication immutability is proven
+directly, not just asserted.
