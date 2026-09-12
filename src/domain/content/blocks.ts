@@ -4,13 +4,38 @@ const id = z.string().min(1).max(100);
 const assetReference = z.object({ assetId: id, alt: z.string().max(500).optional() });
 const link = z.object({ label: z.string().min(1), href: z.string().url() });
 
+// ADR 0002 forbids admin-provided arbitrary HTML: rich text is a bounded,
+// validated span tree, never a stored/trusted HTML string. Renderers turn
+// this into React elements directly - no dangerouslySetInnerHTML anywhere
+// in the lesson-rendering path.
+const textMark = z.enum(["bold", "italic", "code"]);
+const textSpan = z.object({ text: z.string().max(2000), marks: z.array(textMark).max(3).optional() });
+const linkSpan = z.object({ type: z.literal("link"), href: z.string().url(), children: z.array(textSpan).min(1).max(50) });
+const richText = z.array(z.union([textSpan, linkSpan])).max(200);
+
 const base = z.object({ id, version: z.literal(1) });
 
 const leafBlocks = [
-  base.extend({ type: z.literal("text"), data: z.object({ html: z.string().max(100_000) }) }),
+  base.extend({ type: z.literal("paragraph"), data: z.object({ richText }) }),
   base.extend({
     type: z.literal("heading"),
     data: z.object({ level: z.number().int().min(2).max(4), text: z.string().min(1).max(500) }),
+  }),
+  base.extend({
+    type: z.literal("list"),
+    data: z.object({
+      style: z.enum(["ordered", "unordered"]),
+      // Bounded, non-recursive nesting (one sub-level) - matches the layout
+      // blocks' "bounded nesting" rule rather than an unbounded recursive tree.
+      items: z.array(z.object({ richText, children: z.array(z.object({ richText })).max(20).optional() })).max(100),
+    }),
+  }),
+  base.extend({
+    type: z.literal("table"),
+    data: z.object({
+      headers: z.array(richText).max(20),
+      rows: z.array(z.array(richText).max(20)).max(100),
+    }),
   }),
   base.extend({
     type: z.literal("callout"),
@@ -30,10 +55,21 @@ const leafBlocks = [
   base.extend({ type: z.literal("assignment"), data: z.object({ assignmentId: id }) }),
   base.extend({ type: z.literal("projectBrief"), data: z.object({ title: z.string(), body: z.string(), links: z.array(link).default([]) }) }),
   base.extend({ type: z.literal("submissionPrompt"), data: z.object({ assignmentId: id, prompt: z.string() }) }),
-  base.extend({ type: z.literal("reusableSnapshot"), data: z.object({ sourceId: id, sourceVersion: z.number().int().positive(), blocks: z.array(z.unknown()) }) }),
 ] as const;
 
-export const leafBlockSchema = z.discriminatedUnion("type", leafBlocks);
+// A reusable-block snapshot is fully-resolved content, captured at publish
+// time - it can never itself contain another reusable-block reference (that
+// would defeat "snapshots, not live references"). So it validates against
+// the leaf blocks above, defined separately to avoid a self-referential
+// schema rather than falling back to z.unknown() (which validated nothing).
+const snapshotSchema = z.discriminatedUnion("type", leafBlocks);
+const reusableSnapshotBlock = base.extend({
+  type: z.literal("reusableSnapshot"),
+  data: z.object({ sourceId: id, sourceVersion: z.number().int().positive(), blocks: z.array(snapshotSchema).max(200) }),
+});
+
+const allLeafBlocks = [...leafBlocks, reusableSnapshotBlock] as const;
+export const leafBlockSchema = z.discriminatedUnion("type", allLeafBlocks);
 
 const childLeafBlocks = z.array(leafBlockSchema).max(100);
 const layoutBlocks = [
@@ -48,7 +84,7 @@ const layoutBlocks = [
   }),
 ] as const;
 
-export const contentBlockSchema = z.discriminatedUnion("type", [...leafBlocks, ...layoutBlocks]);
+export const contentBlockSchema = z.discriminatedUnion("type", [...allLeafBlocks, ...layoutBlocks]);
 export const contentDocumentSchema = z.object({
   schemaVersion: z.literal(1),
   blocks: z.array(contentBlockSchema).max(500),
