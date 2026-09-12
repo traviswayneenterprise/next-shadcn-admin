@@ -308,6 +308,28 @@ paths:
                       data: { $ref: "#/components/schemas/PaymentStatusDetail" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "404": { $ref: "#/components/responses/NotFound" }
+  /payments:
+    get:
+      summary: List the caller's own payment history
+      tags: [Commerce]
+      operationId: listPayments
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+      responses:
+        "200":
+          description: Payment history, most recent first.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessEnvelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: "#/components/schemas/PaymentHistoryItem" }
+                      page: { $ref: "#/components/schemas/CursorPage" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
   /payments/paystack/webhook:
     post:
       summary: Receive a Paystack payment event
@@ -526,6 +548,22 @@ components:
         paymentId: { type: string }
         authorizationUrl: { type: string, format: uri }
         expiresAt: { type: string, format: date-time }
+    PaymentHistoryItem:
+      type: object
+      required: [id, offeringTitle, status, amount, currency, createdAt]
+      properties:
+        id: { type: string }
+        offeringTitle: { type: string }
+        status: { type: string, enum: [PENDING, SUCCEEDED, FAILED, CANCELLED, REFUNDED, DISPUTED, CHARGEBACK] }
+        amount: { type: integer, minimum: 0, description: Integer currency subunits. }
+        currency: { type: string, enum: [NGN, USD] }
+        createdAt: { type: string, format: date-time }
+        paidAt: { type: [string, "null"], format: date-time }
+        refund:
+          type: [object, "null"]
+          properties:
+            status: { type: string }
+            createdAt: { type: string, format: date-time }
     PaymentStatusDetail:
       type: object
       required: [paymentId, status, amount, currency]
