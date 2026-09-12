@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { BLOCK_TYPES, newBlock, type BlockType } from "@/components/content/block-defaults"
 import { BlockForm } from "@/components/content/block-form"
@@ -37,6 +38,8 @@ export function LessonEditor({
   const { toast } = useToast()
   const [blocks, setBlocks] = useState<Block[]>(Array.isArray(initialBlocks) ? (initialBlocks as Block[]) : [])
   const [addType, setAddType] = useState<BlockType>("paragraph")
+  const [reviewNote, setReviewNote] = useState("")
+  const [currentReviewStatus, setCurrentReviewStatus] = useState(reviewStatus)
   const [isPending, startTransition] = useTransition()
   const isDraft = status === "DRAFT"
 
@@ -95,13 +98,43 @@ export function LessonEditor({
     })
   }
 
+  function review(reviewStatusValue: "APPROVED" | "NEEDS_CORRECTION") {
+    startTransition(async () => {
+      const response = await fetch(`/api/v1/content/lesson-versions/${versionId}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: reviewStatusValue, note: reviewNote || undefined }),
+      })
+      const body = await response.json()
+      if (response.ok) {
+        setCurrentReviewStatus(body.data.reviewStatus)
+        toast({ title: reviewStatusValue === "APPROVED" ? "Marked approved" : "Marked as needing correction" })
+      } else {
+        toast({ title: "Review failed", description: body.error?.message, variant: "destructive" })
+      }
+    })
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
         <Badge variant={isDraft ? "outline" : "default"}>{status}</Badge>
-        <Badge variant="secondary">{reviewStatus}</Badge>
+        <Badge variant="secondary">{currentReviewStatus}</Badge>
         {!isDraft && <p className="text-sm text-muted-foreground">Published versions are read-only. Create a new draft to edit.</p>}
       </div>
+
+      {canPublish && (
+        <div className="flex flex-wrap items-center gap-2 rounded-md border p-3">
+          <Textarea
+            value={reviewNote}
+            onChange={(event) => setReviewNote(event.target.value)}
+            placeholder="Review note (optional)"
+            className="min-h-[40px] flex-1"
+          />
+          <Button size="sm" variant="secondary" disabled={isPending} onClick={() => review("APPROVED")}>Approve</Button>
+          <Button size="sm" variant="destructive" disabled={isPending} onClick={() => review("NEEDS_CORRECTION")}>Needs correction</Button>
+        </div>
+      )}
 
       <Tabs defaultValue="edit">
         <TabsList>

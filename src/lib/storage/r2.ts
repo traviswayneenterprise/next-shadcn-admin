@@ -1,5 +1,8 @@
-import "server-only";
-
+// Deliberately no "server-only" marker: this module is also imported by
+// scripts/import-curriculum.mjs (a plain Node/tsx script, not a Next.js
+// server context) - the marker's real-world protection (never let this
+// reach a browser bundle) already holds structurally, since every other
+// caller is a route.ts handler or a script, never a "use client" component.
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 import { env, requireEnvironment } from "@/lib/env";
