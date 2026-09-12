@@ -42,6 +42,25 @@ export async function grantPaymentEntitlement(transaction: Prisma.TransactionCli
   return entitlement;
 }
 
+export async function grantManualEntitlement(
+  transaction: Prisma.TransactionClient,
+  input: { userId: string; grantedById: string; reason: string; trackId?: string | null; courseId?: string | null },
+) {
+  const grant = await transaction.entitlementGrant.create({
+    data: { userId: input.userId, grantedById: input.grantedById, reason: input.reason },
+  });
+
+  return transaction.entitlement.create({
+    data: {
+      userId: input.userId,
+      trackId: input.trackId ?? undefined,
+      courseId: input.courseId ?? undefined,
+      source: "MANUAL_GRANT",
+      grantId: grant.id,
+    },
+  });
+}
+
 export async function revokePaymentEntitlements(
   transaction: Prisma.TransactionClient,
   paymentId: string,

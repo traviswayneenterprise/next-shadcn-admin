@@ -43,6 +43,20 @@ export function verifyPaystackTransaction(reference: string) {
   }>(`/transaction/verify/${encodeURIComponent(reference)}`);
 }
 
+export function refundPaystackTransaction(input: { reference: string; amount?: number; merchantNote?: string }) {
+  return paystackRequest<{ id: number; transaction: { reference: string }; status: string }>(
+    "/refund",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        transaction: input.reference,
+        amount: input.amount,
+        merchant_note: input.merchantNote,
+      }),
+    },
+  );
+}
+
 export function verifyPaystackSignature(rawBody: string, signature: string | null) {
   requireEnvironment("PAYSTACK_SECRET_KEY");
   if (!signature) return false;

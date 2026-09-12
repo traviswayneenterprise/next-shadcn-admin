@@ -1,6 +1,7 @@
 import type { PermissionKey } from "@/lib/auth/permissions";
 import { getCurrentSession } from "@/lib/auth/current-session";
 import { prisma } from "@/lib/db";
+import { apiError } from "@/lib/api/response";
 
 type PermissionScope = { trackId?: string; cohortId?: string };
 
@@ -37,4 +38,11 @@ export async function requirePermission(permission: PermissionKey, scope: Permis
   }
 
   return session.user;
+}
+
+export function authorizationErrorResponse(error: unknown) {
+  if (error instanceof AuthorizationError) {
+    return apiError(error.code === "UNAUTHENTICATED" ? 401 : 403, error.code, error.message);
+  }
+  return null;
 }

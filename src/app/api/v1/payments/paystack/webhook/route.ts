@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 
 import { grantPaymentEntitlement, revokePaymentEntitlements } from "@/domain/commerce/entitlements";
 import { apiError, apiSuccess } from "@/lib/api/response";
+import { recordAuditEvent } from "@/lib/audit";
 import { prisma } from "@/lib/db";
 import { verifyPaystackSignature, verifyPaystackTransaction } from "@/lib/payments/paystack";
 
@@ -42,10 +43,36 @@ export async function POST(request: Request) {
         await grantPaymentEntitlement(transaction, payment.id);
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
       });
-    } else if (["refund.processed", "charge.dispute.resolve"].includes(payload.event)) {
+    } else if (payload.event === "charge.dispute.create") {
       await prisma.$transaction(async (transaction) => {
-        await transaction.payment.update({ where: { id: payment.id }, data: { status: payload.event.startsWith("refund") ? "REFUNDED" : "CHARGEBACK" } });
+        await transaction.payment.update({ where: { id: payment.id }, data: { status: "DISPUTED" } });
+        await recordAuditEvent(
+          {
+            action: "payment.dispute.opened",
+            resourceType: "Payment",
+            resourceId: payment.id,
+            correlationId: event.id,
+            metadata: { paystackEvent: payload.event },
+          },
+          transaction,
+        );
+        await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
+      });
+    } else if (["refund.processed", "charge.dispute.resolve"].includes(payload.event)) {
+      const isChargeback = payload.event === "charge.dispute.resolve";
+      await prisma.$transaction(async (transaction) => {
+        await transaction.payment.update({ where: { id: payment.id }, data: { status: isChargeback ? "CHARGEBACK" : "REFUNDED" } });
         await revokePaymentEntitlements(transaction, payment.id, `Paystack event: ${payload.event}`);
+        await recordAuditEvent(
+          {
+            action: isChargeback ? "payment.chargeback.confirmed" : "payment.refund.completed",
+            resourceType: "Payment",
+            resourceId: payment.id,
+            correlationId: event.id,
+            metadata: { paystackEvent: payload.event },
+          },
+          transaction,
+        );
         await transaction.paymentEvent.update({ where: { id: event.id }, data: { status: "PROCESSED", processedAt: new Date() } });
       });
     } else {
