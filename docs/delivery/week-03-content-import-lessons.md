@@ -268,6 +268,63 @@ the `TRANSACTION_OPTIONS` fix, 12 from the successful full rerun), and a
 live HTTP render of `/content/review` and `/content` both reflect the
 correct counts and badges.
 
+## Thursday: secure lesson-delivery vertical slice — recorded 2026-09-12
+
+Backend (`src/domain/content/progression.ts` and three new `/api/v1/learn/*`
+endpoints, added to the OpenAPI contract) and frontend (learner app:
+`/dashboard/learn`, `/dashboard/learn/[lessonId]`), verified live - 14/14
+checks in `scripts/thursday-lesson-delivery-acceptance.mjs` against the
+real dev server and database, plus a real cross-app page-load check.
+
+- **Prerequisites and progress**: `LessonProgress.status` is the single
+  source of truth (matches Monday's contract); a lesson unlocks once the
+  previous lesson in track order is `COMPLETED`, computed on read rather
+  than pre-populated for every lesson at enrollment.
+- **Cohort release enforcement**: `CohortRelease` gates a lesson behind a
+  date even if sequence would otherwise allow it, checked in the same
+  `getLessonAccess()` path as the prerequisite check.
+- **Scheduled publication**: `scheduleLessonVersion()` sets a version to
+  `SCHEDULED`; `applyDueScheduledPublication()` runs at the top of every
+  lesson-access check and publishes it for real the moment `scheduledFor`
+  has passed - no cron needed for correctness, verified by scheduling a
+  version 2 seconds out, waiting past it, and confirming a plain read
+  triggered the real publish.
+- **Iframe messaging validation and sandbox controls**: labs render in a
+  sandboxed `<iframe sandbox="allow-scripts allow-forms">` (no
+  `allow-same-origin`, no top-navigation, no popups) on the R2 asset
+  origin - a different origin from the learner app by construction, so no
+  extra infrastructure was needed for that isolation. `postMessage` is only
+  trusted after checking `event.origin` against the lab's real resolved
+  origin, then validated against a closed two-value message schema
+  (`lib/labs/messaging.ts`, frontend). The frontend also sets a
+  `Content-Security-Policy: frame-src` header on `/dashboard/learn/*`
+  restricting what it may frame at all - real defense in depth, but the
+  primary control is the iframe `sandbox` attribute, not this header.
+- **A real bug found by the live run**: `getLessonAccess()`'s asset-URL
+  resolution originally guessed the R2 key shape as `assets/{assetId}`
+  instead of looking up the real stored `Asset.key` (which includes the
+  original filename, e.g. `assets/{assetId}/{filename}` per Tuesday's
+  rules) - every resolved image/file/lab URL would have 404'd. Fixed by
+  batch-querying the real `Asset` rows for every block's `assetId` instead
+  of reconstructing the key.
+- **Real, permanent action**: lesson-1 and lesson-2 (both reviewed
+  `APPROVED` on Wednesday) are now genuinely `PUBLISHED` - not test data,
+  real curriculum state, verified end to end: a test learner with no
+  entitlement is rejected, granted access via the real Week 2 manual-grant
+  endpoint, sees lesson-1 as `AVAILABLE` with real rendered content,
+  lesson-2 as locked (`LOCKED_SEQUENCE`) until lesson-1 is marked
+  `COMPLETED` through the real progress endpoint, at which point lesson-2
+  unlocks - and a direct-URL request for a much-later, still-unpublished
+  lesson is still rejected server-side regardless of the requester.
+- **Not verified today**: an actual completed Paystack-style "real browser"
+  interaction isn't relevant here, but the client-side data-fetching and
+  rendering inside `/dashboard/learn` pages could only be confirmed by a
+  real HTTP fetch of the SSR shell (200, correctly gated by cross-app
+  session-cookie forwarding) - the client-side `useEffect` fetch-and-render
+  path itself needs a real browser to fully confirm, which I can't drive.
+  A real R2-hosted lab file also still can't be tested end-to-end (no R2
+  credentials in this environment, carried over from Tuesday/Wednesday).
+
 ## Assigned weekly deliverables
 
 ### Travis — technical deliverables
