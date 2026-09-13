@@ -28,3 +28,28 @@ test("a reusableSnapshot cannot smuggle an unregistered block type", () => {
     blocks: [{ id: "b1", version: 1, type: "reusableSnapshot", data: { sourceId: "rb_1", sourceVersion: 1, blocks: [{ id: "b2", version: 1, type: "notARealType", data: {} }] } }],
   }));
 });
+
+test("javascript:, data:, and vbscript: link/embed/video URLs are rejected (stored-XSS)", () => {
+  for (const scheme of ["javascript:alert(1)", "data:text/html,<script>alert(1)</script>", "vbscript:msgbox(1)"]) {
+    assert.throws(
+      () => validateContentDocument({ schemaVersion: 1, blocks: [{ id: "b1", version: 1, type: "paragraph", data: { richText: [{ type: "link", href: scheme, children: [{ text: "click" }] }] } }] }),
+      `expected ${scheme} to be rejected as a paragraph link`,
+    );
+    assert.throws(
+      () => validateContentDocument({ schemaVersion: 1, blocks: [{ id: "b1", version: 1, type: "embed", data: { url: scheme, title: "x" } }] }),
+      `expected ${scheme} to be rejected as an embed url`,
+    );
+    assert.throws(
+      () => validateContentDocument({ schemaVersion: 1, blocks: [{ id: "b1", version: 1, type: "video", data: { url: scheme } }] }),
+      `expected ${scheme} to be rejected as a video url`,
+    );
+  }
+});
+
+test("ordinary http(s)/mailto links still validate", () => {
+  const doc = validateContentDocument({
+    schemaVersion: 1,
+    blocks: [{ id: "b1", version: 1, type: "paragraph", data: { richText: [{ type: "link", href: "https://example.com", children: [{ text: "site" }] }, { type: "link", href: "mailto:a@b.com", children: [{ text: "email" }] }] } }],
+  });
+  assert.equal(doc.blocks.length, 1);
+});

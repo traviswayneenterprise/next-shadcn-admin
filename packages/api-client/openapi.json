@@ -665,7 +665,7 @@
             "$ref": "#/components/responses/NotFound"
           },
           "423": {
-            "description": "Locked (prerequisite not yet completed, or before the cohort release date).",
+            "description": "Locked - `error.details.reason` is `LOCKED_SEQUENCE` (complete the previous lesson first) or `LOCKED_RELEASE_DATE` (before the cohort release date); `error.message` is a ready-to-display explanation.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1579,23 +1579,21 @@
       },
       "LearnLesson": {
         "type": "object",
+        "description": "Always the unlocked shape - a locked lesson never reaches a 200 response; it's a 401/403/404/423 error instead (see the 423 response below), so this schema doesn't need a `locked` discriminant.",
         "required": [
-          "locked"
+          "lesson",
+          "progressStatus",
+          "version",
+          "blocks"
         ],
         "properties": {
-          "locked": {
-            "type": "boolean"
-          },
-          "reason": {
-            "type": "string",
-            "description": "Present only when locked."
-          },
-          "message": {
-            "type": "string",
-            "description": "Present only when locked."
-          },
           "lesson": {
             "type": "object",
+            "required": [
+              "id",
+              "title",
+              "slug"
+            ],
             "properties": {
               "id": {
                 "type": "string"

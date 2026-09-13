@@ -436,22 +436,18 @@ export interface components {
                 }[];
             }[];
         };
+        /** @description Always the unlocked shape - a locked lesson never reaches a 200 response; it's a 401/403/404/423 error instead (see the 423 response below), so this schema doesn't need a `locked` discriminant. */
         LearnLesson: {
-            locked: boolean;
-            /** @description Present only when locked. */
-            reason?: string;
-            /** @description Present only when locked. */
-            message?: string;
-            lesson?: {
-                id?: string;
-                title?: string;
-                slug?: string;
+            lesson: {
+                id: string;
+                title: string;
+                slug: string;
             };
             /** @enum {string} */
-            progressStatus?: "AVAILABLE" | "IN_PROGRESS" | "COMPLETED";
-            version?: number;
+            progressStatus: "AVAILABLE" | "IN_PROGRESS" | "COMPLETED";
+            version: number;
             objectives?: unknown;
-            blocks?: components["schemas"]["ContentBlock"][];
+            blocks: components["schemas"]["ContentBlock"][];
         };
         /** @description One rendered lesson block. See src/domain/content/blocks.ts (backend/admin) for the authoritative discriminated-union schema; kept intentionally loose here since the frontend renders by `type` by pattern-matching, not by re-validating the full contract. */
         ContentBlock: {
@@ -906,7 +902,7 @@ export interface operations {
             401: components["responses"]["Unauthorized"];
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
-            /** @description Locked (prerequisite not yet completed, or before the cohort release date). */
+            /** @description Locked - `error.details.reason` is `LOCKED_SEQUENCE` (complete the previous lesson first) or `LOCKED_RELEASE_DATE` (before the cohort release date); `error.message` is a ready-to-display explanation. */
             423: {
                 headers: {
                     [name: string]: unknown;
