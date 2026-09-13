@@ -22,13 +22,20 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   if (auth.response) return auth.response;
 
   const body = await request.json().catch(() => null);
-  if (!body || typeof body !== "object" || !Array.isArray((body as { blocks?: unknown }).blocks)) {
-    return apiError(400, "BAD_REQUEST", "A blocks array is required.");
+  if (!body || typeof body !== "object" || !("blocks" in body)) {
+    return apiError(400, "BAD_REQUEST", "A blocks payload is required.");
+  }
+  const { schemaVersion, blocks } = body as { schemaVersion?: unknown; blocks: unknown };
+  if (schemaVersion !== 1 && schemaVersion !== 2) {
+    return apiError(400, "BAD_REQUEST", "schemaVersion must be 1 or 2.");
+  }
+  if (schemaVersion === 1 && !Array.isArray(blocks)) {
+    return apiError(400, "BAD_REQUEST", "A blocks array is required for schemaVersion 1.");
   }
 
   const { id } = await context.params;
   try {
-    const version = await updateDraftDocument({ lessonVersionId: id, blocks: (body as { blocks: unknown }).blocks });
+    const version = await updateDraftDocument({ lessonVersionId: id, schemaVersion, blocks });
     return apiSuccess(version);
   } catch (error) {
     if (error instanceof DocumentEditError) {

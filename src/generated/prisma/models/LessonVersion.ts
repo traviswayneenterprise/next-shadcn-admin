@@ -39,6 +39,7 @@ export type LessonVersionMinAggregateOutputType = {
   lessonId: string | null
   version: number | null
   status: $Enums.PublishStatus | null
+  reviewStatus: $Enums.ReviewStatus | null
   documentId: string | null
   scheduledFor: Date | null
   publishedAt: Date | null
@@ -51,6 +52,7 @@ export type LessonVersionMaxAggregateOutputType = {
   lessonId: string | null
   version: number | null
   status: $Enums.PublishStatus | null
+  reviewStatus: $Enums.ReviewStatus | null
   documentId: string | null
   scheduledFor: Date | null
   publishedAt: Date | null
@@ -63,6 +65,7 @@ export type LessonVersionCountAggregateOutputType = {
   lessonId: number
   version: number
   status: number
+  reviewStatus: number
   objectives: number
   documentId: number
   scheduledFor: number
@@ -86,6 +89,7 @@ export type LessonVersionMinAggregateInputType = {
   lessonId?: true
   version?: true
   status?: true
+  reviewStatus?: true
   documentId?: true
   scheduledFor?: true
   publishedAt?: true
@@ -98,6 +102,7 @@ export type LessonVersionMaxAggregateInputType = {
   lessonId?: true
   version?: true
   status?: true
+  reviewStatus?: true
   documentId?: true
   scheduledFor?: true
   publishedAt?: true
@@ -110,6 +115,7 @@ export type LessonVersionCountAggregateInputType = {
   lessonId?: true
   version?: true
   status?: true
+  reviewStatus?: true
   objectives?: true
   documentId?: true
   scheduledFor?: true
@@ -210,6 +216,7 @@ export type LessonVersionGroupByOutputType = {
   lessonId: string
   version: number
   status: $Enums.PublishStatus
+  reviewStatus: $Enums.ReviewStatus
   objectives: runtime.JsonValue | null
   documentId: string
   scheduledFor: Date | null
@@ -246,6 +253,7 @@ export type LessonVersionWhereInput = {
   lessonId?: Prisma.StringFilter<"LessonVersion"> | string
   version?: Prisma.IntFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableFilter<"LessonVersion">
   documentId?: Prisma.StringFilter<"LessonVersion"> | string
   scheduledFor?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
@@ -265,6 +273,7 @@ export type LessonVersionOrderByWithRelationInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   objectives?: Prisma.SortOrderInput | Prisma.SortOrder
   documentId?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -289,6 +298,7 @@ export type LessonVersionWhereUniqueInput = Prisma.AtLeast<{
   lessonId?: Prisma.StringFilter<"LessonVersion"> | string
   version?: Prisma.IntFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableFilter<"LessonVersion">
   scheduledFor?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
@@ -307,6 +317,7 @@ export type LessonVersionOrderByWithAggregationInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   objectives?: Prisma.SortOrderInput | Prisma.SortOrder
   documentId?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -328,6 +339,7 @@ export type LessonVersionScalarWhereWithAggregatesInput = {
   lessonId?: Prisma.StringWithAggregatesFilter<"LessonVersion"> | string
   version?: Prisma.IntWithAggregatesFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusWithAggregatesFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusWithAggregatesFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableWithAggregatesFilter<"LessonVersion">
   documentId?: Prisma.StringWithAggregatesFilter<"LessonVersion"> | string
   scheduledFor?: Prisma.DateTimeNullableWithAggregatesFilter<"LessonVersion"> | Date | string | null
@@ -340,6 +352,7 @@ export type LessonVersionCreateInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -357,6 +370,7 @@ export type LessonVersionUncheckedCreateInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -372,6 +386,7 @@ export type LessonVersionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -389,6 +404,7 @@ export type LessonVersionUncheckedUpdateInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -405,6 +421,7 @@ export type LessonVersionCreateManyInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -417,6 +434,7 @@ export type LessonVersionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -428,6 +446,7 @@ export type LessonVersionUncheckedUpdateManyInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -456,6 +475,7 @@ export type LessonVersionCountOrderByAggregateInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   objectives?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrder
@@ -473,6 +493,7 @@ export type LessonVersionMaxOrderByAggregateInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -485,6 +506,7 @@ export type LessonVersionMinOrderByAggregateInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -590,6 +612,10 @@ export type LessonVersionUncheckedUpdateManyWithoutLessonNestedInput = {
   deleteMany?: Prisma.LessonVersionScalarWhereInput | Prisma.LessonVersionScalarWhereInput[]
 }
 
+export type EnumReviewStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ReviewStatus
+}
+
 export type LessonVersionCreateNestedOneWithoutDocumentInput = {
   create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
   connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentInput
@@ -670,6 +696,7 @@ export type LessonVersionCreateWithoutCreatedByInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -686,6 +713,7 @@ export type LessonVersionUncheckedCreateWithoutCreatedByInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -730,6 +758,7 @@ export type LessonVersionScalarWhereInput = {
   lessonId?: Prisma.StringFilter<"LessonVersion"> | string
   version?: Prisma.IntFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableFilter<"LessonVersion">
   documentId?: Prisma.StringFilter<"LessonVersion"> | string
   scheduledFor?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
@@ -742,6 +771,7 @@ export type LessonVersionCreateWithoutLessonInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -757,6 +787,7 @@ export type LessonVersionUncheckedCreateWithoutLessonInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -798,6 +829,7 @@ export type LessonVersionCreateWithoutDocumentInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -814,6 +846,7 @@ export type LessonVersionUncheckedCreateWithoutDocumentInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -844,6 +877,7 @@ export type LessonVersionUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -860,6 +894,7 @@ export type LessonVersionUncheckedUpdateWithoutDocumentInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -874,6 +909,7 @@ export type LessonVersionCreateWithoutQuizzesInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -890,6 +926,7 @@ export type LessonVersionUncheckedCreateWithoutQuizzesInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -920,6 +957,7 @@ export type LessonVersionUpdateWithoutQuizzesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -936,6 +974,7 @@ export type LessonVersionUncheckedUpdateWithoutQuizzesInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -950,6 +989,7 @@ export type LessonVersionCreateWithoutAssignmentsInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -966,6 +1006,7 @@ export type LessonVersionUncheckedCreateWithoutAssignmentsInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -996,6 +1037,7 @@ export type LessonVersionUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1012,6 +1054,7 @@ export type LessonVersionUncheckedUpdateWithoutAssignmentsInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1026,6 +1069,7 @@ export type LessonVersionCreateWithoutProgressInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
@@ -1042,6 +1086,7 @@ export type LessonVersionUncheckedCreateWithoutProgressInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -1072,6 +1117,7 @@ export type LessonVersionUpdateWithoutProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1088,6 +1134,7 @@ export type LessonVersionUncheckedUpdateWithoutProgressInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1103,6 +1150,7 @@ export type LessonVersionCreateManyCreatedByInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -1114,6 +1162,7 @@ export type LessonVersionUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1130,6 +1179,7 @@ export type LessonVersionUncheckedUpdateWithoutCreatedByInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1145,6 +1195,7 @@ export type LessonVersionUncheckedUpdateManyWithoutCreatedByInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1156,6 +1207,7 @@ export type LessonVersionCreateManyLessonInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId: string
   scheduledFor?: Date | string | null
@@ -1168,6 +1220,7 @@ export type LessonVersionUpdateWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1183,6 +1236,7 @@ export type LessonVersionUncheckedUpdateWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1198,6 +1252,7 @@ export type LessonVersionUncheckedUpdateManyWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1260,6 +1315,7 @@ export type LessonVersionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
   documentId?: boolean
   scheduledFor?: boolean
@@ -1280,6 +1336,7 @@ export type LessonVersionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
   documentId?: boolean
   scheduledFor?: boolean
@@ -1296,6 +1353,7 @@ export type LessonVersionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
   documentId?: boolean
   scheduledFor?: boolean
@@ -1312,6 +1370,7 @@ export type LessonVersionSelectScalar = {
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
   documentId?: boolean
   scheduledFor?: boolean
@@ -1320,7 +1379,7 @@ export type LessonVersionSelectScalar = {
   createdAt?: boolean
 }
 
-export type LessonVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "lessonId" | "version" | "status" | "objectives" | "documentId" | "scheduledFor" | "publishedAt" | "createdById" | "createdAt", ExtArgs["result"]["lessonVersion"]>
+export type LessonVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "lessonId" | "version" | "status" | "reviewStatus" | "objectives" | "documentId" | "scheduledFor" | "publishedAt" | "createdById" | "createdAt", ExtArgs["result"]["lessonVersion"]>
 export type LessonVersionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
   document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
@@ -1356,6 +1415,7 @@ export type $LessonVersionPayload<ExtArgs extends runtime.Types.Extensions.Inter
     lessonId: string
     version: number
     status: $Enums.PublishStatus
+    reviewStatus: $Enums.ReviewStatus
     objectives: runtime.JsonValue | null
     documentId: string
     scheduledFor: Date | null
@@ -1795,6 +1855,7 @@ export interface LessonVersionFieldRefs {
   readonly lessonId: Prisma.FieldRef<"LessonVersion", 'String'>
   readonly version: Prisma.FieldRef<"LessonVersion", 'Int'>
   readonly status: Prisma.FieldRef<"LessonVersion", 'PublishStatus'>
+  readonly reviewStatus: Prisma.FieldRef<"LessonVersion", 'ReviewStatus'>
   readonly objectives: Prisma.FieldRef<"LessonVersion", 'Json'>
   readonly documentId: Prisma.FieldRef<"LessonVersion", 'String'>
   readonly scheduledFor: Prisma.FieldRef<"LessonVersion", 'DateTime'>

@@ -1,23 +1,8 @@
 import { z } from "zod";
+import { linkHref, httpUrl } from "./url-safety.ts";
 
 const id = z.string().min(1).max(100);
 const assetReference = z.object({ assetId: id, alt: z.string().max(500).optional() });
-
-// z.string().url() alone accepts javascript:, data:, and vbscript: URIs -
-// all valid WHATWG URLs, all trivial stored-XSS if ever rendered into an
-// href. Every URL a renderer turns into a real href/src goes through one of
-// these two scheme allowlists instead of the bare .url() check.
-function schemeAllowedUrl(schemes: readonly string[]) {
-  return z.string().url().refine((value) => {
-    try {
-      return schemes.includes(new URL(value).protocol);
-    } catch {
-      return false;
-    }
-  }, "URL scheme is not allowed.");
-}
-const linkHref = schemeAllowedUrl(["http:", "https:", "mailto:"]);
-const httpUrl = schemeAllowedUrl(["http:", "https:"]);
 
 const link = z.object({ label: z.string().min(1), href: linkHref });
 

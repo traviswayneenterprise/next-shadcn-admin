@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/context/auth-context'
 import { Toaster } from '@/components/ui/toaster'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,8 +22,10 @@ export default function RootLayout({
       <body className="group/body" suppressHydrationWarning>
         <div id="root"></div>
         <AuthProvider>
-          {children}
-          <Toaster />
+          <TooltipProvider>
+            {children}
+            <Toaster />
+          </TooltipProvider>
         </AuthProvider>
       </body>
     </html>

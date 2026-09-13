@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
+import { getCsrfHeaders } from "@/lib/auth/csrf-client"
 
 type Asset = { id: string; originalName: string; url: string }
 
@@ -35,7 +36,7 @@ export function AssetPicker({
     const form = new FormData()
     form.append("file", file)
     try {
-      const response = await fetch("/api/v1/content/assets", { method: "POST", body: form })
+      const response = await fetch("/api/v1/content/assets", { method: "POST", headers: getCsrfHeaders(), body: form })
       const body = await response.json()
       if (!response.ok) {
         toast({ title: "Upload failed", description: body.error?.message, variant: "destructive" })
@@ -52,7 +53,7 @@ export function AssetPicker({
 
   return (
     <div className="flex items-center gap-2">
-      <Select value={selectedAssetId || undefined} onValueChange={onSelect} disabled={disabled || assets.length === 0}>
+      <Select value={selectedAssetId || undefined} onValueChange={(value) => value && onSelect(value)} disabled={disabled || assets.length === 0}>
         <SelectTrigger className="w-64">
           <SelectValue placeholder={assets.length === 0 ? "No assets yet" : "Select an asset"} />
         </SelectTrigger>
@@ -62,11 +63,9 @@ export function AssetPicker({
           ))}
         </SelectContent>
       </Select>
-      <Button variant="outline" size="sm" disabled={disabled || isUploading} asChild>
-        <label>
-          {isUploading ? "Uploading..." : "Upload"}
-          <input type="file" className="hidden" onChange={handleUpload} disabled={disabled || isUploading} />
-        </label>
+      <Button variant="outline" size="sm" disabled={disabled || isUploading} nativeButton={false} render={<label />}>
+        {isUploading ? "Uploading..." : "Upload"}
+        <input type="file" className="hidden" onChange={handleUpload} disabled={disabled || isUploading} />
       </Button>
     </div>
   )

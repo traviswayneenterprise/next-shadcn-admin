@@ -323,6 +323,7 @@ export const LessonVersionScalarFieldEnum = {
   lessonId: 'lessonId',
   version: 'version',
   status: 'status',
+  reviewStatus: 'reviewStatus',
   objectives: 'objectives',
   documentId: 'documentId',
   scheduledFor: 'scheduledFor',
@@ -347,6 +348,7 @@ export type ContentDocumentScalarFieldEnum = (typeof ContentDocumentScalarFieldE
 export const ReusableBlockScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  version: 'version',
   documentId: 'documentId',
   status: 'status',
   createdById: 'createdById',

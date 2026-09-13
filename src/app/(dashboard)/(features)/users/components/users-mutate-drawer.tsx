@@ -233,9 +233,7 @@ export function UsersMutateDrawer({ open, onOpenChange, currentRow }: Props) {
           </form>
         </Form>
         <SheetFooter className='gap-2'>
-          <SheetClose asChild>
-            <Button variant='outline'>Close</Button>
-          </SheetClose>
+          <SheetClose render={<Button variant='outline'>Close</Button>} />
           <Button form='users-form' type='submit'>
             Save changes
           </Button>

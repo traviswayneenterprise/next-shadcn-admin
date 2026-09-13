@@ -1,5 +1,6 @@
 import type { Prisma } from "@/generated/prisma/client";
 import { validateContentDocument, type ContentDocument } from "@/domain/content/blocks";
+import { validateLexicalDocument } from "@/domain/content/lexical-document";
 import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 
 export class DocumentEditError extends Error {}
@@ -33,8 +34,11 @@ export async function createDraftLessonVersion(input: { lessonId: string; actorI
   }, TRANSACTION_OPTIONS);
 }
 
-export async function updateDraftDocument(input: { lessonVersionId: string; blocks: unknown }) {
-  const validated = validateContentDocument({ schemaVersion: 1, blocks: input.blocks });
+export async function updateDraftDocument(input: { lessonVersionId: string; schemaVersion: 1 | 2; blocks: unknown }) {
+  const validatedBlocks =
+    input.schemaVersion === 1
+      ? validateContentDocument({ schemaVersion: 1, blocks: input.blocks }).blocks
+      : validateLexicalDocument({ schemaVersion: 2, blocks: input.blocks }).blocks;
 
   return prisma.$transaction(async (transaction) => {
     const version = await transaction.lessonVersion.findUnique({ where: { id: input.lessonVersionId } });
@@ -43,7 +47,7 @@ export async function updateDraftDocument(input: { lessonVersionId: string; bloc
 
     await transaction.contentDocument.update({
       where: { id: version.documentId },
-      data: { blocks: validated.blocks as Prisma.InputJsonValue },
+      data: { schemaVersion: input.schemaVersion, blocks: validatedBlocks as Prisma.InputJsonValue },
     });
     // An edit invalidates any prior manual-review decision on this draft.
     return transaction.lessonVersion.update({

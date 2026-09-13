@@ -5001,6 +5001,7 @@ export const LessonVersionScalarFieldEnum = {
   lessonId: 'lessonId',
   version: 'version',
   status: 'status',
+  reviewStatus: 'reviewStatus',
   objectives: 'objectives',
   documentId: 'documentId',
   scheduledFor: 'scheduledFor',
@@ -5025,6 +5026,7 @@ export type ContentDocumentScalarFieldEnum = (typeof ContentDocumentScalarFieldE
 export const ReusableBlockScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  version: 'version',
   documentId: 'documentId',
   status: 'status',
   createdById: 'createdById',
@@ -5775,6 +5777,20 @@ export type EnumPublishStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PublishStatus[]'
  */
 export type ListEnumPublishStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PublishStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus'
+ */
+export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus[]'
+ */
+export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
     
 
 

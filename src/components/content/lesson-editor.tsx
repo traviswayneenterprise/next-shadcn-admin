@@ -16,6 +16,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
+import { getCsrfHeaders } from "@/lib/auth/csrf-client"
 import { BLOCK_TYPES, newBlock, type BlockType } from "@/components/content/block-defaults"
 import { BlockForm } from "@/components/content/block-form"
 import { BlockRenderer } from "@/components/content/block-renderers"
@@ -71,30 +72,46 @@ export function LessonEditor({
     setBlocks((prev) => [...prev, newBlock(addType)])
   }
 
+  // A slow/degraded connection (or a request that timed out server-side)
+  // can come back with no body, or fail before a response arrives at all -
+  // either would otherwise throw past the caller's `if (response.ok)` check
+  // and leave the user with a silent failure instead of a toast.
+  async function safeFetch(input: string, init: RequestInit) {
+    try {
+      const response = await fetch(input, init)
+      const body = await response.json().catch(() => null)
+      return { ok: response.ok, body }
+    } catch {
+      return { ok: false, body: null }
+    }
+  }
+  const CONNECTION_ERROR = "Couldn't reach the server. Check your connection and try again."
+
   function save() {
     startTransition(async () => {
-      const response = await fetch(`/api/v1/content/lesson-versions/${versionId}`, {
+      const { ok, body } = await safeFetch(`/api/v1/content/lesson-versions/${versionId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ blocks }),
+        headers: { "Content-Type": "application/json", ...getCsrfHeaders() },
+        body: JSON.stringify({ schemaVersion: 1, blocks }),
       })
-      const body = await response.json()
-      if (response.ok) {
+      if (ok) {
         toast({ title: "Draft saved" })
       } else {
-        toast({ title: "Save failed", description: body.error?.message, variant: "destructive" })
+        toast({ title: "Save failed", description: body?.error?.message ?? CONNECTION_ERROR, variant: "destructive" })
       }
     })
   }
 
   function publish() {
     startTransition(async () => {
-      const response = await fetch(`/api/v1/content/lesson-versions/${versionId}/publish`, { method: "POST" })
-      const body = await response.json()
-      if (response.ok) {
+      const { ok, body } = await safeFetch(`/api/v1/content/lesson-versions/${versionId}/publish`, {
+        method: "POST",
+        headers: { ...getCsrfHeaders() },
+      })
+      if (ok) {
         toast({ title: "Published" })
       } else {
-        toast({ title: "Publish failed", description: body.error?.message, variant: "destructive" })
+        toast({ title: "Publish failed", description: body?.error?.message ?? CONNECTION_ERROR, variant: "destructive" })
       }
     })
   }
@@ -102,33 +119,31 @@ export function LessonEditor({
   function schedule() {
     if (!scheduledFor) return
     startTransition(async () => {
-      const response = await fetch(`/api/v1/content/lesson-versions/${versionId}/schedule`, {
+      const { ok, body } = await safeFetch(`/api/v1/content/lesson-versions/${versionId}/schedule`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getCsrfHeaders() },
         body: JSON.stringify({ scheduledFor: new Date(scheduledFor).toISOString() }),
       })
-      const body = await response.json()
-      if (response.ok) {
+      if (ok) {
         toast({ title: "Scheduled" })
       } else {
-        toast({ title: "Schedule failed", description: body.error?.message, variant: "destructive" })
+        toast({ title: "Schedule failed", description: body?.error?.message ?? CONNECTION_ERROR, variant: "destructive" })
       }
     })
   }
 
   function review(reviewStatusValue: "APPROVED" | "NEEDS_CORRECTION") {
     startTransition(async () => {
-      const response = await fetch(`/api/v1/content/lesson-versions/${versionId}/review`, {
+      const { ok, body } = await safeFetch(`/api/v1/content/lesson-versions/${versionId}/review`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getCsrfHeaders() },
         body: JSON.stringify({ status: reviewStatusValue, note: reviewNote || undefined }),
       })
-      const body = await response.json()
-      if (response.ok) {
+      if (ok) {
         setCurrentReviewStatus(body.data.reviewStatus)
         toast({ title: reviewStatusValue === "APPROVED" ? "Marked approved" : "Marked as needing correction" })
       } else {
-        toast({ title: "Review failed", description: body.error?.message, variant: "destructive" })
+        toast({ title: "Review failed", description: body?.error?.message ?? CONNECTION_ERROR, variant: "destructive" })
       }
     })
   }

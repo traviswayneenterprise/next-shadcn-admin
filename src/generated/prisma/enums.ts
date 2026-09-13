@@ -28,6 +28,15 @@ export const PublishStatus = {
 export type PublishStatus = (typeof PublishStatus)[keyof typeof PublishStatus]
 
 
+export const ReviewStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  NEEDS_CORRECTION: 'NEEDS_CORRECTION'
+} as const
+
+export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+
+
 export const ScopeType = {
   GLOBAL: 'GLOBAL',
   TRACK: 'TRACK',

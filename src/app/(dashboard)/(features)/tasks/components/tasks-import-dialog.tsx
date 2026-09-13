@@ -110,9 +110,7 @@ export function TasksImportDialog({ open, onOpenChange }: Props) {
           </form>
         </Form>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant='outline'>Close</Button>
-          </DialogClose>
+          <DialogClose render={<Button variant='outline'>Close</Button>} />
           <Button type='submit' form='task-import-form'>
             Import
           </Button>

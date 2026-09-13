@@ -20,13 +20,24 @@ export type ReusableBlockModel = runtime.Types.Result.DefaultSelection<Prisma.$R
 
 export type AggregateReusableBlock = {
   _count: ReusableBlockCountAggregateOutputType | null
+  _avg: ReusableBlockAvgAggregateOutputType | null
+  _sum: ReusableBlockSumAggregateOutputType | null
   _min: ReusableBlockMinAggregateOutputType | null
   _max: ReusableBlockMaxAggregateOutputType | null
+}
+
+export type ReusableBlockAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type ReusableBlockSumAggregateOutputType = {
+  version: number | null
 }
 
 export type ReusableBlockMinAggregateOutputType = {
   id: string | null
   name: string | null
+  version: number | null
   documentId: string | null
   status: $Enums.PublishStatus | null
   createdById: string | null
@@ -37,6 +48,7 @@ export type ReusableBlockMinAggregateOutputType = {
 export type ReusableBlockMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  version: number | null
   documentId: string | null
   status: $Enums.PublishStatus | null
   createdById: string | null
@@ -47,6 +59,7 @@ export type ReusableBlockMaxAggregateOutputType = {
 export type ReusableBlockCountAggregateOutputType = {
   id: number
   name: number
+  version: number
   documentId: number
   status: number
   createdById: number
@@ -56,9 +69,18 @@ export type ReusableBlockCountAggregateOutputType = {
 }
 
 
+export type ReusableBlockAvgAggregateInputType = {
+  version?: true
+}
+
+export type ReusableBlockSumAggregateInputType = {
+  version?: true
+}
+
 export type ReusableBlockMinAggregateInputType = {
   id?: true
   name?: true
+  version?: true
   documentId?: true
   status?: true
   createdById?: true
@@ -69,6 +91,7 @@ export type ReusableBlockMinAggregateInputType = {
 export type ReusableBlockMaxAggregateInputType = {
   id?: true
   name?: true
+  version?: true
   documentId?: true
   status?: true
   createdById?: true
@@ -79,6 +102,7 @@ export type ReusableBlockMaxAggregateInputType = {
 export type ReusableBlockCountAggregateInputType = {
   id?: true
   name?: true
+  version?: true
   documentId?: true
   status?: true
   createdById?: true
@@ -125,6 +149,18 @@ export type ReusableBlockAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ReusableBlockAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ReusableBlockSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ReusableBlockMinAggregateInputType
@@ -155,6 +191,8 @@ export type ReusableBlockGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: ReusableBlockCountAggregateInputType | true
+  _avg?: ReusableBlockAvgAggregateInputType
+  _sum?: ReusableBlockSumAggregateInputType
   _min?: ReusableBlockMinAggregateInputType
   _max?: ReusableBlockMaxAggregateInputType
 }
@@ -162,12 +200,15 @@ export type ReusableBlockGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type ReusableBlockGroupByOutputType = {
   id: string
   name: string
+  version: number
   documentId: string
   status: $Enums.PublishStatus
   createdById: string
   createdAt: Date
   updatedAt: Date
   _count: ReusableBlockCountAggregateOutputType | null
+  _avg: ReusableBlockAvgAggregateOutputType | null
+  _sum: ReusableBlockSumAggregateOutputType | null
   _min: ReusableBlockMinAggregateOutputType | null
   _max: ReusableBlockMaxAggregateOutputType | null
 }
@@ -193,6 +234,7 @@ export type ReusableBlockWhereInput = {
   NOT?: Prisma.ReusableBlockWhereInput | Prisma.ReusableBlockWhereInput[]
   id?: Prisma.StringFilter<"ReusableBlock"> | string
   name?: Prisma.StringFilter<"ReusableBlock"> | string
+  version?: Prisma.IntFilter<"ReusableBlock"> | number
   documentId?: Prisma.StringFilter<"ReusableBlock"> | string
   status?: Prisma.EnumPublishStatusFilter<"ReusableBlock"> | $Enums.PublishStatus
   createdById?: Prisma.StringFilter<"ReusableBlock"> | string
@@ -205,6 +247,7 @@ export type ReusableBlockWhereInput = {
 export type ReusableBlockOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -221,6 +264,7 @@ export type ReusableBlockWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ReusableBlockWhereInput[]
   NOT?: Prisma.ReusableBlockWhereInput | Prisma.ReusableBlockWhereInput[]
   name?: Prisma.StringFilter<"ReusableBlock"> | string
+  version?: Prisma.IntFilter<"ReusableBlock"> | number
   status?: Prisma.EnumPublishStatusFilter<"ReusableBlock"> | $Enums.PublishStatus
   createdById?: Prisma.StringFilter<"ReusableBlock"> | string
   createdAt?: Prisma.DateTimeFilter<"ReusableBlock"> | Date | string
@@ -232,14 +276,17 @@ export type ReusableBlockWhereUniqueInput = Prisma.AtLeast<{
 export type ReusableBlockOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ReusableBlockCountOrderByAggregateInput
+  _avg?: Prisma.ReusableBlockAvgOrderByAggregateInput
   _max?: Prisma.ReusableBlockMaxOrderByAggregateInput
   _min?: Prisma.ReusableBlockMinOrderByAggregateInput
+  _sum?: Prisma.ReusableBlockSumOrderByAggregateInput
 }
 
 export type ReusableBlockScalarWhereWithAggregatesInput = {
@@ -248,6 +295,7 @@ export type ReusableBlockScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ReusableBlockScalarWhereWithAggregatesInput | Prisma.ReusableBlockScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ReusableBlock"> | string
   name?: Prisma.StringWithAggregatesFilter<"ReusableBlock"> | string
+  version?: Prisma.IntWithAggregatesFilter<"ReusableBlock"> | number
   documentId?: Prisma.StringWithAggregatesFilter<"ReusableBlock"> | string
   status?: Prisma.EnumPublishStatusWithAggregatesFilter<"ReusableBlock"> | $Enums.PublishStatus
   createdById?: Prisma.StringWithAggregatesFilter<"ReusableBlock"> | string
@@ -258,6 +306,7 @@ export type ReusableBlockScalarWhereWithAggregatesInput = {
 export type ReusableBlockCreateInput = {
   id?: string
   name: string
+  version?: number
   status?: $Enums.PublishStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -268,6 +317,7 @@ export type ReusableBlockCreateInput = {
 export type ReusableBlockUncheckedCreateInput = {
   id?: string
   name: string
+  version?: number
   documentId: string
   status?: $Enums.PublishStatus
   createdById: string
@@ -278,6 +328,7 @@ export type ReusableBlockUncheckedCreateInput = {
 export type ReusableBlockUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -288,6 +339,7 @@ export type ReusableBlockUpdateInput = {
 export type ReusableBlockUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -298,6 +350,7 @@ export type ReusableBlockUncheckedUpdateInput = {
 export type ReusableBlockCreateManyInput = {
   id?: string
   name: string
+  version?: number
   documentId: string
   status?: $Enums.PublishStatus
   createdById: string
@@ -308,6 +361,7 @@ export type ReusableBlockCreateManyInput = {
 export type ReusableBlockUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,6 +370,7 @@ export type ReusableBlockUpdateManyMutationInput = {
 export type ReusableBlockUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -341,6 +396,7 @@ export type ReusableBlockNullableScalarRelationFilter = {
 export type ReusableBlockCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -348,9 +404,14 @@ export type ReusableBlockCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type ReusableBlockAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
 export type ReusableBlockMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -361,11 +422,16 @@ export type ReusableBlockMaxOrderByAggregateInput = {
 export type ReusableBlockMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ReusableBlockSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type ReusableBlockCreateNestedManyWithoutCreatedByInput = {
@@ -445,6 +511,7 @@ export type ReusableBlockUncheckedUpdateOneWithoutDocumentNestedInput = {
 export type ReusableBlockCreateWithoutCreatedByInput = {
   id?: string
   name: string
+  version?: number
   status?: $Enums.PublishStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -454,6 +521,7 @@ export type ReusableBlockCreateWithoutCreatedByInput = {
 export type ReusableBlockUncheckedCreateWithoutCreatedByInput = {
   id?: string
   name: string
+  version?: number
   documentId: string
   status?: $Enums.PublishStatus
   createdAt?: Date | string
@@ -492,6 +560,7 @@ export type ReusableBlockScalarWhereInput = {
   NOT?: Prisma.ReusableBlockScalarWhereInput | Prisma.ReusableBlockScalarWhereInput[]
   id?: Prisma.StringFilter<"ReusableBlock"> | string
   name?: Prisma.StringFilter<"ReusableBlock"> | string
+  version?: Prisma.IntFilter<"ReusableBlock"> | number
   documentId?: Prisma.StringFilter<"ReusableBlock"> | string
   status?: Prisma.EnumPublishStatusFilter<"ReusableBlock"> | $Enums.PublishStatus
   createdById?: Prisma.StringFilter<"ReusableBlock"> | string
@@ -502,6 +571,7 @@ export type ReusableBlockScalarWhereInput = {
 export type ReusableBlockCreateWithoutDocumentInput = {
   id?: string
   name: string
+  version?: number
   status?: $Enums.PublishStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -511,6 +581,7 @@ export type ReusableBlockCreateWithoutDocumentInput = {
 export type ReusableBlockUncheckedCreateWithoutDocumentInput = {
   id?: string
   name: string
+  version?: number
   status?: $Enums.PublishStatus
   createdById: string
   createdAt?: Date | string
@@ -536,6 +607,7 @@ export type ReusableBlockUpdateToOneWithWhereWithoutDocumentInput = {
 export type ReusableBlockUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -545,6 +617,7 @@ export type ReusableBlockUpdateWithoutDocumentInput = {
 export type ReusableBlockUncheckedUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -554,6 +627,7 @@ export type ReusableBlockUncheckedUpdateWithoutDocumentInput = {
 export type ReusableBlockCreateManyCreatedByInput = {
   id?: string
   name: string
+  version?: number
   documentId: string
   status?: $Enums.PublishStatus
   createdAt?: Date | string
@@ -563,6 +637,7 @@ export type ReusableBlockCreateManyCreatedByInput = {
 export type ReusableBlockUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -572,6 +647,7 @@ export type ReusableBlockUpdateWithoutCreatedByInput = {
 export type ReusableBlockUncheckedUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,6 +657,7 @@ export type ReusableBlockUncheckedUpdateWithoutCreatedByInput = {
 export type ReusableBlockUncheckedUpdateManyWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -592,6 +669,7 @@ export type ReusableBlockUncheckedUpdateManyWithoutCreatedByInput = {
 export type ReusableBlockSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  version?: boolean
   documentId?: boolean
   status?: boolean
   createdById?: boolean
@@ -604,6 +682,7 @@ export type ReusableBlockSelect<ExtArgs extends runtime.Types.Extensions.Interna
 export type ReusableBlockSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  version?: boolean
   documentId?: boolean
   status?: boolean
   createdById?: boolean
@@ -616,6 +695,7 @@ export type ReusableBlockSelectCreateManyAndReturn<ExtArgs extends runtime.Types
 export type ReusableBlockSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  version?: boolean
   documentId?: boolean
   status?: boolean
   createdById?: boolean
@@ -628,6 +708,7 @@ export type ReusableBlockSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type ReusableBlockSelectScalar = {
   id?: boolean
   name?: boolean
+  version?: boolean
   documentId?: boolean
   status?: boolean
   createdById?: boolean
@@ -635,7 +716,7 @@ export type ReusableBlockSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ReusableBlockOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "documentId" | "status" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["reusableBlock"]>
+export type ReusableBlockOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "version" | "documentId" | "status" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["reusableBlock"]>
 export type ReusableBlockInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -658,6 +739,7 @@ export type $ReusableBlockPayload<ExtArgs extends runtime.Types.Extensions.Inter
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    version: number
     documentId: string
     status: $Enums.PublishStatus
     createdById: string
@@ -1090,6 +1172,7 @@ export interface Prisma__ReusableBlockClient<T, Null = never, ExtArgs extends ru
 export interface ReusableBlockFieldRefs {
   readonly id: Prisma.FieldRef<"ReusableBlock", 'String'>
   readonly name: Prisma.FieldRef<"ReusableBlock", 'String'>
+  readonly version: Prisma.FieldRef<"ReusableBlock", 'Int'>
   readonly documentId: Prisma.FieldRef<"ReusableBlock", 'String'>
   readonly status: Prisma.FieldRef<"ReusableBlock", 'PublishStatus'>
   readonly createdById: Prisma.FieldRef<"ReusableBlock", 'String'>
