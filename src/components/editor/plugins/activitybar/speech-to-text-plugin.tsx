@@ -52,8 +52,23 @@ function SpeechToTextButton() {
 
 export function SpeechToTextPlugin() {
   const { t } = useTranslation();
+  // SUPPORT_SPEECH_RECOGNITION is computed from `typeof window`, so it's
+  // always false during SSR but can be true on the client - branching on it
+  // directly during render produced a real Mic/MicOff hydration mismatch
+  // (different icon + disabled/aria-pressed attrs between server and client
+  // HTML), which made React discard and rebuild this whole editor subtree
+  // on the client. That remount is the most likely cause of Editor X
+  // appearing to "forget" what was just typed. Fix: render the SSR-safe
+  // disabled branch on the first client render too (matching the server
+  // exactly), and only switch to the real capability after mount, via a
+  // plain post-hydration state update instead of a hydration mismatch.
+  const [supported, setSupported] = useState(false);
 
-  if (SUPPORT_SPEECH_RECOGNITION) {
+  useEffect(() => {
+    setSupported(SUPPORT_SPEECH_RECOGNITION);
+  }, []);
+
+  if (supported) {
     return <SpeechToTextButton />;
   }
 

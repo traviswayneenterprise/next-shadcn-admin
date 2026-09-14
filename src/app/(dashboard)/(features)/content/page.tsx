@@ -77,9 +77,17 @@ export default async function ContentPage() {
                       </TableCell>
                       <TableCell className="space-x-2 text-right">
                         {latest && (
-                          <Link href={`/content/lesson-versions/${latest.id}`}>
-                            <Button size="sm" variant="outline">Open</Button>
-                          </Link>
+                          <>
+                            <Link href={`/content/lesson-versions/${latest.id}`}>
+                              <Button size="sm" variant="outline">Open</Button>
+                            </Link>
+                            <Link href={`/content/lesson-versions/${latest.id}/editor-x`}>
+                              <Button size="sm" variant="outline">Editor X</Button>
+                            </Link>
+                            <Link href={`/content/lesson-versions/${latest.id}/editor-tiptap`}>
+                              <Button size="sm" variant="outline">Tiptap</Button>
+                            </Link>
+                          </>
                         )}
                         {permissions.includes("content.edit") && (
                           <form action={createDraftVersionAction} className="inline">

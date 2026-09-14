@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { linkHref } from "./url-safety.ts";
+import { linkHref, imageSrc } from "./url-safety.ts";
 
 // schemaVersion 2 stores a Lexical serialized editor-state tree (the
 // `root` node, i.e. `editor.getEditorState().toJSON().root`) directly in
@@ -198,7 +198,7 @@ const lexicalNode: z.ZodType<LexicalNodeInput> = z.lazy(() =>
     baseNode.extend({
       type: z.literal("image"),
       altText: z.string().max(1000),
-      src: linkHref,
+      src: imageSrc,
       height: z.number().min(0).max(10_000).optional(),
       width: z.number().min(0).max(10_000).optional(),
       maxWidth: z.number().min(0).max(10_000),

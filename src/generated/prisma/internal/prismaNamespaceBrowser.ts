@@ -108,6 +108,7 @@ export const ModelName = {
   Certificate: 'Certificate',
   CertificateEvent: 'CertificateEvent',
   AuditEvent: 'AuditEvent',
+  Comment: 'Comment',
   SecurityEvent: 'SecurityEvent'
 } as const
 
@@ -325,7 +326,10 @@ export const LessonVersionScalarFieldEnum = {
   status: 'status',
   reviewStatus: 'reviewStatus',
   objectives: 'objectives',
-  documentId: 'documentId',
+  documentIdV1: 'documentIdV1',
+  documentIdV2: 'documentIdV2',
+  documentIdV3: 'documentIdV3',
+  activeSchemaVersion: 'activeSchemaVersion',
   scheduledFor: 'scheduledFor',
   publishedAt: 'publishedAt',
   createdById: 'createdById',
@@ -940,6 +944,18 @@ export const AuditEventScalarFieldEnum = {
 } as const
 
 export type AuditEventScalarFieldEnum = (typeof AuditEventScalarFieldEnum)[keyof typeof AuditEventScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  resourceType: 'resourceType',
+  resourceId: 'resourceId',
+  body: 'body',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const SecurityEventScalarFieldEnum = {

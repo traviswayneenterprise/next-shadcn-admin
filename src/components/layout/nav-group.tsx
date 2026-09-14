@@ -24,6 +24,7 @@ import { Badge } from '../ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -144,9 +145,11 @@ const SidebarMenuCollapsedDropdown = ({
           <ChevronRight className='ml-auto h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
         </DropdownMenuTrigger>
         <DropdownMenuContent side='right' align='start' sideOffset={4}>
-          <DropdownMenuLabel className='text-xs text-muted-foreground'>
-            {item.title} {item.badge ? `(${item.badge})` : ''}
-          </DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className='text-xs text-muted-foreground'>
+              {item.title} {item.badge ? `(${item.badge})` : ''}
+            </DropdownMenuLabel>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
           {item.items.map((sub) => (
             <DropdownMenuItem

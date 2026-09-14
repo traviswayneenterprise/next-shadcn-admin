@@ -204,7 +204,9 @@ export type ContentDocumentWhereInput = {
   schemaVersion?: Prisma.IntFilter<"ContentDocument"> | number
   blocks?: Prisma.JsonFilter<"ContentDocument">
   createdAt?: Prisma.DateTimeFilter<"ContentDocument"> | Date | string
-  lessonVersion?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
+  lessonVersionAsV1?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
+  lessonVersionAsV2?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
+  lessonVersionAsV3?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
   reusableBlock?: Prisma.XOR<Prisma.ReusableBlockNullableScalarRelationFilter, Prisma.ReusableBlockWhereInput> | null
 }
 
@@ -213,7 +215,9 @@ export type ContentDocumentOrderByWithRelationInput = {
   schemaVersion?: Prisma.SortOrder
   blocks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  lessonVersion?: Prisma.LessonVersionOrderByWithRelationInput
+  lessonVersionAsV1?: Prisma.LessonVersionOrderByWithRelationInput
+  lessonVersionAsV2?: Prisma.LessonVersionOrderByWithRelationInput
+  lessonVersionAsV3?: Prisma.LessonVersionOrderByWithRelationInput
   reusableBlock?: Prisma.ReusableBlockOrderByWithRelationInput
 }
 
@@ -225,7 +229,9 @@ export type ContentDocumentWhereUniqueInput = Prisma.AtLeast<{
   schemaVersion?: Prisma.IntFilter<"ContentDocument"> | number
   blocks?: Prisma.JsonFilter<"ContentDocument">
   createdAt?: Prisma.DateTimeFilter<"ContentDocument"> | Date | string
-  lessonVersion?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
+  lessonVersionAsV1?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
+  lessonVersionAsV2?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
+  lessonVersionAsV3?: Prisma.XOR<Prisma.LessonVersionNullableScalarRelationFilter, Prisma.LessonVersionWhereInput> | null
   reusableBlock?: Prisma.XOR<Prisma.ReusableBlockNullableScalarRelationFilter, Prisma.ReusableBlockWhereInput> | null
 }, "id">
 
@@ -256,7 +262,9 @@ export type ContentDocumentCreateInput = {
   schemaVersion: number
   blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  lessonVersion?: Prisma.LessonVersionCreateNestedOneWithoutDocumentInput
+  lessonVersionAsV1?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV2?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV2Input
+  lessonVersionAsV3?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV3Input
   reusableBlock?: Prisma.ReusableBlockCreateNestedOneWithoutDocumentInput
 }
 
@@ -265,7 +273,9 @@ export type ContentDocumentUncheckedCreateInput = {
   schemaVersion: number
   blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  lessonVersion?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentInput
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV2Input
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV3Input
   reusableBlock?: Prisma.ReusableBlockUncheckedCreateNestedOneWithoutDocumentInput
 }
 
@@ -274,7 +284,9 @@ export type ContentDocumentUpdateInput = {
   schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessonVersion?: Prisma.LessonVersionUpdateOneWithoutDocumentNestedInput
+  lessonVersionAsV1?: Prisma.LessonVersionUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV2?: Prisma.LessonVersionUpdateOneWithoutDocumentV2NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUpdateOneWithoutDocumentV3NestedInput
   reusableBlock?: Prisma.ReusableBlockUpdateOneWithoutDocumentNestedInput
 }
 
@@ -283,7 +295,9 @@ export type ContentDocumentUncheckedUpdateInput = {
   schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessonVersion?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentNestedInput
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV2NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV3NestedInput
   reusableBlock?: Prisma.ReusableBlockUncheckedUpdateOneWithoutDocumentNestedInput
 }
 
@@ -313,6 +327,11 @@ export type ContentDocumentScalarRelationFilter = {
   isNot?: Prisma.ContentDocumentWhereInput
 }
 
+export type ContentDocumentNullableScalarRelationFilter = {
+  is?: Prisma.ContentDocumentWhereInput | null
+  isNot?: Prisma.ContentDocumentWhereInput | null
+}
+
 export type ContentDocumentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   schemaVersion?: Prisma.SortOrder
@@ -340,18 +359,50 @@ export type ContentDocumentSumOrderByAggregateInput = {
   schemaVersion?: Prisma.SortOrder
 }
 
-export type ContentDocumentCreateNestedOneWithoutLessonVersionInput = {
-  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionInput, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionInput>
-  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionInput
+export type ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input = {
+  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV1Input>
+  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionAsV1Input
   connect?: Prisma.ContentDocumentWhereUniqueInput
 }
 
-export type ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput = {
-  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionInput, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionInput>
-  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionInput
-  upsert?: Prisma.ContentDocumentUpsertWithoutLessonVersionInput
+export type ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input = {
+  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV2Input>
+  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionAsV2Input
   connect?: Prisma.ContentDocumentWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentDocumentUpdateToOneWithWhereWithoutLessonVersionInput, Prisma.ContentDocumentUpdateWithoutLessonVersionInput>, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionInput>
+}
+
+export type ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input = {
+  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV3Input>
+  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionAsV3Input
+  connect?: Prisma.ContentDocumentWhereUniqueInput
+}
+
+export type ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput = {
+  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV1Input>
+  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionAsV1Input
+  upsert?: Prisma.ContentDocumentUpsertWithoutLessonVersionAsV1Input
+  connect?: Prisma.ContentDocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentDocumentUpdateToOneWithWhereWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUpdateWithoutLessonVersionAsV1Input>, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV1Input>
+}
+
+export type ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput = {
+  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV2Input>
+  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionAsV2Input
+  upsert?: Prisma.ContentDocumentUpsertWithoutLessonVersionAsV2Input
+  disconnect?: Prisma.ContentDocumentWhereInput | boolean
+  delete?: Prisma.ContentDocumentWhereInput | boolean
+  connect?: Prisma.ContentDocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentDocumentUpdateToOneWithWhereWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUpdateWithoutLessonVersionAsV2Input>, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV2Input>
+}
+
+export type ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput = {
+  create?: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV3Input>
+  connectOrCreate?: Prisma.ContentDocumentCreateOrConnectWithoutLessonVersionAsV3Input
+  upsert?: Prisma.ContentDocumentUpsertWithoutLessonVersionAsV3Input
+  disconnect?: Prisma.ContentDocumentWhereInput | boolean
+  delete?: Prisma.ContentDocumentWhereInput | boolean
+  connect?: Prisma.ContentDocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentDocumentUpdateToOneWithWhereWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUpdateWithoutLessonVersionAsV3Input>, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV3Input>
 }
 
 export type ContentDocumentCreateNestedOneWithoutReusableBlockInput = {
@@ -368,51 +419,171 @@ export type ContentDocumentUpdateOneRequiredWithoutReusableBlockNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ContentDocumentUpdateToOneWithWhereWithoutReusableBlockInput, Prisma.ContentDocumentUpdateWithoutReusableBlockInput>, Prisma.ContentDocumentUncheckedUpdateWithoutReusableBlockInput>
 }
 
-export type ContentDocumentCreateWithoutLessonVersionInput = {
+export type ContentDocumentCreateWithoutLessonVersionAsV1Input = {
   id?: string
   schemaVersion: number
   blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  lessonVersionAsV2?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV2Input
+  lessonVersionAsV3?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV3Input
   reusableBlock?: Prisma.ReusableBlockCreateNestedOneWithoutDocumentInput
 }
 
-export type ContentDocumentUncheckedCreateWithoutLessonVersionInput = {
+export type ContentDocumentUncheckedCreateWithoutLessonVersionAsV1Input = {
   id?: string
   schemaVersion: number
   blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV2Input
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV3Input
   reusableBlock?: Prisma.ReusableBlockUncheckedCreateNestedOneWithoutDocumentInput
 }
 
-export type ContentDocumentCreateOrConnectWithoutLessonVersionInput = {
+export type ContentDocumentCreateOrConnectWithoutLessonVersionAsV1Input = {
   where: Prisma.ContentDocumentWhereUniqueInput
-  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionInput, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionInput>
+  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV1Input>
 }
 
-export type ContentDocumentUpsertWithoutLessonVersionInput = {
-  update: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionInput, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionInput>
-  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionInput, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionInput>
+export type ContentDocumentCreateWithoutLessonVersionAsV2Input = {
+  id?: string
+  schemaVersion: number
+  blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV3?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV3Input
+  reusableBlock?: Prisma.ReusableBlockCreateNestedOneWithoutDocumentInput
+}
+
+export type ContentDocumentUncheckedCreateWithoutLessonVersionAsV2Input = {
+  id?: string
+  schemaVersion: number
+  blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV3Input
+  reusableBlock?: Prisma.ReusableBlockUncheckedCreateNestedOneWithoutDocumentInput
+}
+
+export type ContentDocumentCreateOrConnectWithoutLessonVersionAsV2Input = {
+  where: Prisma.ContentDocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV2Input>
+}
+
+export type ContentDocumentCreateWithoutLessonVersionAsV3Input = {
+  id?: string
+  schemaVersion: number
+  blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV2?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV2Input
+  reusableBlock?: Prisma.ReusableBlockCreateNestedOneWithoutDocumentInput
+}
+
+export type ContentDocumentUncheckedCreateWithoutLessonVersionAsV3Input = {
+  id?: string
+  schemaVersion: number
+  blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV2Input
+  reusableBlock?: Prisma.ReusableBlockUncheckedCreateNestedOneWithoutDocumentInput
+}
+
+export type ContentDocumentCreateOrConnectWithoutLessonVersionAsV3Input = {
+  where: Prisma.ContentDocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV3Input>
+}
+
+export type ContentDocumentUpsertWithoutLessonVersionAsV1Input = {
+  update: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV1Input>
+  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV1Input>
   where?: Prisma.ContentDocumentWhereInput
 }
 
-export type ContentDocumentUpdateToOneWithWhereWithoutLessonVersionInput = {
+export type ContentDocumentUpdateToOneWithWhereWithoutLessonVersionAsV1Input = {
   where?: Prisma.ContentDocumentWhereInput
-  data: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionInput, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionInput>
+  data: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionAsV1Input, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV1Input>
 }
 
-export type ContentDocumentUpdateWithoutLessonVersionInput = {
+export type ContentDocumentUpdateWithoutLessonVersionAsV1Input = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonVersionAsV2?: Prisma.LessonVersionUpdateOneWithoutDocumentV2NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUpdateOneWithoutDocumentV3NestedInput
   reusableBlock?: Prisma.ReusableBlockUpdateOneWithoutDocumentNestedInput
 }
 
-export type ContentDocumentUncheckedUpdateWithoutLessonVersionInput = {
+export type ContentDocumentUncheckedUpdateWithoutLessonVersionAsV1Input = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV2NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV3NestedInput
+  reusableBlock?: Prisma.ReusableBlockUncheckedUpdateOneWithoutDocumentNestedInput
+}
+
+export type ContentDocumentUpsertWithoutLessonVersionAsV2Input = {
+  update: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV2Input>
+  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV2Input>
+  where?: Prisma.ContentDocumentWhereInput
+}
+
+export type ContentDocumentUpdateToOneWithWhereWithoutLessonVersionAsV2Input = {
+  where?: Prisma.ContentDocumentWhereInput
+  data: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionAsV2Input, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV2Input>
+}
+
+export type ContentDocumentUpdateWithoutLessonVersionAsV2Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUpdateOneWithoutDocumentV3NestedInput
+  reusableBlock?: Prisma.ReusableBlockUpdateOneWithoutDocumentNestedInput
+}
+
+export type ContentDocumentUncheckedUpdateWithoutLessonVersionAsV2Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV3NestedInput
+  reusableBlock?: Prisma.ReusableBlockUncheckedUpdateOneWithoutDocumentNestedInput
+}
+
+export type ContentDocumentUpsertWithoutLessonVersionAsV3Input = {
+  update: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV3Input>
+  create: Prisma.XOR<Prisma.ContentDocumentCreateWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUncheckedCreateWithoutLessonVersionAsV3Input>
+  where?: Prisma.ContentDocumentWhereInput
+}
+
+export type ContentDocumentUpdateToOneWithWhereWithoutLessonVersionAsV3Input = {
+  where?: Prisma.ContentDocumentWhereInput
+  data: Prisma.XOR<Prisma.ContentDocumentUpdateWithoutLessonVersionAsV3Input, Prisma.ContentDocumentUncheckedUpdateWithoutLessonVersionAsV3Input>
+}
+
+export type ContentDocumentUpdateWithoutLessonVersionAsV3Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV2?: Prisma.LessonVersionUpdateOneWithoutDocumentV2NestedInput
+  reusableBlock?: Prisma.ReusableBlockUpdateOneWithoutDocumentNestedInput
+}
+
+export type ContentDocumentUncheckedUpdateWithoutLessonVersionAsV3Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV2NestedInput
   reusableBlock?: Prisma.ReusableBlockUncheckedUpdateOneWithoutDocumentNestedInput
 }
 
@@ -421,7 +592,9 @@ export type ContentDocumentCreateWithoutReusableBlockInput = {
   schemaVersion: number
   blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  lessonVersion?: Prisma.LessonVersionCreateNestedOneWithoutDocumentInput
+  lessonVersionAsV1?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV2?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV2Input
+  lessonVersionAsV3?: Prisma.LessonVersionCreateNestedOneWithoutDocumentV3Input
 }
 
 export type ContentDocumentUncheckedCreateWithoutReusableBlockInput = {
@@ -429,7 +602,9 @@ export type ContentDocumentUncheckedCreateWithoutReusableBlockInput = {
   schemaVersion: number
   blocks: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  lessonVersion?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentInput
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV1Input
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV2Input
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedCreateNestedOneWithoutDocumentV3Input
 }
 
 export type ContentDocumentCreateOrConnectWithoutReusableBlockInput = {
@@ -453,7 +628,9 @@ export type ContentDocumentUpdateWithoutReusableBlockInput = {
   schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessonVersion?: Prisma.LessonVersionUpdateOneWithoutDocumentNestedInput
+  lessonVersionAsV1?: Prisma.LessonVersionUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV2?: Prisma.LessonVersionUpdateOneWithoutDocumentV2NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUpdateOneWithoutDocumentV3NestedInput
 }
 
 export type ContentDocumentUncheckedUpdateWithoutReusableBlockInput = {
@@ -461,7 +638,9 @@ export type ContentDocumentUncheckedUpdateWithoutReusableBlockInput = {
   schemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   blocks?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessonVersion?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentNestedInput
+  lessonVersionAsV1?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV1NestedInput
+  lessonVersionAsV2?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV2NestedInput
+  lessonVersionAsV3?: Prisma.LessonVersionUncheckedUpdateOneWithoutDocumentV3NestedInput
 }
 
 
@@ -471,7 +650,9 @@ export type ContentDocumentSelect<ExtArgs extends runtime.Types.Extensions.Inter
   schemaVersion?: boolean
   blocks?: boolean
   createdAt?: boolean
-  lessonVersion?: boolean | Prisma.ContentDocument$lessonVersionArgs<ExtArgs>
+  lessonVersionAsV1?: boolean | Prisma.ContentDocument$lessonVersionAsV1Args<ExtArgs>
+  lessonVersionAsV2?: boolean | Prisma.ContentDocument$lessonVersionAsV2Args<ExtArgs>
+  lessonVersionAsV3?: boolean | Prisma.ContentDocument$lessonVersionAsV3Args<ExtArgs>
   reusableBlock?: boolean | Prisma.ContentDocument$reusableBlockArgs<ExtArgs>
 }, ExtArgs["result"]["contentDocument"]>
 
@@ -498,7 +679,9 @@ export type ContentDocumentSelectScalar = {
 
 export type ContentDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "schemaVersion" | "blocks" | "createdAt", ExtArgs["result"]["contentDocument"]>
 export type ContentDocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  lessonVersion?: boolean | Prisma.ContentDocument$lessonVersionArgs<ExtArgs>
+  lessonVersionAsV1?: boolean | Prisma.ContentDocument$lessonVersionAsV1Args<ExtArgs>
+  lessonVersionAsV2?: boolean | Prisma.ContentDocument$lessonVersionAsV2Args<ExtArgs>
+  lessonVersionAsV3?: boolean | Prisma.ContentDocument$lessonVersionAsV3Args<ExtArgs>
   reusableBlock?: boolean | Prisma.ContentDocument$reusableBlockArgs<ExtArgs>
 }
 export type ContentDocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -507,7 +690,9 @@ export type ContentDocumentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type $ContentDocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ContentDocument"
   objects: {
-    lessonVersion: Prisma.$LessonVersionPayload<ExtArgs> | null
+    lessonVersionAsV1: Prisma.$LessonVersionPayload<ExtArgs> | null
+    lessonVersionAsV2: Prisma.$LessonVersionPayload<ExtArgs> | null
+    lessonVersionAsV3: Prisma.$LessonVersionPayload<ExtArgs> | null
     reusableBlock: Prisma.$ReusableBlockPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -909,7 +1094,9 @@ readonly fields: ContentDocumentFieldRefs;
  */
 export interface Prisma__ContentDocumentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  lessonVersion<T extends Prisma.ContentDocument$lessonVersionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocument$lessonVersionArgs<ExtArgs>>): Prisma.Prisma__LessonVersionClient<runtime.Types.Result.GetResult<Prisma.$LessonVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  lessonVersionAsV1<T extends Prisma.ContentDocument$lessonVersionAsV1Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocument$lessonVersionAsV1Args<ExtArgs>>): Prisma.Prisma__LessonVersionClient<runtime.Types.Result.GetResult<Prisma.$LessonVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  lessonVersionAsV2<T extends Prisma.ContentDocument$lessonVersionAsV2Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocument$lessonVersionAsV2Args<ExtArgs>>): Prisma.Prisma__LessonVersionClient<runtime.Types.Result.GetResult<Prisma.$LessonVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  lessonVersionAsV3<T extends Prisma.ContentDocument$lessonVersionAsV3Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocument$lessonVersionAsV3Args<ExtArgs>>): Prisma.Prisma__LessonVersionClient<runtime.Types.Result.GetResult<Prisma.$LessonVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reusableBlock<T extends Prisma.ContentDocument$reusableBlockArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocument$reusableBlockArgs<ExtArgs>>): Prisma.Prisma__ReusableBlockClient<runtime.Types.Result.GetResult<Prisma.$ReusableBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1337,9 +1524,47 @@ export type ContentDocumentDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * ContentDocument.lessonVersion
+ * ContentDocument.lessonVersionAsV1
  */
-export type ContentDocument$lessonVersionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type ContentDocument$lessonVersionAsV1Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonVersion
+   */
+  select?: Prisma.LessonVersionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonVersion
+   */
+  omit?: Prisma.LessonVersionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonVersionInclude<ExtArgs> | null
+  where?: Prisma.LessonVersionWhereInput
+}
+
+/**
+ * ContentDocument.lessonVersionAsV2
+ */
+export type ContentDocument$lessonVersionAsV2Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonVersion
+   */
+  select?: Prisma.LessonVersionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonVersion
+   */
+  omit?: Prisma.LessonVersionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonVersionInclude<ExtArgs> | null
+  where?: Prisma.LessonVersionWhereInput
+}
+
+/**
+ * ContentDocument.lessonVersionAsV3
+ */
+export type ContentDocument$lessonVersionAsV3Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the LessonVersion
    */

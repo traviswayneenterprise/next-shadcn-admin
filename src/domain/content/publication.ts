@@ -1,12 +1,11 @@
 import { validateContentDocument } from "@/domain/content/blocks";
-import { validateLexicalDocument } from "@/domain/content/lexical-document";
 import { prisma, TRANSACTION_OPTIONS } from "@/lib/db";
 
 export async function publishLessonVersion(lessonVersionId: string, actorId: string) {
   return prisma.$transaction(async (transaction) => {
     const version = await transaction.lessonVersion.findUnique({
       where: { id: lessonVersionId },
-      include: { document: true, lesson: true },
+      include: { documentV1: true, lesson: true },
     });
     if (!version) throw new Error("Lesson version not found.");
     if (version.status === "PUBLISHED") throw new Error("Published lesson versions are immutable.");
@@ -16,16 +15,15 @@ export async function publishLessonVersion(lessonVersionId: string, actorId: str
     // { schemaVersion, blocks } shape - every publish attempt failed
     // validation regardless of content. Caught by a live acceptance run.
     //
-    // schemaVersion determines which validator runs - a v2 (Lexical)
-    // document must never be checked against v1's block schema or every
-    // publish would fail for the wrong reason all over again.
-    if (version.document.schemaVersion === 1) {
-      validateContentDocument({ schemaVersion: 1, blocks: version.document.blocks });
-    } else if (version.document.schemaVersion === 2) {
-      validateLexicalDocument({ schemaVersion: 2, blocks: version.document.blocks });
-    } else {
-      throw new Error(`Unknown content schemaVersion ${version.document.schemaVersion}; refusing to publish.`);
-    }
+    // Publish always targets the classic (v1) slot, regardless of which
+    // editor(s) also have content on this draft (documentV2/documentV3 -
+    // see documents.ts). The learner-facing renderer
+    // (src/domain/content/progression.ts) only knows how to validate and
+    // serve v1 content; publishing a v2 (Lexical) or v3 (Tiptap) draft
+    // straight through would 500 for real learners the moment they open
+    // the lesson. Lexical and Tiptap are staff-only authoring trials until
+    // a learner-facing renderer exists for one of them.
+    validateContentDocument({ schemaVersion: 1, blocks: version.documentV1.blocks });
     const publishedAt = new Date();
     await transaction.lessonVersion.update({
       where: { id: version.id },

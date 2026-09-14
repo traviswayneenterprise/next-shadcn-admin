@@ -108,7 +108,7 @@ export async function getLessonAccess(input: { userId: string; lessonId: string 
 
   const version = await prisma.lessonVersion.findFirst({
     where: { lessonId: lesson.id, version: lesson.currentPublishedVersion },
-    include: { document: true },
+    include: { documentV1: true },
   });
   if (!version) throw new AccessError("NOT_PUBLISHED", "Published version record is missing.");
 
@@ -118,7 +118,9 @@ export async function getLessonAccess(input: { userId: string; lessonId: string 
     create: { enrollmentId: enrollment.id, lessonId: lesson.id, lessonVersionId: version.id, status: "AVAILABLE" },
   });
 
-  const validated = validateContentDocument({ schemaVersion: version.document.schemaVersion, blocks: version.document.blocks });
+  // Publish always targets the v1 (classic) slot - see publication.ts - so
+  // a published version's documentV1 is always schemaVersion 1 content.
+  const validated = validateContentDocument({ schemaVersion: 1, blocks: version.documentV1.blocks });
   const blocks = await resolveBlockAssetUrls(validated.blocks);
 
   return {

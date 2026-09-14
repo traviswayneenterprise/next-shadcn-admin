@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 import {
   defineExtension,
@@ -30,14 +32,13 @@ import { LexicalExtensionComposer } from "@lexical/react/LexicalExtensionCompose
 import { RichTextExtension } from "@lexical/rich-text";
 import { TableExtension } from "@lexical/table";
 
-import { MessageSquareText, TableOfContents } from "lucide-react";
+import { TableOfContents } from "lucide-react";
 
 import { AutoLinkExtension } from "@/components/editor/extensions/auto-link";
 import { AutocompleteExtension } from "@/components/editor/extensions/autocomplete";
 import { CardExtension } from "@/components/editor/extensions/card";
 import { CodeExtension } from "@/components/editor/extensions/code";
 import { CollapsibleExtension } from "@/components/editor/extensions/collapsible";
-import { CommentExtension } from "@/components/editor/extensions/comment";
 import { DateTimeExtension } from "@/components/editor/extensions/datetime";
 import { DragDropPasteExtension } from "@/components/editor/extensions/drag-drop-paste";
 import { EmojiExtension } from "@/components/editor/extensions/emoji";
@@ -95,10 +96,6 @@ import { ReactFindReplaceExtension } from "@/components/editor/plugins/decorator
 import { ReactReviewExtension } from "@/components/editor/plugins/decorator/review-plugin";
 import { DraggableBlockPlugin } from "@/components/editor/plugins/draggable-block-plugin";
 import { EmojiPickerPlugin } from "@/components/editor/plugins/emoji-picker-plugin";
-import {
-  CommentPlugin,
-  CommentsPanel,
-} from "@/components/editor/plugins/floating/comment-plugin";
 import { FloatingToolbarPlugin } from "@/components/editor/plugins/floating/floating-toolbar-plugin";
 import { LinkEditorPlugin } from "@/components/editor/plugins/floating/link-editor-plugin";
 import { RubyEditorPlugin } from "@/components/editor/plugins/floating/ruby-editor-plugin";
@@ -170,10 +167,16 @@ const EDITOR_TRANSFORMERS: Transformer[] = [
  * provider is chosen — see the AI toolbar/component-picker/floating
  * plugins, intentionally not mounted here).
  *
- * Embeds (YouTube/Twitter/Figma) and comments are enabled for authoring
- * UI parity; the domain-allowlist + sandboxed-iframe hardening these need
- * before any content reaches a learner happens in the security-patch pass
- * ahead of the learner-side renderer, not here. No save/load wiring yet.
+ * Embeds (YouTube/Twitter/Figma) are enabled for authoring UI parity; the
+ * domain-allowlist + sandboxed-iframe hardening these need before any
+ * content reaches a learner happens in the security-patch pass ahead of
+ * the learner-side renderer, not here.
+ *
+ * The inline comment-thread feature (MarkNode-based, its own sidebar
+ * panel) was removed - unused, and superseded by the cross-editor
+ * per-draft comment log (see lesson-version-side-panel.tsx) that now
+ * shows consistently across Classic/Editor X/Tiptap instead of being
+ * specific to this one editor.
  */
 export function Editor({
   initialState,
@@ -181,20 +184,27 @@ export function Editor({
 }: {
   /** A Lexical `root` node (i.e. `editorState.toJSON().root`), loaded once on mount. */
   initialState?: Record<string, unknown>;
-  /** Fires once with the created editor instance - use it to read state back out for saving. */
+  /** Fires with the current editor instance (see EditorRefBridge) - use it to read state back out for saving. */
   onEditor?: (editor: LexicalEditor) => void;
 } = {}) {
   const initialStateRef = useRef(initialState);
   const [tocOpen, setTocOpen] = useState(true);
-  const [commentsOpen, setCommentsOpen] = useState(true);
 
+  // The empty dependency array is intentional: this extension config must
+  // only ever be built once per Editor mount, regardless of onEditor's
+  // identity (register() reads onEditor indirectly via EditorRefBridge
+  // now, not from this closure) - re-running register() on every onEditor
+  // change would rebuild the whole Lexical editor and wipe unsaved
+  // content. The React Compiler's stricter preserve-manual-memoization
+  // check can't confirm that on its own, so it bails out of optimizing
+  // this component - a safe, correctness-preserving fallback, not a bug.
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const app = useMemo(
     () =>
       defineExtension({
         name: "@lms/lesson-editor",
         namespace: "lms-lesson-editor",
         register: (editor) => {
-          onEditor?.(editor);
           const initial = initialStateRef.current;
           if (initial) {
             editor.setEditorState(editor.parseEditorState({ root: initial } as unknown as SerializedEditorState), {
@@ -237,7 +247,6 @@ export function Editor({
           FigmaExtension,
           FormatStateExtension,
           ReactFindReplaceExtension,
-          CommentExtension,
           ClearEditorExtension,
           configExtension(AutoFocusExtension, {
             defaultSelection: "rootStart",
@@ -252,6 +261,7 @@ export function Editor({
     <TooltipProvider>
       <LanguageProvider>
         <LexicalExtensionComposer extension={app} contentEditable={null}>
+          <EditorRefBridge onEditor={onEditor} />
           <EditorWrapper>
             <SidebarProvider className="h-full min-h-0 gap-3">
               <Sidebar
@@ -297,13 +307,6 @@ export function Editor({
                   <FindReplaceToolbarPlugin />
                   <ClearToolbarPlugin />
                   <ImportExportToolbarPlugin transformers={EDITOR_TRANSFORMERS} />
-                  <PanelToggle
-                    className="ms-auto"
-                    labelKey="comments"
-                    icon={<MessageSquareText />}
-                    open={commentsOpen}
-                    onClick={() => setCommentsOpen((open) => !open)}
-                  />
                 </Toolbar>
                 <div className="relative min-w-0 flex-1 overflow-y-auto">
                   <ContentEditable variant="draggable" />
@@ -352,26 +355,35 @@ export function Editor({
                   </div>
                 </ActivityBar>
               </div>
-              <Sidebar
-                collapsible="none"
-                className={cn(
-                  "shrink-0 overflow-hidden transition-[width,margin] duration-200 ease-linear",
-                  commentsOpen
-                    ? "w-64 rounded-lg shadow-sm ring-1 ring-sidebar-border"
-                    : "-ms-3 w-0",
-                )}
-              >
-                <SidebarContent className="w-64">
-                  <CommentsPanel />
-                </SidebarContent>
-              </Sidebar>
-              <CommentPlugin />
             </SidebarProvider>
           </EditorWrapper>
         </LexicalExtensionComposer>
       </LanguageProvider>
     </TooltipProvider>
   );
+}
+
+/**
+ * Reads the editor instance from React Context (LexicalComposerContext)
+ * rather than from LexicalExtensionComposer's own useMemo-driven
+ * construction. In React Strict Mode dev, useMemo factories can run twice
+ * on mount to surface impure computations - this one isn't pure (it
+ * builds a real stateful editor), so both invocations create a real
+ * LexicalEditor and both used to call the old onEditor(editor) callback
+ * from inside the extension's register() hook, leaving Save's ref bound
+ * to whichever instance registered LAST even if the DOM/typing ended up
+ * bound to the OTHER one - exactly the bug where typing worked but Save
+ * always captured stale/empty content. Context is immune to this: it
+ * always reflects whichever editor instance the composer actually kept
+ * for this render, so a child reading it here can never point at a
+ * discarded ghost instance.
+ */
+function EditorRefBridge({ onEditor }: { onEditor?: (editor: LexicalEditor) => void }) {
+  const [editor] = useLexicalComposerContext();
+  useEffect(() => {
+    onEditor?.(editor);
+  }, [editor, onEditor]);
+  return null;
 }
 
 function PanelToggle({
@@ -381,7 +393,7 @@ function PanelToggle({
   onClick,
   className,
 }: {
-  labelKey: "tableOfContents" | "comments";
+  labelKey: "tableOfContents";
   icon: React.ReactNode;
   open: boolean;
   onClick: () => void;

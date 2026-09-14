@@ -196,5 +196,13 @@ export async function migrateDocumentToLexical(document: ContentDocument): Promi
   for (const block of document.blocks) {
     children.push(await migrateBlockToLexical(block));
   }
+  // Lexical's root node must always have at least one child - setEditorState
+  // throws "the editor state is empty" otherwise. A v1 document with zero
+  // blocks (any brand-new draft, or an empty v1 slot) is a real, valid case
+  // now that v1/v2/v3 are independent slots (see documents.ts) - represent
+  // it as a single empty paragraph, exactly what a blank editor looks like.
+  if (children.length === 0) {
+    children.push(paragraphNode([]));
+  }
   return { type: "root", version: 1, format: "", indent: 0, direction: "ltr", children };
 }

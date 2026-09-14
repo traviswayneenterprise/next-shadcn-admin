@@ -78,6 +78,25 @@ test("an image node with a javascript: src is rejected", () => {
   );
 });
 
+test("an image node with a data: URL src (the editor's own insert-image flow) validates", () => {
+  const doc = validateLexicalDocument(
+    minimalDoc([
+      { type: "image", version: 1, src: "data:image/png;base64,iVBORw0KGgo=", altText: "x", maxWidth: 500 },
+    ]),
+  );
+  assert.equal(doc.schemaVersion, 2);
+});
+
+test("an image node with a data:image/svg+xml src is rejected", () => {
+  assert.throws(() =>
+    validateLexicalDocument(
+      minimalDoc([
+        { type: "image", version: 1, src: "data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=", altText: "x", maxWidth: 500 },
+      ]),
+    ),
+  );
+});
+
 test("an embed node with a non-token id is rejected", () => {
   assert.throws(() =>
     validateLexicalDocument(
