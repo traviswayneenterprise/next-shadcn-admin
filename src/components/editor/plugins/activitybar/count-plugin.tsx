@@ -46,13 +46,21 @@ function computeCounts(text: string): { words: number; characters: number } {
 export function CountPlugin({ maxLength }: { maxLength?: number }) {
   const [editor] = useLexicalComposerContext();
   const { language, t } = useTranslation();
-  const [counts, setCounts] = useState(() =>
-    editor
-      .getEditorState()
-      .read(() => computeCounts($getRoot().getTextContent())),
-  );
+  // Reading editor.getEditorState() synchronously during render (the old
+  // useState initializer) produced a real SSR/CSR mismatch: Lexical's
+  // initial-content application timing isn't guaranteed identical between
+  // the server render and the client's first render, so the two passes
+  // could disagree on the actual count - the same class of issue already
+  // fixed in speech-to-text-plugin.tsx. Starting from a neutral value that
+  // matches on both passes, then reading the real count only after mount,
+  // avoids the mismatch entirely rather than trying to make two separate
+  // render passes agree on a moving target.
+  const [counts, setCounts] = useState({ words: 0, characters: 0 });
 
   useEffect(() => {
+    setCounts(
+      editor.getEditorState().read(() => computeCounts($getRoot().getTextContent())),
+    );
     return editor.registerUpdateListener(
       ({ editorState, dirtyElements, dirtyLeaves }) => {
         if (dirtyElements.size === 0 && dirtyLeaves.size === 0) {

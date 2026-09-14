@@ -4,12 +4,11 @@ import Link from "next/link"
 import { getCurrentSession } from "@/lib/auth/current-session"
 import { getGlobalPermissions } from "@/lib/auth/permissions"
 import { prisma } from "@/lib/db"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { HeaderContainer } from "@/components/ui/header-container"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { createDraftVersionAction } from "./actions"
+import { ContentTable } from "./components/content-table"
+import type { LessonRow } from "./components/columns"
 
 export default async function ContentPage() {
   const session = await getCurrentSession()
@@ -29,6 +28,20 @@ export default async function ContentPage() {
     ? await prisma.lessonVersion.count({ where: { reviewStatus: "PENDING" } })
     : 0
 
+  const rows: LessonRow[] = lessons.map((lesson) => {
+    const latest = lesson.versions[0]
+    return {
+      id: lesson.id,
+      title: lesson.title,
+      trackTitle: lesson.module.course.track.title,
+      courseTitle: lesson.module.course.title,
+      moduleTitle: lesson.module.title,
+      latestVersionId: latest?.id ?? null,
+      latestStatus: latest?.status ?? null,
+      latestReviewStatus: latest?.reviewStatus ?? null,
+    }
+  })
+
   return (
     <>
       <HeaderContainer>
@@ -40,71 +53,20 @@ export default async function ContentPage() {
         )}
       </HeaderContainer>
       <div className="flex-1 overflow-auto space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Lessons</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {lessons.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No lessons yet. The curriculum importer (Wednesday) populates these from source folders.
-            </p>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Lesson</TableHead>
-                  <TableHead>Track / Course / Module</TableHead>
-                  <TableHead>Latest version</TableHead>
-                  <TableHead>Review</TableHead>
-                  <TableHead />
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {lessons.map((lesson) => {
-                  const latest = lesson.versions[0]
-                  return (
-                    <TableRow key={lesson.id}>
-                      <TableCell>{lesson.title}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground">
-                        {lesson.module.course.track.title} / {lesson.module.course.title} / {lesson.module.title}
-                      </TableCell>
-                      <TableCell>
-                        {latest ? <Badge variant="outline">{latest.status}</Badge> : <span className="text-xs text-muted-foreground">none</span>}
-                      </TableCell>
-                      <TableCell>
-                        {latest ? <Badge variant="secondary">{latest.reviewStatus}</Badge> : null}
-                      </TableCell>
-                      <TableCell className="space-x-2 text-right">
-                        {latest && (
-                          <>
-                            <Link href={`/content/lesson-versions/${latest.id}`}>
-                              <Button size="sm" variant="outline">Open</Button>
-                            </Link>
-                            <Link href={`/content/lesson-versions/${latest.id}/editor-x`}>
-                              <Button size="sm" variant="outline">Editor X</Button>
-                            </Link>
-                            <Link href={`/content/lesson-versions/${latest.id}/editor-tiptap`}>
-                              <Button size="sm" variant="outline">Tiptap</Button>
-                            </Link>
-                          </>
-                        )}
-                        {permissions.includes("content.edit") && (
-                          <form action={createDraftVersionAction} className="inline">
-                            <input type="hidden" name="lessonId" value={lesson.id} />
-                            <input type="hidden" name="forkFromVersionId" value={latest?.id ?? ""} />
-                            <Button size="sm" type="submit">New draft</Button>
-                          </form>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Lessons</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {rows.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                No lessons yet. The curriculum importer (Wednesday) populates these from source folders.
+              </p>
+            ) : (
+              <ContentTable lessons={rows} canEdit={permissions.includes("content.edit")} />
+            )}
+          </CardContent>
+        </Card>
       </div>
     </>
   )

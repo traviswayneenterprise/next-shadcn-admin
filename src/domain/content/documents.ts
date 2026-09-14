@@ -23,7 +23,7 @@ export async function createDraftLessonVersion(input: { lessonId: string; actorI
         include: { documentV1: true },
       });
       if (!source || source.lessonId !== input.lessonId) throw new DocumentEditError("Source version not found.");
-      blocks = validateContentDocument(source.documentV1.blocks).blocks;
+      blocks = validateContentDocument({ schemaVersion: 1, blocks: source.documentV1.blocks }).blocks;
     }
 
     const document = await transaction.contentDocument.create({
