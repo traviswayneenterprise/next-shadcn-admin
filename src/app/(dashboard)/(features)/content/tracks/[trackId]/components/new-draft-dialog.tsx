@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { createDraftVersionAction } from "../actions"
-import type { LessonRow } from "./columns"
+import { createDraftVersionAction } from "@/app/(dashboard)/(features)/content/actions"
+import type { LessonRow } from "./lesson-item"
 
 const EDITOR_OPTIONS = [
   { value: "classic", label: "Classic", description: "The original block-based editor." },
