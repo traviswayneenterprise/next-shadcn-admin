@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { updateLessonAction } from "@/app/(dashboard)/(features)/content/tracks/actions"
-import type { LessonRow } from "./lesson-item"
+import type { LessonRow } from "./columns"
 
 export function EditLessonDialog({
   lesson,

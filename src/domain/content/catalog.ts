@@ -117,26 +117,3 @@ export async function updateLesson(input: { lessonId: string; title: string; est
 export async function archiveLesson(input: { lessonId: string; actorId: string }) {
   return prisma.lesson.update({ where: { id: input.lessonId }, data: { archivedAt: new Date() } });
 }
-
-// Fetched lazily, client-side, only when a Module is actually expanded in
-// the Track workspace accordion - not eagerly with the Track page - so
-// opening a Track with many modules doesn't drag in every lesson from
-// every module up front.
-export async function getModuleLessons(moduleId: string) {
-  const lessons = await prisma.lesson.findMany({
-    where: { moduleId, archivedAt: null },
-    orderBy: { order: "asc" },
-    include: { versions: { orderBy: { version: "desc" }, take: 1 } },
-  });
-  return lessons.map((lesson) => {
-    const latest = lesson.versions[0];
-    return {
-      id: lesson.id,
-      title: lesson.title,
-      estimatedMinutes: lesson.estimatedMinutes,
-      latestVersionId: latest?.id ?? null,
-      latestStatus: latest?.status ?? null,
-      latestReviewStatus: latest?.reviewStatus ?? null,
-    };
-  });
-}

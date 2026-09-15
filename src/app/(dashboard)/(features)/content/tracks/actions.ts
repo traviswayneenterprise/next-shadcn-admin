@@ -17,7 +17,6 @@ import {
   archiveModule,
   updateLesson,
   archiveLesson,
-  getModuleLessons,
 } from "@/domain/content/catalog"
 
 export async function createTrackAction(formData: FormData) {
@@ -37,8 +36,8 @@ export async function updateTrackAction(formData: FormData) {
   const description = String(formData.get("description") ?? "").trim()
   if (!title) throw new Error("A title is required.")
   await updateTrack({ trackId, title, description, actorId: actor.id })
-  revalidatePath(`/content/tracks/${trackId}`)
   revalidatePath("/content")
+  redirect(`/content/tracks/${trackId}`)
 }
 
 export async function archiveTrackAction(trackId: string) {
@@ -47,19 +46,15 @@ export async function archiveTrackAction(trackId: string) {
   revalidatePath("/content")
 }
 
-// Course/Module/Lesson all now live on the one Track workspace page (an
-// accordion, not separate routes - see tracks/[trackId]/page.tsx), so
-// their create/update actions just revalidate that page in place instead
-// of redirecting anywhere.
-
 export async function createCourseAction(formData: FormData) {
   const actor = await requirePermission("content.edit")
   const trackId = String(formData.get("trackId") ?? "")
   const title = String(formData.get("title") ?? "").trim()
   const description = String(formData.get("description") ?? "").trim()
   if (!title) throw new Error("A title is required.")
-  await createCourse({ trackId, title, description, actorId: actor.id })
+  const course = await createCourse({ trackId, title, description, actorId: actor.id })
   revalidatePath(`/content/tracks/${trackId}`)
+  redirect(`/content/tracks/${trackId}/courses/${course.id}`)
 }
 
 export async function updateCourseAction(formData: FormData) {
@@ -71,6 +66,7 @@ export async function updateCourseAction(formData: FormData) {
   if (!title) throw new Error("A title is required.")
   await updateCourse({ courseId, title, description, actorId: actor.id })
   revalidatePath(`/content/tracks/${trackId}`)
+  redirect(`/content/tracks/${trackId}/courses/${courseId}`)
 }
 
 export async function archiveCourseAction(input: { trackId: string; courseId: string }) {
@@ -86,25 +82,28 @@ export async function createModuleAction(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim()
   const description = String(formData.get("description") ?? "").trim()
   if (!title) throw new Error("A title is required.")
-  await createModule({ courseId, title, description, actorId: actor.id })
-  revalidatePath(`/content/tracks/${trackId}`)
+  const courseModule = await createModule({ courseId, title, description, actorId: actor.id })
+  revalidatePath(`/content/tracks/${trackId}/courses/${courseId}`)
+  redirect(`/content/tracks/${trackId}/courses/${courseId}/modules/${courseModule.id}`)
 }
 
 export async function updateModuleAction(formData: FormData) {
   const actor = await requirePermission("content.edit")
   const trackId = String(formData.get("trackId") ?? "")
+  const courseId = String(formData.get("courseId") ?? "")
   const moduleId = String(formData.get("moduleId") ?? "")
   const title = String(formData.get("title") ?? "").trim()
   const description = String(formData.get("description") ?? "").trim()
   if (!title) throw new Error("A title is required.")
   await updateModule({ moduleId, title, description, actorId: actor.id })
-  revalidatePath(`/content/tracks/${trackId}`)
+  revalidatePath(`/content/tracks/${trackId}/courses/${courseId}`)
+  redirect(`/content/tracks/${trackId}/courses/${courseId}/modules/${moduleId}`)
 }
 
-export async function archiveModuleAction(input: { trackId: string; moduleId: string }) {
+export async function archiveModuleAction(input: { trackId: string; courseId: string; moduleId: string }) {
   const actor = await requirePermission("content.edit")
   await archiveModule({ moduleId: input.moduleId, actorId: actor.id })
-  revalidatePath(`/content/tracks/${input.trackId}`)
+  revalidatePath(`/content/tracks/${input.trackId}/courses/${input.courseId}`)
 }
 
 export async function createLessonAction(formData: FormData) {
@@ -130,9 +129,4 @@ export async function updateLessonAction(formData: FormData) {
 export async function archiveLessonAction(lessonId: string) {
   const actor = await requirePermission("content.edit")
   await archiveLesson({ lessonId, actorId: actor.id })
-}
-
-export async function getModuleLessonsAction(moduleId: string) {
-  await requirePermission("content.read")
-  return getModuleLessons(moduleId)
 }
