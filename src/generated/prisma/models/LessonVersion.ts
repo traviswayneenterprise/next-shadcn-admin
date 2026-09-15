@@ -28,10 +28,12 @@ export type AggregateLessonVersion = {
 
 export type LessonVersionAvgAggregateOutputType = {
   version: number | null
+  activeSchemaVersion: number | null
 }
 
 export type LessonVersionSumAggregateOutputType = {
   version: number | null
+  activeSchemaVersion: number | null
 }
 
 export type LessonVersionMinAggregateOutputType = {
@@ -39,7 +41,11 @@ export type LessonVersionMinAggregateOutputType = {
   lessonId: string | null
   version: number | null
   status: $Enums.PublishStatus | null
-  documentId: string | null
+  reviewStatus: $Enums.ReviewStatus | null
+  documentIdV1: string | null
+  documentIdV2: string | null
+  documentIdV3: string | null
+  activeSchemaVersion: number | null
   scheduledFor: Date | null
   publishedAt: Date | null
   createdById: string | null
@@ -51,7 +57,11 @@ export type LessonVersionMaxAggregateOutputType = {
   lessonId: string | null
   version: number | null
   status: $Enums.PublishStatus | null
-  documentId: string | null
+  reviewStatus: $Enums.ReviewStatus | null
+  documentIdV1: string | null
+  documentIdV2: string | null
+  documentIdV3: string | null
+  activeSchemaVersion: number | null
   scheduledFor: Date | null
   publishedAt: Date | null
   createdById: string | null
@@ -63,8 +73,12 @@ export type LessonVersionCountAggregateOutputType = {
   lessonId: number
   version: number
   status: number
+  reviewStatus: number
   objectives: number
-  documentId: number
+  documentIdV1: number
+  documentIdV2: number
+  documentIdV3: number
+  activeSchemaVersion: number
   scheduledFor: number
   publishedAt: number
   createdById: number
@@ -75,10 +89,12 @@ export type LessonVersionCountAggregateOutputType = {
 
 export type LessonVersionAvgAggregateInputType = {
   version?: true
+  activeSchemaVersion?: true
 }
 
 export type LessonVersionSumAggregateInputType = {
   version?: true
+  activeSchemaVersion?: true
 }
 
 export type LessonVersionMinAggregateInputType = {
@@ -86,7 +102,11 @@ export type LessonVersionMinAggregateInputType = {
   lessonId?: true
   version?: true
   status?: true
-  documentId?: true
+  reviewStatus?: true
+  documentIdV1?: true
+  documentIdV2?: true
+  documentIdV3?: true
+  activeSchemaVersion?: true
   scheduledFor?: true
   publishedAt?: true
   createdById?: true
@@ -98,7 +118,11 @@ export type LessonVersionMaxAggregateInputType = {
   lessonId?: true
   version?: true
   status?: true
-  documentId?: true
+  reviewStatus?: true
+  documentIdV1?: true
+  documentIdV2?: true
+  documentIdV3?: true
+  activeSchemaVersion?: true
   scheduledFor?: true
   publishedAt?: true
   createdById?: true
@@ -110,8 +134,12 @@ export type LessonVersionCountAggregateInputType = {
   lessonId?: true
   version?: true
   status?: true
+  reviewStatus?: true
   objectives?: true
-  documentId?: true
+  documentIdV1?: true
+  documentIdV2?: true
+  documentIdV3?: true
+  activeSchemaVersion?: true
   scheduledFor?: true
   publishedAt?: true
   createdById?: true
@@ -210,8 +238,12 @@ export type LessonVersionGroupByOutputType = {
   lessonId: string
   version: number
   status: $Enums.PublishStatus
+  reviewStatus: $Enums.ReviewStatus
   objectives: runtime.JsonValue | null
-  documentId: string
+  documentIdV1: string
+  documentIdV2: string | null
+  documentIdV3: string | null
+  activeSchemaVersion: number
   scheduledFor: Date | null
   publishedAt: Date | null
   createdById: string
@@ -246,14 +278,20 @@ export type LessonVersionWhereInput = {
   lessonId?: Prisma.StringFilter<"LessonVersion"> | string
   version?: Prisma.IntFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableFilter<"LessonVersion">
-  documentId?: Prisma.StringFilter<"LessonVersion"> | string
+  documentIdV1?: Prisma.StringFilter<"LessonVersion"> | string
+  documentIdV2?: Prisma.StringNullableFilter<"LessonVersion"> | string | null
+  documentIdV3?: Prisma.StringNullableFilter<"LessonVersion"> | string | null
+  activeSchemaVersion?: Prisma.IntFilter<"LessonVersion"> | number
   scheduledFor?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   createdById?: Prisma.StringFilter<"LessonVersion"> | string
   createdAt?: Prisma.DateTimeFilter<"LessonVersion"> | Date | string
   lesson?: Prisma.XOR<Prisma.LessonScalarRelationFilter, Prisma.LessonWhereInput>
-  document?: Prisma.XOR<Prisma.ContentDocumentScalarRelationFilter, Prisma.ContentDocumentWhereInput>
+  documentV1?: Prisma.XOR<Prisma.ContentDocumentScalarRelationFilter, Prisma.ContentDocumentWhereInput>
+  documentV2?: Prisma.XOR<Prisma.ContentDocumentNullableScalarRelationFilter, Prisma.ContentDocumentWhereInput> | null
+  documentV3?: Prisma.XOR<Prisma.ContentDocumentNullableScalarRelationFilter, Prisma.ContentDocumentWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   quizzes?: Prisma.QuizListRelationFilter
   assignments?: Prisma.AssignmentListRelationFilter
@@ -265,14 +303,20 @@ export type LessonVersionOrderByWithRelationInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   objectives?: Prisma.SortOrderInput | Prisma.SortOrder
-  documentId?: Prisma.SortOrder
+  documentIdV1?: Prisma.SortOrder
+  documentIdV2?: Prisma.SortOrderInput | Prisma.SortOrder
+  documentIdV3?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   lesson?: Prisma.LessonOrderByWithRelationInput
-  document?: Prisma.ContentDocumentOrderByWithRelationInput
+  documentV1?: Prisma.ContentDocumentOrderByWithRelationInput
+  documentV2?: Prisma.ContentDocumentOrderByWithRelationInput
+  documentV3?: Prisma.ContentDocumentOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
   quizzes?: Prisma.QuizOrderByRelationAggregateInput
   assignments?: Prisma.AssignmentOrderByRelationAggregateInput
@@ -281,7 +325,9 @@ export type LessonVersionOrderByWithRelationInput = {
 
 export type LessonVersionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  documentId?: string
+  documentIdV1?: string
+  documentIdV2?: string
+  documentIdV3?: string
   lessonId_version?: Prisma.LessonVersionLessonIdVersionCompoundUniqueInput
   AND?: Prisma.LessonVersionWhereInput | Prisma.LessonVersionWhereInput[]
   OR?: Prisma.LessonVersionWhereInput[]
@@ -289,26 +335,34 @@ export type LessonVersionWhereUniqueInput = Prisma.AtLeast<{
   lessonId?: Prisma.StringFilter<"LessonVersion"> | string
   version?: Prisma.IntFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableFilter<"LessonVersion">
+  activeSchemaVersion?: Prisma.IntFilter<"LessonVersion"> | number
   scheduledFor?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   createdById?: Prisma.StringFilter<"LessonVersion"> | string
   createdAt?: Prisma.DateTimeFilter<"LessonVersion"> | Date | string
   lesson?: Prisma.XOR<Prisma.LessonScalarRelationFilter, Prisma.LessonWhereInput>
-  document?: Prisma.XOR<Prisma.ContentDocumentScalarRelationFilter, Prisma.ContentDocumentWhereInput>
+  documentV1?: Prisma.XOR<Prisma.ContentDocumentScalarRelationFilter, Prisma.ContentDocumentWhereInput>
+  documentV2?: Prisma.XOR<Prisma.ContentDocumentNullableScalarRelationFilter, Prisma.ContentDocumentWhereInput> | null
+  documentV3?: Prisma.XOR<Prisma.ContentDocumentNullableScalarRelationFilter, Prisma.ContentDocumentWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   quizzes?: Prisma.QuizListRelationFilter
   assignments?: Prisma.AssignmentListRelationFilter
   progress?: Prisma.LessonProgressListRelationFilter
-}, "id" | "documentId" | "lessonId_version">
+}, "id" | "documentIdV1" | "documentIdV2" | "documentIdV3" | "lessonId_version">
 
 export type LessonVersionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   objectives?: Prisma.SortOrderInput | Prisma.SortOrder
-  documentId?: Prisma.SortOrder
+  documentIdV1?: Prisma.SortOrder
+  documentIdV2?: Prisma.SortOrderInput | Prisma.SortOrder
+  documentIdV3?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -328,8 +382,12 @@ export type LessonVersionScalarWhereWithAggregatesInput = {
   lessonId?: Prisma.StringWithAggregatesFilter<"LessonVersion"> | string
   version?: Prisma.IntWithAggregatesFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusWithAggregatesFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusWithAggregatesFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableWithAggregatesFilter<"LessonVersion">
-  documentId?: Prisma.StringWithAggregatesFilter<"LessonVersion"> | string
+  documentIdV1?: Prisma.StringWithAggregatesFilter<"LessonVersion"> | string
+  documentIdV2?: Prisma.StringNullableWithAggregatesFilter<"LessonVersion"> | string | null
+  documentIdV3?: Prisma.StringNullableWithAggregatesFilter<"LessonVersion"> | string | null
+  activeSchemaVersion?: Prisma.IntWithAggregatesFilter<"LessonVersion"> | number
   scheduledFor?: Prisma.DateTimeNullableWithAggregatesFilter<"LessonVersion"> | Date | string | null
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LessonVersion"> | Date | string | null
   createdById?: Prisma.StringWithAggregatesFilter<"LessonVersion"> | string
@@ -340,12 +398,16 @@ export type LessonVersionCreateInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
-  document: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
@@ -357,8 +419,12 @@ export type LessonVersionUncheckedCreateInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -372,12 +438,16 @@ export type LessonVersionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
-  document?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
@@ -389,8 +459,12 @@ export type LessonVersionUncheckedUpdateInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -405,8 +479,12 @@ export type LessonVersionCreateManyInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -417,7 +495,9 @@ export type LessonVersionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -428,8 +508,12 @@ export type LessonVersionUncheckedUpdateManyInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -456,8 +540,12 @@ export type LessonVersionCountOrderByAggregateInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
   objectives?: Prisma.SortOrder
-  documentId?: Prisma.SortOrder
+  documentIdV1?: Prisma.SortOrder
+  documentIdV2?: Prisma.SortOrder
+  documentIdV3?: Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -466,6 +554,7 @@ export type LessonVersionCountOrderByAggregateInput = {
 
 export type LessonVersionAvgOrderByAggregateInput = {
   version?: Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
 }
 
 export type LessonVersionMaxOrderByAggregateInput = {
@@ -473,7 +562,11 @@ export type LessonVersionMaxOrderByAggregateInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  documentId?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  documentIdV1?: Prisma.SortOrder
+  documentIdV2?: Prisma.SortOrder
+  documentIdV3?: Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -485,7 +578,11 @@ export type LessonVersionMinOrderByAggregateInput = {
   lessonId?: Prisma.SortOrder
   version?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  documentId?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  documentIdV1?: Prisma.SortOrder
+  documentIdV2?: Prisma.SortOrder
+  documentIdV3?: Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
   scheduledFor?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -494,6 +591,7 @@ export type LessonVersionMinOrderByAggregateInput = {
 
 export type LessonVersionSumOrderByAggregateInput = {
   version?: Prisma.SortOrder
+  activeSchemaVersion?: Prisma.SortOrder
 }
 
 export type LessonVersionNullableScalarRelationFilter = {
@@ -590,36 +688,104 @@ export type LessonVersionUncheckedUpdateManyWithoutLessonNestedInput = {
   deleteMany?: Prisma.LessonVersionScalarWhereInput | Prisma.LessonVersionScalarWhereInput[]
 }
 
-export type LessonVersionCreateNestedOneWithoutDocumentInput = {
-  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
-  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentInput
+export type EnumReviewStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ReviewStatus
+}
+
+export type LessonVersionCreateNestedOneWithoutDocumentV1Input = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV1Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV1Input
   connect?: Prisma.LessonVersionWhereUniqueInput
 }
 
-export type LessonVersionUncheckedCreateNestedOneWithoutDocumentInput = {
-  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
-  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentInput
+export type LessonVersionCreateNestedOneWithoutDocumentV2Input = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV2Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV2Input
   connect?: Prisma.LessonVersionWhereUniqueInput
 }
 
-export type LessonVersionUpdateOneWithoutDocumentNestedInput = {
-  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
-  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentInput
-  upsert?: Prisma.LessonVersionUpsertWithoutDocumentInput
+export type LessonVersionCreateNestedOneWithoutDocumentV3Input = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV3Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV3Input
+  connect?: Prisma.LessonVersionWhereUniqueInput
+}
+
+export type LessonVersionUncheckedCreateNestedOneWithoutDocumentV1Input = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV1Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV1Input
+  connect?: Prisma.LessonVersionWhereUniqueInput
+}
+
+export type LessonVersionUncheckedCreateNestedOneWithoutDocumentV2Input = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV2Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV2Input
+  connect?: Prisma.LessonVersionWhereUniqueInput
+}
+
+export type LessonVersionUncheckedCreateNestedOneWithoutDocumentV3Input = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV3Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV3Input
+  connect?: Prisma.LessonVersionWhereUniqueInput
+}
+
+export type LessonVersionUpdateOneWithoutDocumentV1NestedInput = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV1Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV1Input
+  upsert?: Prisma.LessonVersionUpsertWithoutDocumentV1Input
   disconnect?: Prisma.LessonVersionWhereInput | boolean
   delete?: Prisma.LessonVersionWhereInput | boolean
   connect?: Prisma.LessonVersionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentInput, Prisma.LessonVersionUpdateWithoutDocumentInput>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentV1Input, Prisma.LessonVersionUpdateWithoutDocumentV1Input>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV1Input>
 }
 
-export type LessonVersionUncheckedUpdateOneWithoutDocumentNestedInput = {
-  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
-  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentInput
-  upsert?: Prisma.LessonVersionUpsertWithoutDocumentInput
+export type LessonVersionUpdateOneWithoutDocumentV2NestedInput = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV2Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV2Input
+  upsert?: Prisma.LessonVersionUpsertWithoutDocumentV2Input
   disconnect?: Prisma.LessonVersionWhereInput | boolean
   delete?: Prisma.LessonVersionWhereInput | boolean
   connect?: Prisma.LessonVersionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentInput, Prisma.LessonVersionUpdateWithoutDocumentInput>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentV2Input, Prisma.LessonVersionUpdateWithoutDocumentV2Input>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV2Input>
+}
+
+export type LessonVersionUpdateOneWithoutDocumentV3NestedInput = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV3Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV3Input
+  upsert?: Prisma.LessonVersionUpsertWithoutDocumentV3Input
+  disconnect?: Prisma.LessonVersionWhereInput | boolean
+  delete?: Prisma.LessonVersionWhereInput | boolean
+  connect?: Prisma.LessonVersionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentV3Input, Prisma.LessonVersionUpdateWithoutDocumentV3Input>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV3Input>
+}
+
+export type LessonVersionUncheckedUpdateOneWithoutDocumentV1NestedInput = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV1Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV1Input
+  upsert?: Prisma.LessonVersionUpsertWithoutDocumentV1Input
+  disconnect?: Prisma.LessonVersionWhereInput | boolean
+  delete?: Prisma.LessonVersionWhereInput | boolean
+  connect?: Prisma.LessonVersionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentV1Input, Prisma.LessonVersionUpdateWithoutDocumentV1Input>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV1Input>
+}
+
+export type LessonVersionUncheckedUpdateOneWithoutDocumentV2NestedInput = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV2Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV2Input
+  upsert?: Prisma.LessonVersionUpsertWithoutDocumentV2Input
+  disconnect?: Prisma.LessonVersionWhereInput | boolean
+  delete?: Prisma.LessonVersionWhereInput | boolean
+  connect?: Prisma.LessonVersionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentV2Input, Prisma.LessonVersionUpdateWithoutDocumentV2Input>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV2Input>
+}
+
+export type LessonVersionUncheckedUpdateOneWithoutDocumentV3NestedInput = {
+  create?: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV3Input>
+  connectOrCreate?: Prisma.LessonVersionCreateOrConnectWithoutDocumentV3Input
+  upsert?: Prisma.LessonVersionUpsertWithoutDocumentV3Input
+  disconnect?: Prisma.LessonVersionWhereInput | boolean
+  delete?: Prisma.LessonVersionWhereInput | boolean
+  connect?: Prisma.LessonVersionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonVersionUpdateToOneWithWhereWithoutDocumentV3Input, Prisma.LessonVersionUpdateWithoutDocumentV3Input>, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV3Input>
 }
 
 export type LessonVersionCreateNestedOneWithoutQuizzesInput = {
@@ -670,12 +836,16 @@ export type LessonVersionCreateWithoutCreatedByInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
-  document: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
   progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonVersionInput
@@ -686,8 +856,12 @@ export type LessonVersionUncheckedCreateWithoutCreatedByInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -730,8 +904,12 @@ export type LessonVersionScalarWhereInput = {
   lessonId?: Prisma.StringFilter<"LessonVersion"> | string
   version?: Prisma.IntFilter<"LessonVersion"> | number
   status?: Prisma.EnumPublishStatusFilter<"LessonVersion"> | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFilter<"LessonVersion"> | $Enums.ReviewStatus
   objectives?: Prisma.JsonNullableFilter<"LessonVersion">
-  documentId?: Prisma.StringFilter<"LessonVersion"> | string
+  documentIdV1?: Prisma.StringFilter<"LessonVersion"> | string
+  documentIdV2?: Prisma.StringNullableFilter<"LessonVersion"> | string | null
+  documentIdV3?: Prisma.StringNullableFilter<"LessonVersion"> | string | null
+  activeSchemaVersion?: Prisma.IntFilter<"LessonVersion"> | number
   scheduledFor?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"LessonVersion"> | Date | string | null
   createdById?: Prisma.StringFilter<"LessonVersion"> | string
@@ -742,11 +920,15 @@ export type LessonVersionCreateWithoutLessonInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
-  document: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
@@ -757,8 +939,12 @@ export type LessonVersionUncheckedCreateWithoutLessonInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -794,27 +980,35 @@ export type LessonVersionUpdateManyWithWhereWithoutLessonInput = {
   data: Prisma.XOR<Prisma.LessonVersionUpdateManyMutationInput, Prisma.LessonVersionUncheckedUpdateManyWithoutLessonInput>
 }
 
-export type LessonVersionCreateWithoutDocumentInput = {
+export type LessonVersionCreateWithoutDocumentV1Input = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
   progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonVersionInput
 }
 
-export type LessonVersionUncheckedCreateWithoutDocumentInput = {
+export type LessonVersionUncheckedCreateWithoutDocumentV1Input = {
   id?: string
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -824,43 +1018,235 @@ export type LessonVersionUncheckedCreateWithoutDocumentInput = {
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonVersionInput
 }
 
-export type LessonVersionCreateOrConnectWithoutDocumentInput = {
+export type LessonVersionCreateOrConnectWithoutDocumentV1Input = {
   where: Prisma.LessonVersionWhereUniqueInput
-  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
+  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV1Input>
 }
 
-export type LessonVersionUpsertWithoutDocumentInput = {
-  update: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentInput, Prisma.LessonVersionUncheckedUpdateWithoutDocumentInput>
-  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentInput, Prisma.LessonVersionUncheckedCreateWithoutDocumentInput>
+export type LessonVersionCreateWithoutDocumentV2Input = {
+  id?: string
+  version: number
+  status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
+  scheduledFor?: Date | string | null
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
+  progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonVersionInput
+}
+
+export type LessonVersionUncheckedCreateWithoutDocumentV2Input = {
+  id?: string
+  lessonId: string
+  version: number
+  status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  documentIdV1: string
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
+  scheduledFor?: Date | string | null
+  publishedAt?: Date | string | null
+  createdById: string
+  createdAt?: Date | string
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutLessonVersionInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutLessonVersionInput
+  progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonVersionInput
+}
+
+export type LessonVersionCreateOrConnectWithoutDocumentV2Input = {
+  where: Prisma.LessonVersionWhereUniqueInput
+  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV2Input>
+}
+
+export type LessonVersionCreateWithoutDocumentV3Input = {
+  id?: string
+  version: number
+  status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
+  scheduledFor?: Date | string | null
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
+  progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonVersionInput
+}
+
+export type LessonVersionUncheckedCreateWithoutDocumentV3Input = {
+  id?: string
+  lessonId: string
+  version: number
+  status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  documentIdV1: string
+  documentIdV2?: string | null
+  activeSchemaVersion?: number
+  scheduledFor?: Date | string | null
+  publishedAt?: Date | string | null
+  createdById: string
+  createdAt?: Date | string
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutLessonVersionInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutLessonVersionInput
+  progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonVersionInput
+}
+
+export type LessonVersionCreateOrConnectWithoutDocumentV3Input = {
+  where: Prisma.LessonVersionWhereUniqueInput
+  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV3Input>
+}
+
+export type LessonVersionUpsertWithoutDocumentV1Input = {
+  update: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV1Input>
+  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV1Input>
   where?: Prisma.LessonVersionWhereInput
 }
 
-export type LessonVersionUpdateToOneWithWhereWithoutDocumentInput = {
+export type LessonVersionUpdateToOneWithWhereWithoutDocumentV1Input = {
   where?: Prisma.LessonVersionWhereInput
-  data: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentInput, Prisma.LessonVersionUncheckedUpdateWithoutDocumentInput>
+  data: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentV1Input, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV1Input>
 }
 
-export type LessonVersionUpdateWithoutDocumentInput = {
+export type LessonVersionUpdateWithoutDocumentV1Input = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
   progress?: Prisma.LessonProgressUpdateManyWithoutLessonVersionNestedInput
 }
 
-export type LessonVersionUncheckedUpdateWithoutDocumentInput = {
+export type LessonVersionUncheckedUpdateWithoutDocumentV1Input = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutLessonVersionNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutLessonVersionNestedInput
+  progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonVersionNestedInput
+}
+
+export type LessonVersionUpsertWithoutDocumentV2Input = {
+  update: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV2Input>
+  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV2Input>
+  where?: Prisma.LessonVersionWhereInput
+}
+
+export type LessonVersionUpdateToOneWithWhereWithoutDocumentV2Input = {
+  where?: Prisma.LessonVersionWhereInput
+  data: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentV2Input, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV2Input>
+}
+
+export type LessonVersionUpdateWithoutDocumentV2Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
+  progress?: Prisma.LessonProgressUpdateManyWithoutLessonVersionNestedInput
+}
+
+export type LessonVersionUncheckedUpdateWithoutDocumentV2Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  lessonId?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutLessonVersionNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutLessonVersionNestedInput
+  progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonVersionNestedInput
+}
+
+export type LessonVersionUpsertWithoutDocumentV3Input = {
+  update: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV3Input>
+  create: Prisma.XOR<Prisma.LessonVersionCreateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedCreateWithoutDocumentV3Input>
+  where?: Prisma.LessonVersionWhereInput
+}
+
+export type LessonVersionUpdateToOneWithWhereWithoutDocumentV3Input = {
+  where?: Prisma.LessonVersionWhereInput
+  data: Prisma.XOR<Prisma.LessonVersionUpdateWithoutDocumentV3Input, Prisma.LessonVersionUncheckedUpdateWithoutDocumentV3Input>
+}
+
+export type LessonVersionUpdateWithoutDocumentV3Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
+  progress?: Prisma.LessonProgressUpdateManyWithoutLessonVersionNestedInput
+}
+
+export type LessonVersionUncheckedUpdateWithoutDocumentV3Input = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  lessonId?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
+  objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -874,12 +1260,16 @@ export type LessonVersionCreateWithoutQuizzesInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
-  document: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
   progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonVersionInput
@@ -890,8 +1280,12 @@ export type LessonVersionUncheckedCreateWithoutQuizzesInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -920,12 +1314,16 @@ export type LessonVersionUpdateWithoutQuizzesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
-  document?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
   progress?: Prisma.LessonProgressUpdateManyWithoutLessonVersionNestedInput
@@ -936,8 +1334,12 @@ export type LessonVersionUncheckedUpdateWithoutQuizzesInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -950,12 +1352,16 @@ export type LessonVersionCreateWithoutAssignmentsInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
-  document: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
   progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonVersionInput
@@ -966,8 +1372,12 @@ export type LessonVersionUncheckedCreateWithoutAssignmentsInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -996,12 +1406,16 @@ export type LessonVersionUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
-  document?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
   progress?: Prisma.LessonProgressUpdateManyWithoutLessonVersionNestedInput
@@ -1012,8 +1426,12 @@ export type LessonVersionUncheckedUpdateWithoutAssignmentsInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1026,12 +1444,16 @@ export type LessonVersionCreateWithoutProgressInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   lesson: Prisma.LessonCreateNestedOneWithoutVersionsInput
-  document: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionInput
+  documentV1: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV1Input
+  documentV2?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV2Input
+  documentV3?: Prisma.ContentDocumentCreateNestedOneWithoutLessonVersionAsV3Input
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedLessonVersionsInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutLessonVersionInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutLessonVersionInput
@@ -1042,8 +1464,12 @@ export type LessonVersionUncheckedCreateWithoutProgressInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -1072,12 +1498,16 @@ export type LessonVersionUpdateWithoutProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
-  document?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
@@ -1088,8 +1518,12 @@ export type LessonVersionUncheckedUpdateWithoutProgressInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1103,8 +1537,12 @@ export type LessonVersionCreateManyCreatedByInput = {
   lessonId: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -1114,12 +1552,16 @@ export type LessonVersionUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneRequiredWithoutVersionsNestedInput
-  document?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
   progress?: Prisma.LessonProgressUpdateManyWithoutLessonVersionNestedInput
@@ -1130,8 +1572,12 @@ export type LessonVersionUncheckedUpdateWithoutCreatedByInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1145,8 +1591,12 @@ export type LessonVersionUncheckedUpdateManyWithoutCreatedByInput = {
   lessonId?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1156,8 +1606,12 @@ export type LessonVersionCreateManyLessonInput = {
   id?: string
   version: number
   status?: $Enums.PublishStatus
+  reviewStatus?: $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId: string
+  documentIdV1: string
+  documentIdV2?: string | null
+  documentIdV3?: string | null
+  activeSchemaVersion?: number
   scheduledFor?: Date | string | null
   publishedAt?: Date | string | null
   createdById: string
@@ -1168,11 +1622,15 @@ export type LessonVersionUpdateWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  document?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionNestedInput
+  documentV1?: Prisma.ContentDocumentUpdateOneRequiredWithoutLessonVersionAsV1NestedInput
+  documentV2?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV2NestedInput
+  documentV3?: Prisma.ContentDocumentUpdateOneWithoutLessonVersionAsV3NestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLessonVersionsNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutLessonVersionNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutLessonVersionNestedInput
@@ -1183,8 +1641,12 @@ export type LessonVersionUncheckedUpdateWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1198,8 +1660,12 @@ export type LessonVersionUncheckedUpdateManyWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+  reviewStatus?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
   objectives?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV1?: Prisma.StringFieldUpdateOperationsInput | string
+  documentIdV2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentIdV3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeSchemaVersion?: Prisma.IntFieldUpdateOperationsInput | number
   scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1260,14 +1726,20 @@ export type LessonVersionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
-  documentId?: boolean
+  documentIdV1?: boolean
+  documentIdV2?: boolean
+  documentIdV3?: boolean
+  activeSchemaVersion?: boolean
   scheduledFor?: boolean
   publishedAt?: boolean
   createdById?: boolean
   createdAt?: boolean
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
-  document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV1?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV2?: boolean | Prisma.LessonVersion$documentV2Args<ExtArgs>
+  documentV3?: boolean | Prisma.LessonVersion$documentV3Args<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quizzes?: boolean | Prisma.LessonVersion$quizzesArgs<ExtArgs>
   assignments?: boolean | Prisma.LessonVersion$assignmentsArgs<ExtArgs>
@@ -1280,14 +1752,20 @@ export type LessonVersionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
-  documentId?: boolean
+  documentIdV1?: boolean
+  documentIdV2?: boolean
+  documentIdV3?: boolean
+  activeSchemaVersion?: boolean
   scheduledFor?: boolean
   publishedAt?: boolean
   createdById?: boolean
   createdAt?: boolean
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
-  document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV1?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV2?: boolean | Prisma.LessonVersion$documentV2Args<ExtArgs>
+  documentV3?: boolean | Prisma.LessonVersion$documentV3Args<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lessonVersion"]>
 
@@ -1296,14 +1774,20 @@ export type LessonVersionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
-  documentId?: boolean
+  documentIdV1?: boolean
+  documentIdV2?: boolean
+  documentIdV3?: boolean
+  activeSchemaVersion?: boolean
   scheduledFor?: boolean
   publishedAt?: boolean
   createdById?: boolean
   createdAt?: boolean
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
-  document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV1?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV2?: boolean | Prisma.LessonVersion$documentV2Args<ExtArgs>
+  documentV3?: boolean | Prisma.LessonVersion$documentV3Args<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lessonVersion"]>
 
@@ -1312,18 +1796,24 @@ export type LessonVersionSelectScalar = {
   lessonId?: boolean
   version?: boolean
   status?: boolean
+  reviewStatus?: boolean
   objectives?: boolean
-  documentId?: boolean
+  documentIdV1?: boolean
+  documentIdV2?: boolean
+  documentIdV3?: boolean
+  activeSchemaVersion?: boolean
   scheduledFor?: boolean
   publishedAt?: boolean
   createdById?: boolean
   createdAt?: boolean
 }
 
-export type LessonVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "lessonId" | "version" | "status" | "objectives" | "documentId" | "scheduledFor" | "publishedAt" | "createdById" | "createdAt", ExtArgs["result"]["lessonVersion"]>
+export type LessonVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "lessonId" | "version" | "status" | "reviewStatus" | "objectives" | "documentIdV1" | "documentIdV2" | "documentIdV3" | "activeSchemaVersion" | "scheduledFor" | "publishedAt" | "createdById" | "createdAt", ExtArgs["result"]["lessonVersion"]>
 export type LessonVersionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
-  document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV1?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV2?: boolean | Prisma.LessonVersion$documentV2Args<ExtArgs>
+  documentV3?: boolean | Prisma.LessonVersion$documentV3Args<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quizzes?: boolean | Prisma.LessonVersion$quizzesArgs<ExtArgs>
   assignments?: boolean | Prisma.LessonVersion$assignmentsArgs<ExtArgs>
@@ -1332,12 +1822,16 @@ export type LessonVersionInclude<ExtArgs extends runtime.Types.Extensions.Intern
 }
 export type LessonVersionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
-  document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV1?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV2?: boolean | Prisma.LessonVersion$documentV2Args<ExtArgs>
+  documentV3?: boolean | Prisma.LessonVersion$documentV3Args<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type LessonVersionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
-  document?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV1?: boolean | Prisma.ContentDocumentDefaultArgs<ExtArgs>
+  documentV2?: boolean | Prisma.LessonVersion$documentV2Args<ExtArgs>
+  documentV3?: boolean | Prisma.LessonVersion$documentV3Args<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -1345,7 +1839,9 @@ export type $LessonVersionPayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "LessonVersion"
   objects: {
     lesson: Prisma.$LessonPayload<ExtArgs>
-    document: Prisma.$ContentDocumentPayload<ExtArgs>
+    documentV1: Prisma.$ContentDocumentPayload<ExtArgs>
+    documentV2: Prisma.$ContentDocumentPayload<ExtArgs> | null
+    documentV3: Prisma.$ContentDocumentPayload<ExtArgs> | null
     createdBy: Prisma.$UserPayload<ExtArgs>
     quizzes: Prisma.$QuizPayload<ExtArgs>[]
     assignments: Prisma.$AssignmentPayload<ExtArgs>[]
@@ -1356,8 +1852,12 @@ export type $LessonVersionPayload<ExtArgs extends runtime.Types.Extensions.Inter
     lessonId: string
     version: number
     status: $Enums.PublishStatus
+    reviewStatus: $Enums.ReviewStatus
     objectives: runtime.JsonValue | null
-    documentId: string
+    documentIdV1: string
+    documentIdV2: string | null
+    documentIdV3: string | null
+    activeSchemaVersion: number
     scheduledFor: Date | null
     publishedAt: Date | null
     createdById: string
@@ -1757,7 +2257,9 @@ readonly fields: LessonVersionFieldRefs;
 export interface Prisma__LessonVersionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   lesson<T extends Prisma.LessonDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonDefaultArgs<ExtArgs>>): Prisma.Prisma__LessonClient<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  document<T extends Prisma.ContentDocumentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocumentDefaultArgs<ExtArgs>>): Prisma.Prisma__ContentDocumentClient<runtime.Types.Result.GetResult<Prisma.$ContentDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  documentV1<T extends Prisma.ContentDocumentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentDocumentDefaultArgs<ExtArgs>>): Prisma.Prisma__ContentDocumentClient<runtime.Types.Result.GetResult<Prisma.$ContentDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  documentV2<T extends Prisma.LessonVersion$documentV2Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonVersion$documentV2Args<ExtArgs>>): Prisma.Prisma__ContentDocumentClient<runtime.Types.Result.GetResult<Prisma.$ContentDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  documentV3<T extends Prisma.LessonVersion$documentV3Args<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonVersion$documentV3Args<ExtArgs>>): Prisma.Prisma__ContentDocumentClient<runtime.Types.Result.GetResult<Prisma.$ContentDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   quizzes<T extends Prisma.LessonVersion$quizzesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonVersion$quizzesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignments<T extends Prisma.LessonVersion$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonVersion$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1795,8 +2297,12 @@ export interface LessonVersionFieldRefs {
   readonly lessonId: Prisma.FieldRef<"LessonVersion", 'String'>
   readonly version: Prisma.FieldRef<"LessonVersion", 'Int'>
   readonly status: Prisma.FieldRef<"LessonVersion", 'PublishStatus'>
+  readonly reviewStatus: Prisma.FieldRef<"LessonVersion", 'ReviewStatus'>
   readonly objectives: Prisma.FieldRef<"LessonVersion", 'Json'>
-  readonly documentId: Prisma.FieldRef<"LessonVersion", 'String'>
+  readonly documentIdV1: Prisma.FieldRef<"LessonVersion", 'String'>
+  readonly documentIdV2: Prisma.FieldRef<"LessonVersion", 'String'>
+  readonly documentIdV3: Prisma.FieldRef<"LessonVersion", 'String'>
+  readonly activeSchemaVersion: Prisma.FieldRef<"LessonVersion", 'Int'>
   readonly scheduledFor: Prisma.FieldRef<"LessonVersion", 'DateTime'>
   readonly publishedAt: Prisma.FieldRef<"LessonVersion", 'DateTime'>
   readonly createdById: Prisma.FieldRef<"LessonVersion", 'String'>
@@ -2199,6 +2705,44 @@ export type LessonVersionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many LessonVersions to delete.
    */
   limit?: number
+}
+
+/**
+ * LessonVersion.documentV2
+ */
+export type LessonVersion$documentV2Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContentDocument
+   */
+  select?: Prisma.ContentDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContentDocument
+   */
+  omit?: Prisma.ContentDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContentDocumentInclude<ExtArgs> | null
+  where?: Prisma.ContentDocumentWhereInput
+}
+
+/**
+ * LessonVersion.documentV3
+ */
+export type LessonVersion$documentV3Args<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContentDocument
+   */
+  select?: Prisma.ContentDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContentDocument
+   */
+  omit?: Prisma.ContentDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContentDocumentInclude<ExtArgs> | null
+  where?: Prisma.ContentDocumentWhereInput
 }
 
 /**

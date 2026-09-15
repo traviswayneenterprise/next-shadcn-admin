@@ -134,8 +134,11 @@ export async function importLessonFolder(input: ImportInput & { actorId: string;
 
       const latest = lesson.versions[0];
       if (latest && latest.status === "DRAFT") {
+        // The importer only ever produces classic (v1) content - always
+        // writes to the v1 slot, same as it always did before the
+        // per-editor slot split (see documents.ts).
         await transaction.contentDocument.update({
-          where: { id: latest.documentId },
+          where: { id: latest.documentIdV1 },
           data: { blocks: validated.blocks as Prisma.InputJsonValue },
         });
         await transaction.lessonVersion.update({
@@ -148,7 +151,7 @@ export async function importLessonFolder(input: ImportInput & { actorId: string;
           data: {
             lessonId: lesson.id,
             version: (latest?.version ?? 0) + 1,
-            documentId: document.id,
+            documentIdV1: document.id,
             createdById: input.actorId,
             objectives: objectives as Prisma.InputJsonValue | undefined,
           },

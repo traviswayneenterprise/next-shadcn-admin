@@ -19,7 +19,10 @@ if (env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 
-// Neon's serverless compute can need to wake from a suspended state; the
-// default 5s interactive-transaction timeout is routinely too tight for
-// that cold start. Use for any multi-statement $transaction, not just seeding.
-export const TRANSACTION_OPTIONS = { maxWait: 15_000, timeout: 20_000 };
+// Neon's serverless compute can need to wake from a suspended state, and on
+// a slow/flaky client network (public Wi-Fi, degraded DNS resolvers) plain
+// connection setup can itself eat several seconds before any query runs -
+// the original 20s timeout got tripped by exactly this during real editor-x
+// save testing, not by anything the transaction itself was doing. Use for
+// any multi-statement $transaction, not just seeding.
+export const TRANSACTION_OPTIONS = { maxWait: 20_000, timeout: 30_000 };

@@ -11,8 +11,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export function DashboardShell({
   children,
+  tracks,
 }: {
   children: React.ReactNode
+  tracks?: { id: string; title: string }[]
 }) {
   return (
     <div className={inter.className}>
@@ -25,7 +27,7 @@ export function DashboardShell({
         <div>
           <SidebarProvider>
             <SearchProvider>
-              <AppSidebar />
+              <AppSidebar tracks={tracks} />
               <div
                 id='content'
                 className={cn(

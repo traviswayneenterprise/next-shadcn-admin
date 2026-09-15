@@ -38,7 +38,7 @@ export function ChatSidebar({
           </Button>
         </div>
 
-        <label className='flex h-12 w-full items-center space-x-0 rounded-md border border-input pl-2 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring'>
+        <label className='flex h-12 w-full items-center space-x-0 rounded-lg border border-input pl-2 focus-within:outline-none focus-within:ring-3 focus-within:ring-ring/50'>
           <IconSearch size={15} className='mr-2 stroke-slate-500' />
           <span className='sr-only'>Search</span>
           <input

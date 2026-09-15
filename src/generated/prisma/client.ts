@@ -327,6 +327,11 @@ export type CertificateEvent = Prisma.CertificateEventModel
  */
 export type AuditEvent = Prisma.AuditEventModel
 /**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
+/**
  * Model SecurityEvent
  * 
  */

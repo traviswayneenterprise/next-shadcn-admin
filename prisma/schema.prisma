@@ -236,6 +236,7 @@ model User {
   certificateEvents        CertificateEvent[]
   auditEvents              AuditEvent[]
   securityEvents           SecurityEvent[]
+  comments                 Comment[]
 
   @@index([status])
   @@index([createdAt])
@@ -450,13 +451,27 @@ model LessonVersion {
   status        PublishStatus @default(DRAFT)
   reviewStatus  ReviewStatus  @default(PENDING)
   objectives    Json?
-  documentId    String        @unique
+  // One independent storage slot per trial editor (v1 classic, v2 Lexical,
+  // v3 Tiptap) instead of one shared document - each editor only ever
+  // reads/writes its own slot, so switching editors on the same draft can
+  // never overwrite another editor's content. v1 is required (every draft
+  // starts there); v2/v3 are created lazily, the first time that editor is
+  // saved in. activeSchemaVersion says which slot is authoritative for the
+  // classic detail view and for Publish - it's set to whichever slot was
+  // most recently saved. documentIdV1 keeps its original physical column
+  // name (@map) so this is a purely additive migration, not a rename.
+  documentIdV1        String   @unique @map("documentId")
+  documentIdV2        String?  @unique
+  documentIdV3        String?  @unique
+  activeSchemaVersion Int      @default(1)
   scheduledFor  DateTime?
   publishedAt   DateTime?
   createdById   String
   createdAt     DateTime      @default(now())
   lesson        Lesson        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  document      ContentDocument @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  documentV1    ContentDocument  @relation("LessonVersionV1", fields: [documentIdV1], references: [id], onDelete: Restrict)
+  documentV2    ContentDocument? @relation("LessonVersionV2", fields: [documentIdV2], references: [id], onDelete: Restrict)
+  documentV3    ContentDocument? @relation("LessonVersionV3", fields: [documentIdV3], references: [id], onDelete: Restrict)
   createdBy     User          @relation(fields: [createdById], references: [id], onDelete: Restrict)
   quizzes       Quiz[]
   assignments   Assignment[]
@@ -468,12 +483,14 @@ model LessonVersion {
 }
 
 model ContentDocument {
-  id            String          @id @default(cuid())
-  schemaVersion Int
-  blocks        Json
-  createdAt     DateTime        @default(now())
-  lessonVersion LessonVersion?
-  reusableBlock ReusableBlock?
+  id                String          @id @default(cuid())
+  schemaVersion     Int
+  blocks            Json
+  createdAt         DateTime        @default(now())
+  lessonVersionAsV1 LessonVersion?  @relation("LessonVersionV1")
+  lessonVersionAsV2 LessonVersion?  @relation("LessonVersionV2")
+  lessonVersionAsV3 LessonVersion?  @relation("LessonVersionV3")
+  reusableBlock     ReusableBlock?
 }
 
 model ReusableBlock {
@@ -1207,6 +1224,23 @@ model AuditEvent {
   @@index([actorId, createdAt])
   @@index([resourceType, resourceId])
   @@index([correlationId])
+}
+
+// A manually-typed note thread on a resource (e.g. "switched to Tiptap
+// because..." on a LessonVersion) - distinct from AuditEvent, which is an
+// automatic, system-generated record of actions. Same generic
+// resourceType/resourceId shape as AuditEvent so it isn't tied to one
+// resource type.
+model Comment {
+  id           String   @id @default(cuid())
+  authorId     String
+  resourceType String
+  resourceId   String
+  body         String
+  createdAt    DateTime @default(now())
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([resourceType, resourceId, createdAt])
 }
 
 model SecurityEvent {

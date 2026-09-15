@@ -454,6 +454,7 @@ export const ModelName = {
   Certificate: 'Certificate',
   CertificateEvent: 'CertificateEvent',
   AuditEvent: 'AuditEvent',
+  Comment: 'Comment',
   SecurityEvent: 'SecurityEvent'
 } as const
 
@@ -470,7 +471,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "credential" | "verificationToken" | "passwordResetToken" | "permission" | "role" | "rolePermission" | "roleAssignment" | "track" | "course" | "module" | "lesson" | "lessonVersion" | "contentDocument" | "reusableBlock" | "asset" | "quiz" | "quizVersion" | "question" | "assignment" | "rubric" | "rubricCriterion" | "offering" | "price" | "payment" | "paymentEvent" | "refund" | "entitlement" | "entitlementGrant" | "enrollment" | "lessonProgress" | "quizAttempt" | "attemptAnswer" | "submission" | "submissionVersion" | "submissionAsset" | "reviewAssignment" | "review" | "cohort" | "cohortMembership" | "cohortRelease" | "cohortSession" | "attendance" | "cohortDeadline" | "deadlineExtension" | "announcement" | "notification" | "deliveryAttempt" | "jobRecord" | "webhookEvent" | "certificateRequirement" | "certificateEligibility" | "certificate" | "certificateEvent" | "auditEvent" | "securityEvent"
+    modelProps: "user" | "account" | "session" | "credential" | "verificationToken" | "passwordResetToken" | "permission" | "role" | "rolePermission" | "roleAssignment" | "track" | "course" | "module" | "lesson" | "lessonVersion" | "contentDocument" | "reusableBlock" | "asset" | "quiz" | "quizVersion" | "question" | "assignment" | "rubric" | "rubricCriterion" | "offering" | "price" | "payment" | "paymentEvent" | "refund" | "entitlement" | "entitlementGrant" | "enrollment" | "lessonProgress" | "quizAttempt" | "attemptAnswer" | "submission" | "submissionVersion" | "submissionAsset" | "reviewAssignment" | "review" | "cohort" | "cohortMembership" | "cohortRelease" | "cohortSession" | "attendance" | "cohortDeadline" | "deadlineExtension" | "announcement" | "notification" | "deliveryAttempt" | "jobRecord" | "webhookEvent" | "certificateRequirement" | "certificateEligibility" | "certificate" | "certificateEvent" | "auditEvent" | "comment" | "securityEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4692,6 +4693,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Comment: {
+      payload: Prisma.$CommentPayload<ExtArgs>
+      fields: Prisma.CommentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CommentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CommentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>
+        }
+        findFirst: {
+          args: Prisma.CommentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CommentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>
+        }
+        findMany: {
+          args: Prisma.CommentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>[]
+        }
+        create: {
+          args: Prisma.CommentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>
+        }
+        createMany: {
+          args: Prisma.CommentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CommentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>[]
+        }
+        delete: {
+          args: Prisma.CommentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>
+        }
+        update: {
+          args: Prisma.CommentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>
+        }
+        deleteMany: {
+          args: Prisma.CommentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CommentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CommentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>[]
+        }
+        upsert: {
+          args: Prisma.CommentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommentPayload>
+        }
+        aggregate: {
+          args: Prisma.CommentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateComment>
+        }
+        groupBy: {
+          args: Prisma.CommentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CommentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CommentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CommentCountAggregateOutputType> | number
+        }
+      }
+    }
     SecurityEvent: {
       payload: Prisma.$SecurityEventPayload<ExtArgs>
       fields: Prisma.SecurityEventFieldRefs
@@ -5001,8 +5076,12 @@ export const LessonVersionScalarFieldEnum = {
   lessonId: 'lessonId',
   version: 'version',
   status: 'status',
+  reviewStatus: 'reviewStatus',
   objectives: 'objectives',
-  documentId: 'documentId',
+  documentIdV1: 'documentIdV1',
+  documentIdV2: 'documentIdV2',
+  documentIdV3: 'documentIdV3',
+  activeSchemaVersion: 'activeSchemaVersion',
   scheduledFor: 'scheduledFor',
   publishedAt: 'publishedAt',
   createdById: 'createdById',
@@ -5025,6 +5104,7 @@ export type ContentDocumentScalarFieldEnum = (typeof ContentDocumentScalarFieldE
 export const ReusableBlockScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  version: 'version',
   documentId: 'documentId',
   status: 'status',
   createdById: 'createdById',
@@ -5618,6 +5698,18 @@ export const AuditEventScalarFieldEnum = {
 export type AuditEventScalarFieldEnum = (typeof AuditEventScalarFieldEnum)[keyof typeof AuditEventScalarFieldEnum]
 
 
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  resourceType: 'resourceType',
+  resourceId: 'resourceId',
+  body: 'body',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
 export const SecurityEventScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -5775,6 +5867,20 @@ export type EnumPublishStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PublishStatus[]'
  */
 export type ListEnumPublishStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PublishStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus'
+ */
+export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus[]'
+ */
+export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
     
 
 
@@ -6349,6 +6455,7 @@ export type GlobalOmitConfig = {
   certificate?: Prisma.CertificateOmit
   certificateEvent?: Prisma.CertificateEventOmit
   auditEvent?: Prisma.AuditEventOmit
+  comment?: Prisma.CommentOmit
   securityEvent?: Prisma.SecurityEventOmit
 }
 

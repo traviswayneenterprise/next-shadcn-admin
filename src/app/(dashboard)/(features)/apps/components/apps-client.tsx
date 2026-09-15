@@ -97,7 +97,7 @@ export function AppsClient({ initialApps }: AppsClientProps) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Select value={appType} onValueChange={setAppType}>
+          <Select value={appType} onValueChange={(value) => value && setAppType(value)}>
             <SelectTrigger className='w-36'>
               <SelectValue>{appText.get(appType)}</SelectValue>
             </SelectTrigger>
@@ -109,7 +109,7 @@ export function AppsClient({ initialApps }: AppsClientProps) {
           </Select>
         </div>
 
-        <Select value={sort} onValueChange={setSort}>
+        <Select value={sort} onValueChange={(value) => value && setSort(value)}>
           <SelectTrigger className='w-16'>
             <SelectValue>
               <IconAdjustmentsHorizontal size={18} />

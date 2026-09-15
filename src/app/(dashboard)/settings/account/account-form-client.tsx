@@ -89,24 +89,26 @@ export function AccountFormClient({ defaultValues }: AccountFormClientProps) {
             <FormItem className='flex flex-col'>
               <FormLabel>Date of birth</FormLabel>
               <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'MMM d, yyyy')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
+                <PopoverTrigger
+                  render={
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-[240px] pl-3 text-left font-normal',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, 'MMM d, yyyy')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                      </Button>
+                    </FormControl>
+                  }
+                />
                 <PopoverContent className='w-auto p-0' align='start'>
                   <Calendar
                     mode='single'
@@ -132,25 +134,27 @@ export function AccountFormClient({ defaultValues }: AccountFormClientProps) {
             <FormItem className='flex flex-col'>
               <FormLabel>Language</FormLabel>
               <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant='outline'
-                      role='combobox'
-                      className={cn(
-                        'w-[200px] justify-between',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
-                        : 'Select language'}
-                      <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
+                <PopoverTrigger
+                  render={
+                    <FormControl>
+                      <Button
+                        variant='outline'
+                        role='combobox'
+                        className={cn(
+                          'w-[200px] justify-between',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value
+                          ? languages.find(
+                              (language) => language.value === field.value
+                            )?.label
+                          : 'Select language'}
+                        <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                      </Button>
+                    </FormControl>
+                  }
+                />
                 <PopoverContent className='w-[200px] p-0'>
                   <Command>
                     <CommandInput placeholder='Search language...' />

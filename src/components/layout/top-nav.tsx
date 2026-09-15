@@ -25,24 +25,25 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
     <>
       <div className='md:hidden'>
         <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button size='icon' variant='outline'>
-              <IconMenu />
-            </Button>
+          <DropdownMenuTrigger render={<Button size='icon' variant='outline' />}>
+            <IconMenu />
           </DropdownMenuTrigger>
           <DropdownMenuContent side='bottom' align='start'>
             {links.map(({ title, href, isActive, disabled }) => (
-              <DropdownMenuItem key={`${title}-${href}`} asChild>
-                <Link
-                  href={href as '/'}
-                  className={cn(
-                    'w-full',
-                    isActive ? 'text-foreground' : 'text-muted-foreground'
-                  )}
-                  aria-disabled={disabled}
-                >
-                  {title}
-                </Link>
+              <DropdownMenuItem
+                key={`${title}-${href}`}
+                render={
+                  <Link
+                    href={href as '/'}
+                    className={cn(
+                      'w-full',
+                      isActive ? 'text-foreground' : 'text-muted-foreground'
+                    )}
+                    aria-disabled={disabled}
+                  />
+                }
+              >
+                {title}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

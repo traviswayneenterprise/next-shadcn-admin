@@ -15,7 +15,7 @@ type ChatInputProps = {
 export function ChatInput({ onSubmit }: ChatInputProps) {
   return (
     <form onSubmit={onSubmit} className='flex w-full flex-none gap-2 pt-4'>
-      <div className='flex flex-1 items-center gap-2 rounded-xl border border-input bg-background px-4 py-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring lg:gap-4'>
+      <div className='flex flex-1 items-center gap-2 rounded-xl border border-input bg-background px-4 py-3 focus-within:outline-none focus-within:ring-3 focus-within:ring-ring/50 lg:gap-4'>
         <div className='flex gap-1'>
           <Button
             size='icon'

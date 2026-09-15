@@ -270,6 +270,7 @@ export type UserWhereInput = {
   certificateEvents?: Prisma.CertificateEventListRelationFilter
   auditEvents?: Prisma.AuditEventListRelationFilter
   securityEvents?: Prisma.SecurityEventListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -317,6 +318,7 @@ export type UserOrderByWithRelationInput = {
   certificateEvents?: Prisma.CertificateEventOrderByRelationAggregateInput
   auditEvents?: Prisma.AuditEventOrderByRelationAggregateInput
   securityEvents?: Prisma.SecurityEventOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -367,6 +369,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   certificateEvents?: Prisma.CertificateEventListRelationFilter
   auditEvents?: Prisma.AuditEventListRelationFilter
   securityEvents?: Prisma.SecurityEventListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
 }, "id" | "email" | "whatsappNumber">
 
 export type UserOrderByWithAggregationInput = {
@@ -450,6 +453,7 @@ export type UserCreateInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -497,6 +501,7 @@ export type UserUncheckedCreateInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUpdateInput = {
@@ -544,6 +549,7 @@ export type UserUpdateInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -591,6 +597,7 @@ export type UserUncheckedUpdateInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1155,6 +1162,20 @@ export type UserUpdateOneWithoutAuditEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditEventsInput, Prisma.UserUpdateWithoutAuditEventsInput>, Prisma.UserUncheckedUpdateWithoutAuditEventsInput>
 }
 
+export type UserCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.UserUpsertWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
 export type UserCreateNestedOneWithoutSecurityEventsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSecurityEventsInput, Prisma.UserUncheckedCreateWithoutSecurityEventsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSecurityEventsInput
@@ -1215,6 +1236,7 @@ export type UserCreateWithoutAccountsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1261,6 +1283,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1323,6 +1346,7 @@ export type UserUpdateWithoutAccountsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1369,6 +1393,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1415,6 +1440,7 @@ export type UserCreateWithoutSessionsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1461,6 +1487,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1523,6 +1550,7 @@ export type UserUpdateWithoutSessionsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1569,6 +1597,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCredentialInput = {
@@ -1615,6 +1644,7 @@ export type UserCreateWithoutCredentialInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCredentialInput = {
@@ -1661,6 +1691,7 @@ export type UserUncheckedCreateWithoutCredentialInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCredentialInput = {
@@ -1723,6 +1754,7 @@ export type UserUpdateWithoutCredentialInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCredentialInput = {
@@ -1769,6 +1801,7 @@ export type UserUncheckedUpdateWithoutCredentialInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
@@ -1815,6 +1848,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -1861,6 +1895,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1923,6 +1958,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -1969,6 +2005,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutRoleAssignmentsInput = {
@@ -2015,6 +2052,7 @@ export type UserCreateWithoutRoleAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutRoleAssignmentsInput = {
@@ -2061,6 +2099,7 @@ export type UserUncheckedCreateWithoutRoleAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutRoleAssignmentsInput = {
@@ -2112,6 +2151,7 @@ export type UserCreateWithoutAssignedRolesInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAssignedRolesInput = {
@@ -2158,6 +2198,7 @@ export type UserUncheckedCreateWithoutAssignedRolesInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAssignedRolesInput = {
@@ -2220,6 +2261,7 @@ export type UserUpdateWithoutRoleAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleAssignmentsInput = {
@@ -2266,6 +2308,7 @@ export type UserUncheckedUpdateWithoutRoleAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUpsertWithoutAssignedRolesInput = {
@@ -2323,6 +2366,7 @@ export type UserUpdateWithoutAssignedRolesInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignedRolesInput = {
@@ -2369,6 +2413,7 @@ export type UserUncheckedUpdateWithoutAssignedRolesInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCreatedLessonVersionsInput = {
@@ -2415,6 +2460,7 @@ export type UserCreateWithoutCreatedLessonVersionsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCreatedLessonVersionsInput = {
@@ -2461,6 +2507,7 @@ export type UserUncheckedCreateWithoutCreatedLessonVersionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCreatedLessonVersionsInput = {
@@ -2523,6 +2570,7 @@ export type UserUpdateWithoutCreatedLessonVersionsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedLessonVersionsInput = {
@@ -2569,6 +2617,7 @@ export type UserUncheckedUpdateWithoutCreatedLessonVersionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCreatedReusableBlocksInput = {
@@ -2615,6 +2664,7 @@ export type UserCreateWithoutCreatedReusableBlocksInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCreatedReusableBlocksInput = {
@@ -2661,6 +2711,7 @@ export type UserUncheckedCreateWithoutCreatedReusableBlocksInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCreatedReusableBlocksInput = {
@@ -2723,6 +2774,7 @@ export type UserUpdateWithoutCreatedReusableBlocksInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedReusableBlocksInput = {
@@ -2769,6 +2821,7 @@ export type UserUncheckedUpdateWithoutCreatedReusableBlocksInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutUploadedAssetsInput = {
@@ -2815,6 +2868,7 @@ export type UserCreateWithoutUploadedAssetsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutUploadedAssetsInput = {
@@ -2861,6 +2915,7 @@ export type UserUncheckedCreateWithoutUploadedAssetsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutUploadedAssetsInput = {
@@ -2923,6 +2978,7 @@ export type UserUpdateWithoutUploadedAssetsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUploadedAssetsInput = {
@@ -2969,6 +3025,7 @@ export type UserUncheckedUpdateWithoutUploadedAssetsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -3015,6 +3072,7 @@ export type UserCreateWithoutPaymentsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -3061,6 +3119,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -3123,6 +3182,7 @@ export type UserUpdateWithoutPaymentsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -3169,6 +3229,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutEntitlementsInput = {
@@ -3215,6 +3276,7 @@ export type UserCreateWithoutEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutEntitlementsInput = {
@@ -3261,6 +3323,7 @@ export type UserUncheckedCreateWithoutEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutEntitlementsInput = {
@@ -3323,6 +3386,7 @@ export type UserUpdateWithoutEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEntitlementsInput = {
@@ -3369,6 +3433,7 @@ export type UserUncheckedUpdateWithoutEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutEntitlementGrantsInput = {
@@ -3415,6 +3480,7 @@ export type UserCreateWithoutEntitlementGrantsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutEntitlementGrantsInput = {
@@ -3461,6 +3527,7 @@ export type UserUncheckedCreateWithoutEntitlementGrantsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutEntitlementGrantsInput = {
@@ -3512,6 +3579,7 @@ export type UserCreateWithoutGrantedEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutGrantedEntitlementsInput = {
@@ -3558,6 +3626,7 @@ export type UserUncheckedCreateWithoutGrantedEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutGrantedEntitlementsInput = {
@@ -3620,6 +3689,7 @@ export type UserUpdateWithoutEntitlementGrantsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEntitlementGrantsInput = {
@@ -3666,6 +3736,7 @@ export type UserUncheckedUpdateWithoutEntitlementGrantsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUpsertWithoutGrantedEntitlementsInput = {
@@ -3723,6 +3794,7 @@ export type UserUpdateWithoutGrantedEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGrantedEntitlementsInput = {
@@ -3769,6 +3841,7 @@ export type UserUncheckedUpdateWithoutGrantedEntitlementsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutEnrollmentsInput = {
@@ -3815,6 +3888,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -3861,6 +3935,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -3923,6 +3998,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -3969,6 +4045,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutQuizAttemptsInput = {
@@ -4015,6 +4092,7 @@ export type UserCreateWithoutQuizAttemptsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutQuizAttemptsInput = {
@@ -4061,6 +4139,7 @@ export type UserUncheckedCreateWithoutQuizAttemptsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutQuizAttemptsInput = {
@@ -4123,6 +4202,7 @@ export type UserUpdateWithoutQuizAttemptsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutQuizAttemptsInput = {
@@ -4169,6 +4249,7 @@ export type UserUncheckedUpdateWithoutQuizAttemptsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutSubmissionsInput = {
@@ -4215,6 +4296,7 @@ export type UserCreateWithoutSubmissionsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -4261,6 +4343,7 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -4323,6 +4406,7 @@ export type UserUpdateWithoutSubmissionsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -4369,6 +4453,7 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutReviewAssignmentsInput = {
@@ -4415,6 +4500,7 @@ export type UserCreateWithoutReviewAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutReviewAssignmentsInput = {
@@ -4461,6 +4547,7 @@ export type UserUncheckedCreateWithoutReviewAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutReviewAssignmentsInput = {
@@ -4512,6 +4599,7 @@ export type UserCreateWithoutAssignedReviewsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAssignedReviewsInput = {
@@ -4558,6 +4646,7 @@ export type UserUncheckedCreateWithoutAssignedReviewsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAssignedReviewsInput = {
@@ -4620,6 +4709,7 @@ export type UserUpdateWithoutReviewAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewAssignmentsInput = {
@@ -4666,6 +4756,7 @@ export type UserUncheckedUpdateWithoutReviewAssignmentsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUpsertWithoutAssignedReviewsInput = {
@@ -4723,6 +4814,7 @@ export type UserUpdateWithoutAssignedReviewsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignedReviewsInput = {
@@ -4769,6 +4861,7 @@ export type UserUncheckedUpdateWithoutAssignedReviewsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -4815,6 +4908,7 @@ export type UserCreateWithoutReviewsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -4861,6 +4955,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -4923,6 +5018,7 @@ export type UserUpdateWithoutReviewsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -4969,6 +5065,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCohortMembershipsInput = {
@@ -5015,6 +5112,7 @@ export type UserCreateWithoutCohortMembershipsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCohortMembershipsInput = {
@@ -5061,6 +5159,7 @@ export type UserUncheckedCreateWithoutCohortMembershipsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCohortMembershipsInput = {
@@ -5123,6 +5222,7 @@ export type UserUpdateWithoutCohortMembershipsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCohortMembershipsInput = {
@@ -5169,6 +5269,7 @@ export type UserUncheckedUpdateWithoutCohortMembershipsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutAttendanceInput = {
@@ -5215,6 +5316,7 @@ export type UserCreateWithoutAttendanceInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -5261,6 +5363,7 @@ export type UserUncheckedCreateWithoutAttendanceInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -5312,6 +5415,7 @@ export type UserCreateWithoutAttendanceRecordedInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAttendanceRecordedInput = {
@@ -5358,6 +5462,7 @@ export type UserUncheckedCreateWithoutAttendanceRecordedInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAttendanceRecordedInput = {
@@ -5420,6 +5525,7 @@ export type UserUpdateWithoutAttendanceInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -5466,6 +5572,7 @@ export type UserUncheckedUpdateWithoutAttendanceInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUpsertWithoutAttendanceRecordedInput = {
@@ -5523,6 +5630,7 @@ export type UserUpdateWithoutAttendanceRecordedInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAttendanceRecordedInput = {
@@ -5569,6 +5677,7 @@ export type UserUncheckedUpdateWithoutAttendanceRecordedInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutDeadlineExtensionsInput = {
@@ -5615,6 +5724,7 @@ export type UserCreateWithoutDeadlineExtensionsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutDeadlineExtensionsInput = {
@@ -5661,6 +5771,7 @@ export type UserUncheckedCreateWithoutDeadlineExtensionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutDeadlineExtensionsInput = {
@@ -5712,6 +5823,7 @@ export type UserCreateWithoutExtensionsGrantedInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutExtensionsGrantedInput = {
@@ -5758,6 +5870,7 @@ export type UserUncheckedCreateWithoutExtensionsGrantedInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutExtensionsGrantedInput = {
@@ -5820,6 +5933,7 @@ export type UserUpdateWithoutDeadlineExtensionsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeadlineExtensionsInput = {
@@ -5866,6 +5980,7 @@ export type UserUncheckedUpdateWithoutDeadlineExtensionsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUpsertWithoutExtensionsGrantedInput = {
@@ -5923,6 +6038,7 @@ export type UserUpdateWithoutExtensionsGrantedInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExtensionsGrantedInput = {
@@ -5969,6 +6085,7 @@ export type UserUncheckedUpdateWithoutExtensionsGrantedInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutAnnouncementsAuthoredInput = {
@@ -6015,6 +6132,7 @@ export type UserCreateWithoutAnnouncementsAuthoredInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAnnouncementsAuthoredInput = {
@@ -6061,6 +6179,7 @@ export type UserUncheckedCreateWithoutAnnouncementsAuthoredInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAnnouncementsAuthoredInput = {
@@ -6123,6 +6242,7 @@ export type UserUpdateWithoutAnnouncementsAuthoredInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnnouncementsAuthoredInput = {
@@ -6169,6 +6289,7 @@ export type UserUncheckedUpdateWithoutAnnouncementsAuthoredInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -6215,6 +6336,7 @@ export type UserCreateWithoutNotificationsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -6261,6 +6383,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -6323,6 +6446,7 @@ export type UserUpdateWithoutNotificationsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -6369,6 +6493,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCertificateEligibilityInput = {
@@ -6415,6 +6540,7 @@ export type UserCreateWithoutCertificateEligibilityInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCertificateEligibilityInput = {
@@ -6461,6 +6587,7 @@ export type UserUncheckedCreateWithoutCertificateEligibilityInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCertificateEligibilityInput = {
@@ -6523,6 +6650,7 @@ export type UserUpdateWithoutCertificateEligibilityInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCertificateEligibilityInput = {
@@ -6569,6 +6697,7 @@ export type UserUncheckedUpdateWithoutCertificateEligibilityInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCertificatesInput = {
@@ -6615,6 +6744,7 @@ export type UserCreateWithoutCertificatesInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCertificatesInput = {
@@ -6661,6 +6791,7 @@ export type UserUncheckedCreateWithoutCertificatesInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCertificatesInput = {
@@ -6712,6 +6843,7 @@ export type UserCreateWithoutCertificateApprovalsInput = {
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCertificateApprovalsInput = {
@@ -6758,6 +6890,7 @@ export type UserUncheckedCreateWithoutCertificateApprovalsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCertificateApprovalsInput = {
@@ -6820,6 +6953,7 @@ export type UserUpdateWithoutCertificatesInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCertificatesInput = {
@@ -6866,6 +7000,7 @@ export type UserUncheckedUpdateWithoutCertificatesInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUpsertWithoutCertificateApprovalsInput = {
@@ -6923,6 +7058,7 @@ export type UserUpdateWithoutCertificateApprovalsInput = {
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCertificateApprovalsInput = {
@@ -6969,6 +7105,7 @@ export type UserUncheckedUpdateWithoutCertificateApprovalsInput = {
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutCertificateEventsInput = {
@@ -7015,6 +7152,7 @@ export type UserCreateWithoutCertificateEventsInput = {
   certificateApprovals?: Prisma.CertificateCreateNestedManyWithoutApprovedByInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutCertificateEventsInput = {
@@ -7061,6 +7199,7 @@ export type UserUncheckedCreateWithoutCertificateEventsInput = {
   certificateApprovals?: Prisma.CertificateUncheckedCreateNestedManyWithoutApprovedByInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutCertificateEventsInput = {
@@ -7123,6 +7262,7 @@ export type UserUpdateWithoutCertificateEventsInput = {
   certificateApprovals?: Prisma.CertificateUpdateManyWithoutApprovedByNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCertificateEventsInput = {
@@ -7169,6 +7309,7 @@ export type UserUncheckedUpdateWithoutCertificateEventsInput = {
   certificateApprovals?: Prisma.CertificateUncheckedUpdateManyWithoutApprovedByNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutAuditEventsInput = {
@@ -7215,6 +7356,7 @@ export type UserCreateWithoutAuditEventsInput = {
   certificateApprovals?: Prisma.CertificateCreateNestedManyWithoutApprovedByInput
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAuditEventsInput = {
@@ -7261,6 +7403,7 @@ export type UserUncheckedCreateWithoutAuditEventsInput = {
   certificateApprovals?: Prisma.CertificateUncheckedCreateNestedManyWithoutApprovedByInput
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAuditEventsInput = {
@@ -7323,6 +7466,7 @@ export type UserUpdateWithoutAuditEventsInput = {
   certificateApprovals?: Prisma.CertificateUpdateManyWithoutApprovedByNestedInput
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditEventsInput = {
@@ -7368,6 +7512,211 @@ export type UserUncheckedUpdateWithoutAuditEventsInput = {
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput
   certificateApprovals?: Prisma.CertificateUncheckedUpdateManyWithoutApprovedByNestedInput
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
+  securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutCommentsInput = {
+  id?: string
+  email: string
+  emailVerified?: Date | string | null
+  name?: string | null
+  image?: string | null
+  status?: $Enums.UserStatus
+  whatsappNumber?: string | null
+  whatsappConsentedAt?: Date | string | null
+  portfolioConsent?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  archivedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  credential?: Prisma.CredentialCreateNestedOneWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  roleAssignments?: Prisma.RoleAssignmentCreateNestedManyWithoutUserInput
+  assignedRoles?: Prisma.RoleAssignmentCreateNestedManyWithoutAssignedByInput
+  uploadedAssets?: Prisma.AssetCreateNestedManyWithoutUploadedByInput
+  createdLessonVersions?: Prisma.LessonVersionCreateNestedManyWithoutCreatedByInput
+  createdReusableBlocks?: Prisma.ReusableBlockCreateNestedManyWithoutCreatedByInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  entitlements?: Prisma.EntitlementCreateNestedManyWithoutUserInput
+  entitlementGrants?: Prisma.EntitlementGrantCreateNestedManyWithoutUserInput
+  grantedEntitlements?: Prisma.EntitlementGrantCreateNestedManyWithoutGrantedByInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
+  quizAttempts?: Prisma.QuizAttemptCreateNestedManyWithoutUserInput
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutUserInput
+  reviewAssignments?: Prisma.ReviewAssignmentCreateNestedManyWithoutReviewerInput
+  assignedReviews?: Prisma.ReviewAssignmentCreateNestedManyWithoutAssignedByInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
+  cohortMemberships?: Prisma.CohortMembershipCreateNestedManyWithoutUserInput
+  attendance?: Prisma.AttendanceCreateNestedManyWithoutLearnerInput
+  attendanceRecorded?: Prisma.AttendanceCreateNestedManyWithoutRecordedByInput
+  deadlineExtensions?: Prisma.DeadlineExtensionCreateNestedManyWithoutLearnerInput
+  extensionsGranted?: Prisma.DeadlineExtensionCreateNestedManyWithoutGrantedByInput
+  announcementsAuthored?: Prisma.AnnouncementCreateNestedManyWithoutAuthorInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  certificateEligibility?: Prisma.CertificateEligibilityCreateNestedManyWithoutUserInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput
+  certificateApprovals?: Prisma.CertificateCreateNestedManyWithoutApprovedByInput
+  certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
+  auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
+  securityEvents?: Prisma.SecurityEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  email: string
+  emailVerified?: Date | string | null
+  name?: string | null
+  image?: string | null
+  status?: $Enums.UserStatus
+  whatsappNumber?: string | null
+  whatsappConsentedAt?: Date | string | null
+  portfolioConsent?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  archivedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  credential?: Prisma.CredentialUncheckedCreateNestedOneWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  roleAssignments?: Prisma.RoleAssignmentUncheckedCreateNestedManyWithoutUserInput
+  assignedRoles?: Prisma.RoleAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  uploadedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutUploadedByInput
+  createdLessonVersions?: Prisma.LessonVersionUncheckedCreateNestedManyWithoutCreatedByInput
+  createdReusableBlocks?: Prisma.ReusableBlockUncheckedCreateNestedManyWithoutCreatedByInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  entitlements?: Prisma.EntitlementUncheckedCreateNestedManyWithoutUserInput
+  entitlementGrants?: Prisma.EntitlementGrantUncheckedCreateNestedManyWithoutUserInput
+  grantedEntitlements?: Prisma.EntitlementGrantUncheckedCreateNestedManyWithoutGrantedByInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
+  quizAttempts?: Prisma.QuizAttemptUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutUserInput
+  reviewAssignments?: Prisma.ReviewAssignmentUncheckedCreateNestedManyWithoutReviewerInput
+  assignedReviews?: Prisma.ReviewAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
+  cohortMemberships?: Prisma.CohortMembershipUncheckedCreateNestedManyWithoutUserInput
+  attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLearnerInput
+  attendanceRecorded?: Prisma.AttendanceUncheckedCreateNestedManyWithoutRecordedByInput
+  deadlineExtensions?: Prisma.DeadlineExtensionUncheckedCreateNestedManyWithoutLearnerInput
+  extensionsGranted?: Prisma.DeadlineExtensionUncheckedCreateNestedManyWithoutGrantedByInput
+  announcementsAuthored?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  certificateEligibility?: Prisma.CertificateEligibilityUncheckedCreateNestedManyWithoutUserInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput
+  certificateApprovals?: Prisma.CertificateUncheckedCreateNestedManyWithoutApprovedByInput
+  certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
+  auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
+  securityEvents?: Prisma.SecurityEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+}
+
+export type UserUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappConsentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portfolioConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  credential?: Prisma.CredentialUpdateOneWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  roleAssignments?: Prisma.RoleAssignmentUpdateManyWithoutUserNestedInput
+  assignedRoles?: Prisma.RoleAssignmentUpdateManyWithoutAssignedByNestedInput
+  uploadedAssets?: Prisma.AssetUpdateManyWithoutUploadedByNestedInput
+  createdLessonVersions?: Prisma.LessonVersionUpdateManyWithoutCreatedByNestedInput
+  createdReusableBlocks?: Prisma.ReusableBlockUpdateManyWithoutCreatedByNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  entitlements?: Prisma.EntitlementUpdateManyWithoutUserNestedInput
+  entitlementGrants?: Prisma.EntitlementGrantUpdateManyWithoutUserNestedInput
+  grantedEntitlements?: Prisma.EntitlementGrantUpdateManyWithoutGrantedByNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
+  quizAttempts?: Prisma.QuizAttemptUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.SubmissionUpdateManyWithoutUserNestedInput
+  reviewAssignments?: Prisma.ReviewAssignmentUpdateManyWithoutReviewerNestedInput
+  assignedReviews?: Prisma.ReviewAssignmentUpdateManyWithoutAssignedByNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
+  cohortMemberships?: Prisma.CohortMembershipUpdateManyWithoutUserNestedInput
+  attendance?: Prisma.AttendanceUpdateManyWithoutLearnerNestedInput
+  attendanceRecorded?: Prisma.AttendanceUpdateManyWithoutRecordedByNestedInput
+  deadlineExtensions?: Prisma.DeadlineExtensionUpdateManyWithoutLearnerNestedInput
+  extensionsGranted?: Prisma.DeadlineExtensionUpdateManyWithoutGrantedByNestedInput
+  announcementsAuthored?: Prisma.AnnouncementUpdateManyWithoutAuthorNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  certificateEligibility?: Prisma.CertificateEligibilityUpdateManyWithoutUserNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput
+  certificateApprovals?: Prisma.CertificateUpdateManyWithoutApprovedByNestedInput
+  certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
+  auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
+  securityEvents?: Prisma.SecurityEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappConsentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portfolioConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  credential?: Prisma.CredentialUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  roleAssignments?: Prisma.RoleAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  assignedRoles?: Prisma.RoleAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  uploadedAssets?: Prisma.AssetUncheckedUpdateManyWithoutUploadedByNestedInput
+  createdLessonVersions?: Prisma.LessonVersionUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdReusableBlocks?: Prisma.ReusableBlockUncheckedUpdateManyWithoutCreatedByNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  entitlements?: Prisma.EntitlementUncheckedUpdateManyWithoutUserNestedInput
+  entitlementGrants?: Prisma.EntitlementGrantUncheckedUpdateManyWithoutUserNestedInput
+  grantedEntitlements?: Prisma.EntitlementGrantUncheckedUpdateManyWithoutGrantedByNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+  quizAttempts?: Prisma.QuizAttemptUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutUserNestedInput
+  reviewAssignments?: Prisma.ReviewAssignmentUncheckedUpdateManyWithoutReviewerNestedInput
+  assignedReviews?: Prisma.ReviewAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  cohortMemberships?: Prisma.CohortMembershipUncheckedUpdateManyWithoutUserNestedInput
+  attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutLearnerNestedInput
+  attendanceRecorded?: Prisma.AttendanceUncheckedUpdateManyWithoutRecordedByNestedInput
+  deadlineExtensions?: Prisma.DeadlineExtensionUncheckedUpdateManyWithoutLearnerNestedInput
+  extensionsGranted?: Prisma.DeadlineExtensionUncheckedUpdateManyWithoutGrantedByNestedInput
+  announcementsAuthored?: Prisma.AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  certificateEligibility?: Prisma.CertificateEligibilityUncheckedUpdateManyWithoutUserNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput
+  certificateApprovals?: Prisma.CertificateUncheckedUpdateManyWithoutApprovedByNestedInput
+  certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
+  auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
   securityEvents?: Prisma.SecurityEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -7415,6 +7764,7 @@ export type UserCreateWithoutSecurityEventsInput = {
   certificateApprovals?: Prisma.CertificateCreateNestedManyWithoutApprovedByInput
   certificateEvents?: Prisma.CertificateEventCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventCreateNestedManyWithoutActorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutSecurityEventsInput = {
@@ -7461,6 +7811,7 @@ export type UserUncheckedCreateWithoutSecurityEventsInput = {
   certificateApprovals?: Prisma.CertificateUncheckedCreateNestedManyWithoutApprovedByInput
   certificateEvents?: Prisma.CertificateEventUncheckedCreateNestedManyWithoutActorInput
   auditEvents?: Prisma.AuditEventUncheckedCreateNestedManyWithoutActorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutSecurityEventsInput = {
@@ -7523,6 +7874,7 @@ export type UserUpdateWithoutSecurityEventsInput = {
   certificateApprovals?: Prisma.CertificateUpdateManyWithoutApprovedByNestedInput
   certificateEvents?: Prisma.CertificateEventUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUpdateManyWithoutActorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSecurityEventsInput = {
@@ -7569,6 +7921,7 @@ export type UserUncheckedUpdateWithoutSecurityEventsInput = {
   certificateApprovals?: Prisma.CertificateUncheckedUpdateManyWithoutApprovedByNestedInput
   certificateEvents?: Prisma.CertificateEventUncheckedUpdateManyWithoutActorNestedInput
   auditEvents?: Prisma.AuditEventUncheckedUpdateManyWithoutActorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 
@@ -7608,6 +7961,7 @@ export type UserCountOutputType = {
   certificateEvents: number
   auditEvents: number
   securityEvents: number
+  comments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7642,6 +7996,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   certificateEvents?: boolean | UserCountOutputTypeCountCertificateEventsArgs
   auditEvents?: boolean | UserCountOutputTypeCountAuditEventsArgs
   securityEvents?: boolean | UserCountOutputTypeCountSecurityEventsArgs
+  comments?: boolean | UserCountOutputTypeCountCommentsArgs
 }
 
 /**
@@ -7871,6 +8226,13 @@ export type UserCountOutputTypeCountSecurityEventsArgs<ExtArgs extends runtime.T
   where?: Prisma.SecurityEventWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -7917,6 +8279,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   certificateEvents?: boolean | Prisma.User$certificateEventsArgs<ExtArgs>
   auditEvents?: boolean | Prisma.User$auditEventsArgs<ExtArgs>
   securityEvents?: boolean | Prisma.User$securityEventsArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -7999,6 +8362,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   certificateEvents?: boolean | Prisma.User$certificateEventsArgs<ExtArgs>
   auditEvents?: boolean | Prisma.User$auditEventsArgs<ExtArgs>
   securityEvents?: boolean | Prisma.User$securityEventsArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -8039,6 +8403,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     certificateEvents: Prisma.$CertificateEventPayload<ExtArgs>[]
     auditEvents: Prisma.$AuditEventPayload<ExtArgs>[]
     securityEvents: Prisma.$SecurityEventPayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -8479,6 +8844,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   certificateEvents<T extends Prisma.User$certificateEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$certificateEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificateEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditEvents<T extends Prisma.User$auditEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   securityEvents<T extends Prisma.User$securityEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$securityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SecurityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9673,6 +10039,30 @@ export type User$securityEventsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.SecurityEventScalarFieldEnum | Prisma.SecurityEventScalarFieldEnum[]
+}
+
+/**
+ * User.comments
+ */
+export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
 }
 
 /**

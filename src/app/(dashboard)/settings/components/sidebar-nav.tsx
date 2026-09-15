@@ -38,7 +38,7 @@ export default function SidebarNav({
   return (
     <>
       <div className='p-1 md:hidden'>
-        <Select value={val} onValueChange={handleSelect}>
+        <Select value={val} onValueChange={(value) => value && handleSelect(value)}>
           <SelectTrigger className='h-12 sm:w-48'>
             <SelectValue placeholder='Theme' />
           </SelectTrigger>
@@ -56,8 +56,6 @@ export default function SidebarNav({
       </div>
 
       <ScrollArea
-        orientation='horizontal'
-        type='always'
         className='hidden w-full bg-background px-1 py-2 md:block min-w-40'
       >
         <nav

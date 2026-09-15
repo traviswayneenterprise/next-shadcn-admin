@@ -95,7 +95,7 @@ async function main() {
   // 2. Invalid blocks are rejected on write.
   {
     const res = await fetch(`${BASE}/api/v1/content/lesson-versions/${versionId}`, {
-      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ blocks: [invalidBlock] }),
+      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ schemaVersion: 1, blocks: [invalidBlock] }),
     });
     record("invalid block content is rejected on write", res.status === 400, { status: res.status });
   }
@@ -103,7 +103,7 @@ async function main() {
   // 3. Valid blocks are accepted.
   {
     const res = await fetch(`${BASE}/api/v1/content/lesson-versions/${versionId}`, {
-      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ blocks: [validParagraph] }),
+      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ schemaVersion: 1, blocks: [validParagraph] }),
     });
     const body = await res.json();
     record("valid block content is accepted on write", res.status === 200 && body.data?.document?.blocks?.length === 1, { status: res.status });
@@ -125,7 +125,7 @@ async function main() {
   // 6. A published version is immutable - editing it is rejected.
   {
     const res = await fetch(`${BASE}/api/v1/content/lesson-versions/${versionId}`, {
-      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ blocks: [validParagraph, validParagraph] }),
+      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ schemaVersion: 1, blocks: [validParagraph, validParagraph] }),
     });
     record("editing a published version is rejected (immutability)", res.status === 409, { status: res.status });
   }
@@ -152,13 +152,13 @@ async function main() {
     const draftRes = await fetch(`${BASE}/api/v1/content/lessons/${lesson.id}/versions`, { method: "POST", headers: staffAuth.headers, body: "{}" });
     const draft = (await draftRes.json()).data;
     const patchRes = await fetch(`${BASE}/api/v1/content/lesson-versions/${draft.id}`, {
-      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ blocks: [snapshotBlock] }),
+      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ schemaVersion: 1, blocks: [snapshotBlock] }),
     });
     record("a resolved snapshot block validates inside a lesson document", patchRes.status === 200, { status: patchRes.status });
 
     // Editing the reusable block afterward must not retroactively change the already-embedded snapshot.
     await fetch(`${BASE}/api/v1/content/reusable-blocks/${reusableBlockId}`, {
-      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ blocks: [{ id: "rb1", version: 1, type: "callout", data: { tone: "warning", body: "Changed after snapshot" } }] }),
+      method: "PATCH", headers: staffAuth.headers, body: JSON.stringify({ schemaVersion: 1, blocks: [{ id: "rb1", version: 1, type: "callout", data: { tone: "warning", body: "Changed after snapshot" } }] }),
     });
     const reloaded = await prisma.lessonVersion.findUnique({ where: { id: draft.id }, include: { document: true } });
     const embeddedBody = reloaded.document.blocks[0]?.data?.blocks?.[0]?.data?.body;
