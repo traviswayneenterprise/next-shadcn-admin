@@ -1,16 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { LayoutGrid, List } from "lucide-react"
+import { LayoutGrid, List, Layers } from "lucide-react"
 
 import { DataTable } from "@/components/data-table/data-table"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Button } from "@/components/ui/button"
 import { SimpleEditDialog } from "@/app/(dashboard)/(features)/content/components/simple-edit-dialog"
 import { ArchiveConfirmDialog } from "@/app/(dashboard)/(features)/content/components/archive-confirm-dialog"
+import { CatalogCard } from "@/app/(dashboard)/(features)/content/components/catalog-card"
 import { updateTrackAction, archiveTrackAction } from "../actions"
 import { buildColumns, type TrackRow } from "./columns"
-import { TrackCard } from "./track-card"
 
 export function TracksView({ tracks }: { tracks: TrackRow[] }) {
   const [view, setView] = useState<"grid" | "list">("grid")
@@ -35,7 +35,17 @@ export function TracksView({ tracks }: { tracks: TrackRow[] }) {
       {view === "grid" ? (
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {tracks.map((track) => (
-            <TrackCard key={track.id} track={track} onEdit={setEditingTrack} onArchive={setArchivingTrack} />
+            <CatalogCard
+              key={track.id}
+              icon={Layers}
+              title={track.title}
+              description={track.description}
+              status={track.status}
+              countLabel={`${track.courseCount} ${track.courseCount === 1 ? "course" : "courses"}`}
+              href={track.href}
+              onEdit={() => setEditingTrack(track)}
+              onArchive={() => setArchivingTrack(track)}
+            />
           ))}
         </ul>
       ) : (

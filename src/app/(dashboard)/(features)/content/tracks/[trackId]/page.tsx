@@ -6,7 +6,7 @@ import { prisma } from "@/lib/db"
 import { HeaderContainer } from "@/components/ui/header-container"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CatalogBreadcrumb } from "@/app/(dashboard)/(features)/content/components/catalog-breadcrumb"
-import { TrackWorkspace, type CourseSummary } from "./components/track-workspace"
+import { TrackWorkspace, type CourseRow } from "./components/track-workspace"
 
 export default async function TrackDetailPage({ params }: { params: Promise<{ trackId: string }> }) {
   const session = await getCurrentSession()
@@ -21,30 +21,19 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ tr
       courses: {
         where: { archivedAt: null },
         orderBy: { order: "asc" },
-        include: {
-          modules: {
-            where: { archivedAt: null },
-            orderBy: { order: "asc" },
-            include: { _count: { select: { lessons: { where: { archivedAt: null } } } } },
-          },
-        },
+        include: { _count: { select: { modules: { where: { archivedAt: null } } } } },
       },
     },
   })
   if (!track) notFound()
 
-  const courses: CourseSummary[] = track.courses.map((course) => ({
+  const courses: CourseRow[] = track.courses.map((course) => ({
     id: course.id,
     title: course.title,
     description: course.description,
     status: course.status,
-    modules: course.modules.map((courseModule) => ({
-      id: courseModule.id,
-      title: courseModule.title,
-      description: courseModule.description,
-      status: courseModule.status,
-      lessonCount: courseModule._count.lessons,
-    })),
+    moduleCount: course._count.modules,
+    href: `/content/tracks/${trackId}/courses/${course.id}`,
   }))
 
   return (
